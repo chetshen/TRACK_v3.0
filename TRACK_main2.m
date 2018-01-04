@@ -91,7 +91,7 @@ else
     [geo] = mesh_trk_full(2,2,nodeCoord);
     mat_trk=form_mat_trk_2(inp,geo);
 end
-
+mat_ws=form_mat_ws(inp);
 
 
 
