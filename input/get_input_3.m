@@ -82,6 +82,7 @@ in_data.mater(5).Note='contact';
 in_data.mater(6).Data =  [0;   %M_sprg%4653.5[kg]
                       883.6; %M_unsprg[kg]
                      1.22e6]; %K_PS[N/m]
+in_data.mater(6).wsfile='E:\FE\Model 1 wheel\half_ws.spm';  %.spm file generated from ANSYS; empty means a rigid wheelset               
 in_data.mater(6).Note='vehicle';
                  
 %==================Add new materials below=================================
