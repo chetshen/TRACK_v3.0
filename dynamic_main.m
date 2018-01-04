@@ -28,7 +28,7 @@ F=zeros(inp.solver.n_ts+1,1);
 X_w=zeros(inp.solver.n_ts+1,1);
 X_w(1,1)=15;   %initial x coordinates of wheel
 vx=inp.solver.Vx; %vehicle speed
-contactID=10; %5 for non-linear  10 for linear 8 for winkler bedding 
+contactID=5; %5 for non-linear  10 for linear 8 for winkler bedding 
 zdd=load(inp.ext_force.timeh);
 Fex=zeros(length(zdd),1);
 

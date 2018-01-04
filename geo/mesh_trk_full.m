@@ -85,11 +85,11 @@ geo.NumEL = [m_R,m_Stot,m_Spring_RS,m_Spring_SB,m];
 LeftRailNodes=geo.ND(geo.ND(:,5)==1,1);
 RightRailNodes=geo.ND(geo.ND(:,5)==2,1);
 %full
-% geo.fixedNodeU=[LeftRailNodes(1);LeftRailNodes(length(LeftRailNodes));RightRailNodes(1);RightRailNodes(length(RightRailNodes));ballastNodes(:,1)];
-% geo.fixedNodeV=[LeftRailNodes(1);LeftRailNodes(length(LeftRailNodes));RightRailNodes(1);RightRailNodes(length(RightRailNodes));ballastNodes(:,1)];
-%symmetric
 geo.fixedNodeU=[LeftRailNodes(1);LeftRailNodes(length(LeftRailNodes));RightRailNodes(1);RightRailNodes(length(RightRailNodes));ballastNodes(:,1)];
-geo.fixedNodeV=[ballastNodes(:,1)];
+geo.fixedNodeV=[LeftRailNodes(1);LeftRailNodes(length(LeftRailNodes));RightRailNodes(1);RightRailNodes(length(RightRailNodes));ballastNodes(:,1)];
+%symmetric
+% geo.fixedNodeU=[LeftRailNodes(1);LeftRailNodes(length(LeftRailNodes));RightRailNodes(1);RightRailNodes(length(RightRailNodes));ballastNodes(:,1)];
+% geo.fixedNodeV=[ballastNodes(:,1)];
 %anti-symmetric
 % geo.fixedNodeU=[ballastNodes(:,1)];
 % geo.fixedNodeV=[LeftRailNodes(1);LeftRailNodes(length(LeftRailNodes));RightRailNodes(1);RightRailNodes(length(RightRailNodes));ballastNodes(:,1)];
