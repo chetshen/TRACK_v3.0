@@ -12,7 +12,7 @@
 % shape(1,299)=1;
 %nonlinear solver for vehicle track interaction within one time step using
 %newmark integration and newton-raphson
-function [acc2,vel2,dis2,F,Z]=solver_newmark_iter(mat_trk,inp,shape, Z, wh_ld, acc1, vel1, dis1,X_w_t, geo,Z_global,contactID,Fex, mat_vhcl, Y)
+function [acc2,vel2,dis2,F,Z,mc_ws2]=solver_newmark_iter(mat_trk,inp,shape, Z, wh_ld, acc1, vel1, dis1,mc_ws1,X_w_t, geo,Z_global,contactID,Fex, mat_ws,mat_vhcl, Y)
 %initial condition
 etol=1e-7;
 deltat=inp.solver.deltat;
@@ -59,11 +59,25 @@ while 1
     Z.r=shape*dis2.r'; %modification needed
     
     %for vehicle system
-    %     acc2.w=-wh_ld+F/m_w;
+    if isempty(mat_ws)% rigid wheelset model
+    
     acc2.w=(-m_w*9.8-wh_ld+F)/m_w;
     vel2.w=vel1.w+deltat/2*(acc1.w+acc2.w);
     dis2.w=dis1.w+deltat/2*(vel1.w+vel2.w);
     Z.w=dis2.w;
+    mc_ws2=0;
+    else % flexible wheelset using state-space model
+    tspan=[0 deltat];%integral time span
+    Fvector=(-m_w*9.8-wh_ld+F)/size(mat_ws.B,2).*ones(size(mat_ws.B,2),1);%input force vector
+    [~,z] = ode45(@(t,z) ansys2modal(t,z,mat_ws.A,mat_ws.B,Fvector,0), tspan, mc_ws1);
+    mc_ws2=z(end,:)';
+    w=mat_ws.C*mc_ws2+mat_ws.D*Fvector;
+    dis2.w=w(1,1)+Z_global.w(1,1);
+    vel2.w=w(2,1);
+    acc2.w=w(3,1);
+    Z.w=dis2.w;    
+    end
+    
     %update the contact force
     switch contactID
         %-----Hertz spring----

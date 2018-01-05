@@ -31,7 +31,11 @@ vx=inp.solver.Vx; %vehicle speed
 contactID=5; %5 for non-linear  10 for linear 8 for winkler bedding 
 zdd=load(inp.ext_force.timeh);
 Fex=zeros(length(zdd),1);
-
+if isempty(mat_ws)
+    mc_ws=zeros(inp.solver.n_ts+1,1);
+else
+mc_ws=zeros(inp.solver.n_ts+1,size(mat_ws.A,1)); %modal coordinates for flexible wheelset model
+end
 %%
 %%irregularity definition
 prompt='Please select the irregularity definition(1.Sinsoidal;2.Input file: [1]\n';
@@ -175,11 +179,14 @@ for i=1:inp.solver.n_ts
     position.w=Z.w(i,1);
     position.r=shape*dis1.r'; 
     position.irr=Z.irr(i,1);
+    mc_ws1=mc_ws(i,:)';
+    
      
     
-    [acc2,vel2,dis2,F_contact,position]=solver_newmark_iter(mat_trk,inp,shape,...
-        position, inp.ext_force.wh_ld, acc1, vel1, dis1,X_w(i+1,1), geo, Z,contactID,Fex(i,1));
+    [acc2,vel2,dis2,F_contact,position,mc_ws2]=solver_newmark_iter(mat_trk,inp,shape,...
+        position, inp.ext_force.wh_ld, acc1, vel1, dis1,mc_ws1,X_w(i+1,1), geo, Z,contactID,Fex(i,1),mat_ws);
     
+    mc_ws(i+1,:)=mc_ws2';
     acc.r(i+1,:)=acc2.r;
     vel.r(i+1,:)=vel2.r;
     dis.r(i+1,:)=dis2.r;
