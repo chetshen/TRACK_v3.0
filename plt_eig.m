@@ -1,10 +1,12 @@
-[NodeNumber]=picknodes([5 25], geo.ND); %define the node numbers to be plotted
-[~,~,~,nodeRef]=time_history(NodeNumber,dis,vel,acc, mat_trk.activeDof); %  get the reference index of the nodes to be plotted
+function []=plt_eig(V,geo,mat_trk,range,modenum,scale)
+[NodeNumber]=picknodes(range, geo.ND); %define the node numbers to be plotted
+[~,~,~,dofi,nodei]=time_history(NodeNumber,mat_trk.activeDof); %  get the reference index of the nodes to be plotted
 
 
-Vshape=V(nodeRef,:);
-Lia=ismember(geo.ND(:,1),NodeNumber(1:size(Vshape,1)));
+Vshape=V(dofi,:);
+
 shape=zeros(length(geo.ND),1);
-shape(Lia)=Vshape(:,277);
-plot_modeShape(geo,shape,10);
+shape(nodei)=Vshape(:,modenum);
+plot_modeShape(geo,shape,scale); 
 xlim('Auto');
+end
