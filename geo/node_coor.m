@@ -29,7 +29,7 @@ dist_SB=in_data.geo.dist_SB;               %[m] Between sleepers and ballast
 % clear in_data
 %%
 %
-m_Spring_RS=(Ltot_R/dist_R_betwSprings)-1; %number of springs between ONE rail and sleeper
+m_Spring_RS=(Ltot_R/dist_R_betwSprings)+1; %number of springs between ONE rail and sleeper
 %
 
 %
@@ -37,7 +37,7 @@ num_S=m_Spring_RS; %number of sleepers= number of springs between
 
 %element length
 %
-LElem_R=Ltot_R/((numElem_R_betwSprings)*(m_Spring_RS+1)); %element length
+LElem_R=Ltot_R/((numElem_R_betwSprings)*(m_Spring_RS-1)); %element length
 LElem_S_Ext=LExt_S/m_1S_Ext; % length of extertal sleeper element
 LElem_S_Int=LInt_S/m_1S_Int; % length of extertal sleeper element
 %
@@ -68,7 +68,7 @@ nodeCoord_S=zeros(numNodes_1S*num_S,3);
 for i=1:num_S
     index=numNodes_1S*(i-1)+1:numNodes_1S*i;
     nodeCoord_S(index,2)= [-LExt_S-LInt_S/2:LElem_S_Ext:-LInt_S/2,-LInt_S/2+LElem_S_Int:LElem_S_Int:LInt_S/2,LInt_S/2+LElem_S_Ext:LElem_S_Ext:LExt_S+LInt_S/2]';
-    nodeCoord_S(index,1)= i*dist_S;
+    nodeCoord_S(index,1)= (i-1)*dist_S;
     nodeCoord_S(index,3)= -1*dist_RS;
     nodeCoord_S(index,4)= 3;
 end
