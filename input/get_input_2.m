@@ -5,10 +5,10 @@ function [in_data] = get_input_2(in_data)
 %%
 %Geometry input
 
-in_data.geo.Ltot_R=30;                  %[m]
+in_data.geo.Ltot_R=12;                  %[m]
 in_data.geo.SlpSpc=0.6;          %[m] 
 in_data.geo.dist_S=in_data.geo.SlpSpc; %[m] 
-in_data.geo.LExt_S=0.5125;             %[m]
+in_data.geo.LExt_S=0.54;             %[m]
 in_data.geo.LInt_S=0.750;              %[m]
 in_data.geo.TrackWidth=1.5;            %[m]
 % in_data.geo.Ltot_S=in_data.geo.LExt_S*2+in_data.geo.TrackWidth;      %[m] full length=2.36[m])
@@ -22,7 +22,7 @@ in_data.geo.irr=0;                     % Irregularities
 
 in_data.ext_force.timeh='example.txt';%'FW_h30w40'; %['white_noise.txt']; %[ 'example.txt' ];        %time history of external force
 in_data.ext_force.sf=25600;
-in_data.ext_force.x=[15.3,-0.75,0];
+in_data.ext_force.x=[5.1,-0.75,0];
 in_data.ext_force.Vx=0;
 % zdd=load(in_data.ext_force.timeh);
 % dof=299;
@@ -53,7 +53,7 @@ in_data.mater(1).Note='rail';
 % in_data.mater(2).ElemType=3;
 in_data.mater(2).Data=[39e9; % #19.4e12# or #19.4e9# [N/m^2]
                     2.631e-4;  %[m^4]
-                    0.044512; %[m^2]
+                    0.043; %[m^2]
                     2500;%2140;%3070;   %2480[kg/m^3]
                     39e9/2.34; %E/2.34
                     0.833]; %0.833
@@ -61,15 +61,15 @@ in_data.mater(2).Note='sleeper';
 
 %MATERIAL SPRING DATA: RAILPAD
 % in_data.mater(3).ElemType=3;
-in_data.mater(3).Data=[1.3e9; %1.56e9;%1.3e9; %K_Spring_RS [N/m]
-                      6.75e4];%6.75e4]; %4.5e4]; %C_Damper_RS[N.s/m]
+in_data.mater(3).Data=[1.3e1; %1.56e9;%1.3e9; %K_Spring_RS [N/m]
+                      6.75e1];%6.75e4]; %4.5e4]; %C_Damper_RS[N.s/m]
 in_data.mater(3).Note='railpad';
 
 
 %MATERIAL SPRING DATA: BALLAST
 % in_data.mater(4).ElemType=4;
-in_data.mater(4).Data = [4.8458e7/5;  %K_Spring_SB[N/m]
-                         3.444e4/5];%3.444e4/5];  %C_Damper_SB[N.s/m]
+in_data.mater(4).Data = [4.8458e7/18;  %K_Spring_SB[N/m]
+                         3.444e4/18];%3.444e4/5];  %C_Damper_SB[N.s/m]
 in_data.mater(4).Note='ballast';
 
 
@@ -112,6 +112,6 @@ in_data.mater(10).Note='linear contact';
 in_data.mesh.numElem_R_betwSprings=6;   %Number of elements between 2 springs
 % in_data.mesh.numElem_R_betwSprings_L=60;   %Number of elements between 2 springs
 in_data.mesh.RefinedMeshLength=0.001;    %Element length at refined mesh around irregularity [m]
-in_data.mesh.m_1S_Ext=1;                %Number of elements in a sleeper external
-in_data.mesh.m_1S_Int=6;                %Number of elements in a sleeper internal
+in_data.mesh.m_1S_Ext=5;                %Number of elements in a sleeper external
+in_data.mesh.m_1S_Int=24;                %Number of elements in a sleeper internal
 end
