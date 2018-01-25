@@ -22,7 +22,8 @@ else%shape funciton 2 impact on sleeper
 shape=zeros(1,length(mat_trk.K_reduced));
 nodeNumber=832;dofID=1;
 dof=2*(nodeNumber-1)+dofID;
-shape(1,dof)=1;
+ind=ismember(mat_trk.activeDof,dof);
+shape(1,ind)=1;
 end
 
 dis_x_load=dis*shape';
