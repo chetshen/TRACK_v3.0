@@ -52,7 +52,7 @@ in_data.mater(1).Note='rail';
 %MATERIAL SLEEPERS DATA 
 % in_data.mater(2).ElemType=3;
 in_data.mater(2).Data=[39e9; % #19.4e12# or #19.4e9# [N/m^2]
-                    2.631e-4;  %[m^4]
+                    1.375e-4;  %[m^4]
                     0.043; %[m^2]
                     2500;%2140;%3070;   %2480[kg/m^3]
                     39e9/2.34; %E/2.34
@@ -68,8 +68,8 @@ in_data.mater(3).Note='railpad';
 
 %MATERIAL SPRING DATA: BALLAST
 % in_data.mater(4).ElemType=4;
-in_data.mater(4).Data = [4.8458e7/18;  %K_Spring_SB[N/m]
-                         3.444e4/18];%3.444e4/5];  %C_Damper_SB[N.s/m]
+in_data.mater(4).Data = [9e1/35;  %K_Spring_SB[N/m]
+                         6.4e1/35];%3.444e4/5];  %C_Damper_SB[N.s/m]
 in_data.mater(4).Note='ballast';
 
 
