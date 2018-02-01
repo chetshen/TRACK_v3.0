@@ -1,19 +1,19 @@
 function [H,p,res,meq,stfeq]=eig2frf(phi,wn,dr,wi)
-H=zeros(length(phi),length(phi),length(wi));
+H=zeros(size(phi,1),size(phi,2),length(wi));
 p=zeros(length(wn),1);
-res=zeros(length(phi),length(phi),length(wn));
-paug=zeros(length(phi),length(phi),length(wn));
-meq=zeros(length(phi),length(phi),length(wn));
+res=zeros(size(phi,1),size(phi,2),length(wn));
+paug=zeros(size(phi,1),size(phi,2),length(wn));
+meq=zeros(size(phi,1),size(phi,2),length(wn));
 
 for r=1:length(wn)
-    for k=1:length(phi)
-        for j=1:length(phi)
+    for k=1:size(phi,1)
+        for j=1:size(phi,1)
             res(j,k,r)=phi(j,r)*phi(k,r)/(2i*wn(r));
             meq(j,k,r)=1./(phi(j,r)*phi(k,r));
         end
     end
     p(r,1)=-1*wn(r)*dr(r)+wn(r)*sqrt(1-dr(r).^2)*1i;
-    paug(:,:,r)=p(r,1)*ones(length(phi),length(phi));
+    paug(:,:,r)=p(r,1)*ones(size(phi,1),size(phi,2));
 end
 
 stfeq=meq.*reshape(wn,1,1,[]).^2;
