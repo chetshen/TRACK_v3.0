@@ -12,6 +12,9 @@ if exist('mat_trk','var')
     return
 end
 
+btypr=inp.mesh.btypr;
+btyps=inp.mesh.btyps;
+
 display('Forming track model...\n ');
 prompt='Please select the track parameters(1.Custom;2.Squat;3.Hammer;4.Benchmark): [1]\n';
 
@@ -78,7 +81,7 @@ if exist('nodeCoord','var')==0
                 clear flag i j prompt k
                 return
             case 'N'
-        [geo] = mesh_trk_full(2,2,nodeCoord);
+        [geo] = mesh_trk_full(btypr,btyps,nodeCoord);
         mat_trk=form_mat_trk_2(inp,geo);
         end
     else
@@ -88,7 +91,7 @@ if exist('nodeCoord','var')==0
     end
 else
     display('Geometry file already exists. Starting mesh...')
-    [geo] = mesh_trk_full(2,2,nodeCoord);
+    [geo] = mesh_trk_full(btypr,btypr,nodeCoord);
     mat_trk=form_mat_trk_2(inp,geo);
 end
 mat_ws=form_mat_ws(inp);
