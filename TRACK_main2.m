@@ -12,8 +12,7 @@ if exist('mat_trk','var')
     return
 end
 
-btypr=inp.mesh.btypr;
-btyps=inp.mesh.btyps;
+
 
 display('Forming track model...\n ');
 prompt='Please select the track parameters(1.Custom;2.Squat;3.Hammer;4.Benchmark): [1]\n';
@@ -49,6 +48,9 @@ switch i
     case 4
         inp=get_input_4();
 end
+
+btypr=inp.mesh.btypr;
+btyps=inp.mesh.btyps;
 
 if exist('nodeCoord','var')==0
     
@@ -112,4 +114,4 @@ mat_ws=form_mat_ws(inp);
 % [dis, vel,acc, t]=solver_newmark(inp,mat);
 % figure;
 % plot(dis(:,299));
-clear flag i j prompt k
+clear flag i j prompt k btypr btyps
