@@ -82,14 +82,14 @@ LeftRailNodes=geo.ND(geo.ND(:,5)==1,1);
 SleeperNodes(:,1)=geo.ND(geo.ND(:,5)==3,1);%geo.ND(geo.ND(:,5)==3,1);%geo.ND(geo.ND(:,3)==0 & geo.ND(:,5)==3,1);
 %%%%%%%%%%%%%can be disabled if necessary
 
-geo.fixedNodeU=[LeftRailNodes(:,1);SleeperNodes(geo.sleeper(:,2)+2:end,1);ballastNodes(:,1)];
+geo.fixedNodeU=[SleeperNodes(:,1);ballastNodes(:,1)];
 %boundary condition for sleepers
 %SleeperNodes(geo.sleeper(:,2)+2:end,1): fix starting from the second sleeper
 %SleeperNodes(geo.sleeper(:,2)+1:end,1): fix starting from the last nodes
 %of the first sleeper
 
 %%%%%%%%%%%%%%%
-geo.fixedNodeV=[LeftRailNodes(:,1);SleeperNodes(geo.sleeper(:,2)+1:end,1);ballastNodes(:,1)];
+geo.fixedNodeV=[SleeperNodes(:,1);ballastNodes(:,1)];
 % geo.fixedNodeV=[LeftRailNodes(1);LeftRailNodes(length(LeftRailNodes));ballastNodes(:,1)];
 %%%%%%%%%%%%%%%%
 end
