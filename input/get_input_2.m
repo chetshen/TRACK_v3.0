@@ -45,8 +45,8 @@ in_data.mater(1).Data=[210e9;    %E_R[N/m^2]
                     0.23896e-4; %2.417e-5;    %I_R[m^4]
                    7.0515e-3; %7.246e-3;   %A_R[m^2]
                     7800;    %rho_R[kg/m^3]
-                      8.1e10;    %G_R
-                     0.4];% 0.34] ;     %kappa_R
+                      210e9/2.6;    %G_R
+                     0.833];% 0.34] ;     %kappa_R
 in_data.mater(1).Note='rail';                  
 
 %MATERIAL SLEEPERS DATA 
@@ -109,11 +109,11 @@ in_data.mater(10).Note='linear contact';
 %----------------------------------------------------------------------
 %%
 %MESH PARAMETERS
-in_data.mesh.numElem_R_betwSprings=6;   %Number of elements between 2 springs
+in_data.mesh.numElem_R_betwSprings=60;   %Number of elements between 2 springs
 % in_data.mesh.numElem_R_betwSprings_L=60;   %Number of elements between 2 springs
 in_data.mesh.RefinedMeshLength=0.001;    %Element length at refined mesh around irregularity [m]
 in_data.mesh.m_1S_Ext=5;                %Number of elements in a sleeper external
 in_data.mesh.m_1S_Int=24;                %Number of elements in a sleeper internal
-in_data.mesh.btypr=1;                   %mesh beam type: 1 for Euler, 2 for Timoshenko
-in_data.mesh.btyps=1;
+in_data.mesh.btypr=2;                   %mesh beam type: 1 for Euler, 2 for Timoshenko
+in_data.mesh.btyps=2;
 end
