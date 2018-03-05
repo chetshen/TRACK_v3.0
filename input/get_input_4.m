@@ -1,15 +1,15 @@
 %%
-%FE model by Chen
+%FE model by Maider
 %%
 function [in_data] = get_input_4(in_data)
 %%
 %Geometry input
 
-in_data.geo.Ltot_R=30;                  %[m]
+in_data.geo.Ltot_R=12;                  %[m]
 in_data.geo.SlpSpc=0.6;          %[m] 
 in_data.geo.dist_S=in_data.geo.SlpSpc; %[m] 
-in_data.geo.LExt_S=0.54; %0.5125             %[m]
-in_data.geo.LInt_S=0.750;              %[m]
+in_data.geo.LExt_S=1.25;             %[m]
+in_data.geo.LInt_S=0.75;              %[m]
 in_data.geo.TrackWidth=1.5;            %[m]
 % in_data.geo.Ltot_S=in_data.geo.LExt_S*2+in_data.geo.TrackWidth;      %[m] full length=2.36[m])
 in_data.geo.dist_RS=0.2;               %[m] Between rails and sleepers
@@ -20,9 +20,9 @@ in_data.geo.irr=0;                     % Irregularities
 %%
 %External force
 
-in_data.ext_force.timeh=[ 'example.txt' ];        %time history of external force 
+in_data.ext_force.timeh='example.txt';%'FW_h30w40'; %['white_noise.txt']; %[ 'example.txt' ];        %time history of external force
 in_data.ext_force.sf=25600;
-in_data.ext_force.x=[15,-0.75,0];
+in_data.ext_force.x=[5.1,-0.75,0];
 in_data.ext_force.Vx=0;
 % zdd=load(in_data.ext_force.timeh);
 % dof=299;
@@ -32,11 +32,22 @@ in_data.ext_force.wh_ld = 8000*9.8 ; % 8000*9.8 ;% 12742*9.8;   %[N]
 %%
 %Solver settings
 
-in_data.solver.n_ts=1500; %length(zdd)-1;                     %Number of time steps
+in_data.solver.n_ts=5000; %length(zdd)-1;                     %Number of time steps
 in_data.solver.deltat=0.00004;                   %Time step length
 in_data.solver.linsolver_id=2;             %linear solver id, 1 for LDL, 2 for mldivide
 in_data.solver.Vx=30;
+%%
+%MESH PARAMETERS
+in_data.mesh.numElem_R_betwSprings=6;   %Number of elements between 2 springs
+% in_data.mesh.numElem_R_betwSprings_L=60;   %Number of elements between 2 springs
+in_data.mesh.RefinedMeshLength=0.001;    %Element length at refined mesh around irregularity [m]
+in_data.mesh.m_1S_Ext=20;                %Number of elements in a sleeper external
+in_data.mesh.m_1S_Int=20;                %Number of elements in a sleeper internal
+NEslph=(2*in_data.mesh.m_1S_Ext+in_data.mesh.m_1S_Int)/2; %number of elements for half sleeper
+NNslph=NEslph+1;
 
+in_data.mesh.btypr=1;                   %mesh beam type: 1 for Euler, 2 for Timoshenko
+in_data.mesh.btyps=1;
 %%
 
 %MATERIAL RAIL DATA 
@@ -51,31 +62,31 @@ in_data.mater(1).Note='rail';
 
 %MATERIAL SLEEPERS DATA 
 % in_data.mater(2).ElemType=3;
-in_data.mater(2).Data=[39e9; % #19.4e12# or #19.4e9# [N/m^2]
-                    0.13752e-3;%0.13752e-3%2.631e-4;  %[m^4]
-                    0.043%0.044512; %[m^2]
-                    2500;%2140;%3070;   %2480[kg/m^3]
-                    39e9/2.34; %E/2.34
-                    0.833]; %0.833
+in_data.mater(2).Data=[260e9; % #19.4e12# or #19.4e9# [N/m^2]
+                    1/120000;  %[m^4]
+                    0.01; %[m^2]
+                    8000;%2140;%3070;   %2480[kg/m^3]
+                    10e10; %E/2.34
+                    5/6]; %0.833
 in_data.mater(2).Note='sleeper';
 
 %MATERIAL SPRING DATA: RAILPAD
 % in_data.mater(3).ElemType=3;
-in_data.mater(3).Data=[1.3e9; %1.56e9;%1.3e9; %K_Spring_RS [N/m]
-                      6.75e4];%6.75e4]; %4.5e4]; %C_Damper_RS[N.s/m]
+in_data.mater(3).Data=[1.3e-7; %1.56e9;%1.3e9; %K_Spring_RS [N/m]
+                      6.75e-7];%6.75e4]; %4.5e4]; %C_Damper_RS[N.s/m]
 in_data.mater(3).Note='railpad';
 
 
 %MATERIAL SPRING DATA: BALLAST
 % in_data.mater(4).ElemType=4;
-in_data.mater(4).Data = [4.8458e7/5;  %K_Spring_SB[N/m]
-                         3.444e4/5];%3.444e4/5];  %C_Damper_SB[N.s/m]
+in_data.mater(4).Data = [9e-7/2/NNslph;  %K_Spring_SB[N/m]
+                         6.4e-4/2/NNslph];%3.444e4/5];  %C_Damper_SB[N.s/m]
 in_data.mater(4).Note='ballast';
 
 
 %CONTACT
 % in_data.mater(5).ElemType=5;   %5 for contact
-in_data.mater(5).Data =8.4e10;%5e9; %1.8e9;%8.4e10;% 8.7e10; %C_Hertz %2/3*in_data.mater.E_R/(1-0.27^2)*sqrt(in_data.geo.Rw) ;% 8.7e10; %[N/m^(3/2)] from (Steffens, 2005)
+in_data.mater(5).Data = 8.7e10;%8.4e10;% 8.7e10; %C_Hertz %2/3*in_data.mater.E_R/(1-0.27^2)*sqrt(in_data.geo.Rw) ;% 8.7e10; %[N/m^(3/2)] from (Steffens, 2005)
 in_data.mater(5).Note='contact';
 %VEHICLE
 % in_data.mater(6).ElemType=6;   %6 for vehicle
@@ -98,20 +109,12 @@ in_data.mater(7).Note='rail degraded';
 in_data.mater(8).Data = 2/3*in_data.mater(1).Data(1)/(1-0.27^2)*sqrt(in_data.geo.Rw) ;% 8.7e10; %[N/m^(3/2)] from (Steffens, 2005)
 in_data.mater(8).Note='contact parameter used for winkler bedding';
 
-in_data.mater(9).Data=[8.700000000000000e+10;0;0;8.836000000000000e+02];
+in_data.mater(9).Data=[1.100000000000000e+9;0;0;8.836000000000000e+02];
 in_data.mater(9).Note='mass spring model';
 
 % 
-in_data.mater(10).Data = 0.8e9;%1.1e9; %C_Hertz %2/3*in_data.mater.E_R/(1-0.27^2)*sqrt(in_data.geo.Rw) ;% 8.7e10; %[N/m^(3/2)] from (Steffens, 2005)
+in_data.mater(10).Data = 1.1e9;%1.1e9; %C_Hertz %2/3*in_data.mater.E_R/(1-0.27^2)*sqrt(in_data.geo.Rw) ;% 8.7e10; %[N/m^(3/2)] from (Steffens, 2005)
 in_data.mater(10).Note='linear contact';
 
 
-%----------------------------------------------------------------------
-%%
-%MESH PARAMETERS
-in_data.mesh.numElem_R_betwSprings=60;   %Number of elements between 2 springs
-% in_data.mesh.numElem_R_betwSprings_L=60;   %Number of elements between 2 springs
-in_data.mesh.RefinedMeshLength=0.001;    %Element length at refined mesh around irregularity [m]
-in_data.mesh.m_1S_Ext=1;                %Number of elements in a sleeper external
-in_data.mesh.m_1S_Int=6;                %Number of elements in a sleeper internal
 end
