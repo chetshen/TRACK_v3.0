@@ -16,6 +16,10 @@ switch elemType
          Me=zeros(numel(elementDof),numel(elementDof));
     case 4 %spring mass 
         [Me,Ke,De]=spring_mass(mater(1), mater(2),mater(3), mater(4));
+    case 5 %timo beam element with polynomial shape function and Gua integ
+        nu=(mater(1)/mater(5)-2)/2;
+        [Ke,Me]=KMmatrixTiPoly(elemLength,mater(1),mater(3),mater(6),mater(2),nu,mater(4),4);
+        De=alpha*Me+beta*Ke;
 end
 
 
