@@ -36,7 +36,18 @@ in_data.solver.n_ts=5000; %length(zdd)-1;                     %Number of time st
 in_data.solver.deltat=0.00004;                   %Time step length
 in_data.solver.linsolver_id=2;             %linear solver id, 1 for LDL, 2 for mldivide
 in_data.solver.Vx=30;
+%%
+%MESH PARAMETERS
+in_data.mesh.numElem_R_betwSprings=6;   %Number of elements between 2 springs
+% in_data.mesh.numElem_R_betwSprings_L=60;   %Number of elements between 2 springs
+in_data.mesh.RefinedMeshLength=0.001;    %Element length at refined mesh around irregularity [m]
+in_data.mesh.m_1S_Ext=40;                %Number of elements in a sleeper external
+in_data.mesh.m_1S_Int=112;                %Number of elements in a sleeper internal
+NEslph=(2*in_data.mesh.m_1S_Ext+in_data.mesh.m_1S_Int)/2; %number of elements for half sleeper
+NNslph=NEslph+1;
 
+in_data.mesh.btypr=2;                   %mesh beam type: 1 for Euler, 2 for Timoshenko
+in_data.mesh.btyps=2;
 %%
 
 %MATERIAL RAIL DATA 
@@ -56,7 +67,7 @@ in_data.mater(2).Data=[39e9; % #19.4e12# or #19.4e9# [N/m^2]
                     0.043; %[m^2]
                     2500;%2140;%3070;   %2480[kg/m^3]
                     39e9/2.34; %E/2.34
-                    0.833]; %0.833
+                    0.7]; %0.833
 in_data.mater(2).Note='sleeper';
 
 %MATERIAL SPRING DATA: RAILPAD
@@ -68,8 +79,9 @@ in_data.mater(3).Note='railpad';
 
 %MATERIAL SPRING DATA: BALLAST
 % in_data.mater(4).ElemType=4;
-in_data.mater(4).Data = [4.8458e7/5;  %K_Spring_SB[N/m]
-                         3.444e4/5];%3.444e4/5];  %C_Damper_SB[N.s/m]
+
+in_data.mater(4).Data = [9e-7/2/NNslph;  %K_Spring_SB[N/m]
+                         6.4e-4/2/NNslph];%3.444e4/5];  %C_Damper_SB[N.s/m]
 in_data.mater(4).Note='ballast';
 
 
@@ -106,14 +118,4 @@ in_data.mater(10).Data = 1.1e9;%1.1e9; %C_Hertz %2/3*in_data.mater.E_R/(1-0.27^2
 in_data.mater(10).Note='linear contact';
 
 
-%----------------------------------------------------------------------
-%%
-%MESH PARAMETERS
-in_data.mesh.numElem_R_betwSprings=6;   %Number of elements between 2 springs
-% in_data.mesh.numElem_R_betwSprings_L=60;   %Number of elements between 2 springs
-in_data.mesh.RefinedMeshLength=0.001;    %Element length at refined mesh around irregularity [m]
-in_data.mesh.m_1S_Ext=1;                %Number of elements in a sleeper external
-in_data.mesh.m_1S_Int=6;                %Number of elements in a sleeper internal
-in_data.mesh.btypr=2;                   %mesh beam type: 1 for Euler, 2 for Timoshenko
-in_data.mesh.btyps=2;
 end
