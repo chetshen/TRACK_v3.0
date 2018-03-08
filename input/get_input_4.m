@@ -41,13 +41,13 @@ in_data.solver.Vx=30;
 in_data.mesh.numElem_R_betwSprings=6;   %Number of elements between 2 springs
 % in_data.mesh.numElem_R_betwSprings_L=60;   %Number of elements between 2 springs
 in_data.mesh.RefinedMeshLength=0.001;    %Element length at refined mesh around irregularity [m]
-in_data.mesh.m_1S_Ext=20;                %Number of elements in a sleeper external
-in_data.mesh.m_1S_Int=20;                %Number of elements in a sleeper internal
+in_data.mesh.m_1S_Ext=10;                %Number of elements in a sleeper external
+in_data.mesh.m_1S_Int=10;                %Number of elements in a sleeper internal
 NEslph=(2*in_data.mesh.m_1S_Ext+in_data.mesh.m_1S_Int)/2; %number of elements for half sleeper
 NNslph=NEslph+1;
 
-in_data.mesh.btypr=1;                   %mesh beam type: 1 for Euler, 2 for Timoshenko
-in_data.mesh.btyps=1;
+in_data.mesh.btypr=2;                   %mesh beam type: 1 for Euler, 2 for Timoshenko
+in_data.mesh.btyps=2;
 %%
 
 %MATERIAL RAIL DATA 
