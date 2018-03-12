@@ -38,7 +38,7 @@ in_data.solver.linsolver_id=2;             %linear solver id, 1 for LDL, 2 for m
 in_data.solver.Vx=30;
 %%
 %MESH PARAMETERS
-in_data.mesh.numElem_R_betwSprings=6;   %Number of elements between 2 springs
+in_data.mesh.numElem_R_betwSprings=12;   %Number of elements between 2 springs
 % in_data.mesh.numElem_R_betwSprings_L=60;   %Number of elements between 2 springs
 in_data.mesh.RefinedMeshLength=0.001;    %Element length at refined mesh around irregularity [m]
 in_data.mesh.m_1S_Ext=1;                %Number of elements in a sleeper external
@@ -54,8 +54,8 @@ in_data.mesh.btyps=5;
 %MATERIAL RAIL DATA 
 % in_data.mater(1).ElemType=1;       %1 for rail material; 2 for sleeper; 3 for railpads; 4 for ballas2.951t
 in_data.mater(1).Data=[210e9;    %E_R[N/m^2]
-                    2.417e-5;    %0.23896e-4; %2.417e-5;    %I_R[m^4]
-                    7.246e-3;   %7.0515e-3; %7.246e-3;   %A_R[m^2]
+                    0.23896e-4;    %0.23896e-4; %2.417e-5;    %I_R[m^4]
+                    7.0515e-3;   %7.0515e-3; %7.246e-3;   %A_R[m^2]
                     7800;    %rho_R[kg/m^3]
                       8.1e10;    %G_R
                      0.4];% 0.34] ;     %kappa_R
