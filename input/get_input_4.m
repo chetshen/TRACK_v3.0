@@ -8,7 +8,7 @@ function [in_data] = get_input_4(in_data)
 in_data.geo.Ltot_R=30;                  %[m]
 in_data.geo.SlpSpc=0.6;           %[m] 
 in_data.geo.dist_S=in_data.geo.SlpSpc; %[m] 
-in_data.geo.LExt_S=0.5125;             %[m]
+in_data.geo.LExt_S=0.54;             %[m]
 in_data.geo.LInt_S=0.750;              %[m]
 in_data.geo.TrackWidth=1.5;            %[m]
 % in_data.geo.Ltot_S=in_data.geo.LExt_S*2+in_data.geo.TrackWidth;      %[m] full length=2.36[m])
@@ -41,8 +41,8 @@ in_data.solver.Vx=30;
 in_data.mesh.numElem_R_betwSprings=12;   %Number of elements between 2 springs
 % in_data.mesh.numElem_R_betwSprings_L=60;   %Number of elements between 2 springs
 in_data.mesh.RefinedMeshLength=0.001;    %Element length at refined mesh around irregularity [m]
-in_data.mesh.m_1S_Ext=1;                %Number of elements in a sleeper external
-in_data.mesh.m_1S_Int=6;                %Number of elements in a sleeper internal
+in_data.mesh.m_1S_Ext=4;                %Number of elements in a sleeper external
+in_data.mesh.m_1S_Int=12;                %Number of elements in a sleeper internal
 NEslph=(2*in_data.mesh.m_1S_Ext+in_data.mesh.m_1S_Int)/2; %number of elements for half sleeper
 NNslpf=NEslph*2+1;
 NNslph=NEslph+1;
@@ -73,7 +73,7 @@ in_data.mater(2).Note='sleeper';
 
 %MATERIAL SPRING DATA: RAILPAD
 % in_data.mater(3).ElemType=3;
-in_data.mater(3).Data=[0.8e9; %1.56e9;%1.3e9; %K_Spring_RS [N/m]
+in_data.mater(3).Data=[1.3e9; %1.56e9;%1.3e9; %K_Spring_RS [N/m]
                       6.75e4];%6.75e4]; %4.5e4]; %C_Damper_RS[N.s/m]
 in_data.mater(3).Note='railpad';
 
