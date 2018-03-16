@@ -63,11 +63,11 @@ in_data.mater(1).Note='rail';
 
 %MATERIAL SLEEPERS DATA 
 % in_data.mater(2).ElemType=3;
-in_data.mater(2).Data=[39e9; % #19.4e12# or #19.4e9# [N/m^2]
-                    2.631e-4;  %[m^4]
-                    0.0445; %[m^2]
+in_data.mater(2).Data=[74.625e9; % #19.4e12# or #19.4e9# [N/m^2]
+                    1.375e-4;  %[m^4]
+                    0.043; %[m^2]
                     2500;%2140;%3070;   %2480[kg/m^3]
-                    1.625e10; %E/2.34
+                    74.6e9/2.34;%74.6e9/2.34; %E/2.34
                     0.833]; %0.833
 in_data.mater(2).Note='sleeper';
 
