@@ -81,12 +81,13 @@ geo.NumEL = [m_R,m_Stot,m_Spring_RS,m_Spring_SB,m];
 % geo.GDof = [GDof_R,GDof_1S,GDof_Stot,GDof_B,GDof];
 %%
 %BOUNDARY CONDITION
+SleeperNodes(:,1)=geo.ND(geo.ND(:,5)==3,1);
 %
 LeftRailNodes=geo.ND(geo.ND(:,5)==1,1);
 RightRailNodes=geo.ND(geo.ND(:,5)==2,1);
 %full
-geo.fixedNodeU=[LeftRailNodes(1);LeftRailNodes(length(LeftRailNodes));RightRailNodes(1);RightRailNodes(length(RightRailNodes));ballastNodes(:,1)];
-geo.fixedNodeV=[LeftRailNodes(1);LeftRailNodes(length(LeftRailNodes));RightRailNodes(1);RightRailNodes(length(RightRailNodes));ballastNodes(:,1)];
+geo.fixedNodeU=[LeftRailNodes;RightRailNodes;SleeperNodes(geo.sleeper(:,2)+2:end,1);ballastNodes(:,1)];
+geo.fixedNodeV=[LeftRailNodes;RightRailNodes;SleeperNodes(geo.sleeper(:,2)+2:end,1);ballastNodes(:,1)];
 %symmetric
 % geo.fixedNodeU=[LeftRailNodes(1);LeftRailNodes(length(LeftRailNodes));RightRailNodes(1);RightRailNodes(length(RightRailNodes));ballastNodes(:,1)];
 % geo.fixedNodeV=[ballastNodes(:,1)];
