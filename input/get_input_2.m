@@ -5,7 +5,7 @@ function [in_data] = get_input_2(in_data)
 %%
 %Geometry input
 
-in_data.geo.Ltot_R=30;                  %[m]
+in_data.geo.Ltot_R=1.8;                  %[m]
 in_data.geo.SlpSpc=0.6;           %[m] 
 in_data.geo.dist_S=in_data.geo.SlpSpc; %[m] 
 in_data.geo.LExt_S=0.54;             %[m]
@@ -22,7 +22,7 @@ in_data.geo.irr=0;                     % Irregularities
 
 in_data.ext_force.timeh='example.txt';%'FW_h30w40'; %['white_noise.txt']; %[ 'example.txt' ];        %time history of external force
 in_data.ext_force.sf=25600;
-in_data.ext_force.x=[15.3,-0.75,0];
+in_data.ext_force.x=[1.2,-0.75,0];
 in_data.ext_force.Vx=0;
 % zdd=load(in_data.ext_force.timeh);
 % dof=299;
@@ -38,7 +38,7 @@ in_data.solver.linsolver_id=2;             %linear solver id, 1 for LDL, 2 for m
 in_data.solver.Vx=30;
 %%
 %MESH PARAMETERS
-in_data.mesh.numElem_R_betwSprings=12;   %Number of elements between 2 springs
+in_data.mesh.numElem_R_betwSprings=60;   %Number of elements between 2 springs
 % in_data.mesh.numElem_R_betwSprings_L=60;   %Number of elements between 2 springs
 in_data.mesh.RefinedMeshLength=0.001;    %Element length at refined mesh around irregularity [m]
 in_data.mesh.m_1S_Ext=4;                %Number of elements in a sleeper external
@@ -47,8 +47,8 @@ NEslph=(2*in_data.mesh.m_1S_Ext+in_data.mesh.m_1S_Int)/2; %number of elements fo
 NNslpf=NEslph*2+1;
 NNslph=NEslph+1;
 
-in_data.mesh.btypr=2;                   %mesh beam type: 1 for Euler, 2 for Timoshenko
-in_data.mesh.btyps=2;
+in_data.mesh.btypr=5;                   %mesh beam type: 1 for Euler, 2 for Timoshenko
+in_data.mesh.btyps=5;
 
 %%
 
@@ -58,8 +58,8 @@ in_data.mater(1).Data=[210e9;    %E_R[N/m^2]
                     0.23896e-4;    %0.23896e-4; %2.417e-5;    %I_R[m^4]
                     7.0515e-3;   %7.0515e-3; %7.246e-3;   %A_R[m^2]
                     7800;    %rho_R[kg/m^3]
-                      210e9/2.6;    %G_R
-                     0.833];% 0.34] ;     %kappa_R
+                      8.1e10;    %G_R
+                     0.4];% 0.34] ;     %kappa_R
 in_data.mater(1).Note='rail';                  
 
 %MATERIAL SLEEPERS DATA 
@@ -81,8 +81,8 @@ in_data.mater(3).Note='railpad';
 
 %MATERIAL SPRING DATA: BALLAST
 % in_data.mater(4).ElemType=4;
-in_data.mater(4).Data = [9e7/NNslpf;  %K_Spring_SB[N/m]
-                         6.4e4/NNslpf];%3.444e4/5];  %C_Damper_SB[N.s/m]
+in_data.mater(4).Data = [9e-7/NNslpf;  %K_Spring_SB[N/m]
+                         6.4e-4/NNslpf];%3.444e4/5];  %C_Damper_SB[N.s/m]
 in_data.mater(4).Note='ballast';
 
 
@@ -120,13 +120,4 @@ in_data.mater(10).Note='linear contact';
 
 
 %----------------------------------------------------------------------
-%%
-%MESH PARAMETERS
-in_data.mesh.numElem_R_betwSprings=60;   %Number of elements between 2 springs
-% in_data.mesh.numElem_R_betwSprings_L=60;   %Number of elements between 2 springs
-in_data.mesh.RefinedMeshLength=0.001;    %Element length at refined mesh around irregularity [m]
-in_data.mesh.m_1S_Ext=5;                %Number of elements in a sleeper external
-in_data.mesh.m_1S_Int=24;                %Number of elements in a sleeper internal
-in_data.mesh.btypr=2;                   %mesh beam type: 1 for Euler, 2 for Timoshenko
-in_data.mesh.btyps=2;
 end
