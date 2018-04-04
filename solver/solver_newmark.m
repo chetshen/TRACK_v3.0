@@ -63,9 +63,10 @@ for i=1:length(zdd)-1
         disp('ok');
     else%shape funciton 2 impact on sleeper
         shape=zeros(1,length(K));
-        nodeNumber=832;dofID=1;
+        nodeNumber=107;dofID=1;
         dofShape=2*(nodeNumber-1)+dofID;
-        shape(1,dofShape)=1;
+        ind=ismember(sys_mat.activeDof,dofShape);
+        shape(1,ind)=1;
     end
     
     %     R= zdd(i+1)*shape';
