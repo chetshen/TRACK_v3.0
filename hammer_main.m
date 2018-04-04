@@ -10,7 +10,7 @@ tic;
 TRACK_main2;
 disp (['Matrix assembly complete. Time used: ', num2str(toc),' s']);
 
-[dis, vel,acc, t]=solver_newmark(inp,mat_trk,geo);
+[dis, vel,acc, t, force]=solver_newmark(inp,mat_trk,geo);
 
 
 X_load=inp.ext_force.x;
@@ -20,7 +20,7 @@ if X_load(3)==0
 
 else%shape funciton 2 impact on sleeper
 shape=zeros(1,length(mat_trk.K_reduced));
-nodeNumber=832;dofID=1;
+nodeNumber=107;dofID=1;
 dof=2*(nodeNumber-1)+dofID;
 ind=ismember(mat_trk.activeDof,dof);
 shape(1,ind)=1;
@@ -33,7 +33,7 @@ dis_x_load=dis*shape';
 [p_dis,f_dis]=periodogram(dis_x_load(2:length(dis_x_load)),hamming(length(dis_x_load)-1),length(dis_x_load)-1,inp.ext_force.sf);
 
 %[p_dis,f_dis]=periodogram(dis_x_load(1:length(dis_x_load)),hamming(length(dis_x_load)),length(dis_x_load),inp.ext_force.sf);
-force=load(inp.ext_force.timeh);
+% force=load(inp.ext_force.timeh);
 % force=force./1000;
 
 % [p_force,f_force]=periodogram(force,hamming(length(force)),length(force),inp.ext_force.sf);
