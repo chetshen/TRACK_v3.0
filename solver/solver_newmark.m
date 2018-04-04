@@ -1,6 +1,6 @@
 %linear solver for track model subjected to external load, e.g. hammer test
 %or moving load
-function [dis, vel,acc, t]=solver_newmark(in_data,sys_mat,geo,dlt,alf)
+function [dis, vel,acc, t, zdd]=solver_newmark(in_data,sys_mat,geo,dlt,alf)
 %data read in
 if nargin >4
     delta=dlt;
@@ -11,6 +11,8 @@ else
 end
 
 deltat=1/in_data.ext_force.sf;
+tx=[0:1/25600:1];
+t=[0:deltat:1];
 
 K=sys_mat.K_reduced;
 M=sys_mat.M_reduced;
@@ -22,6 +24,8 @@ end
 dof=length(sys_mat.K_reduced);
 
 zdd=load(in_data.ext_force.timeh);
+zdd=interp1(tx,zdd,t);
+
 points=length(zdd);
 
 
@@ -53,7 +57,7 @@ acc = zeros(length(zdd)-1,dof);
 % vel(1.:)=initial.vel;
 % acc(1,:)=initial.acc;
 
-t=(0:points-1)*deltat;
+% t=(0:points-1)*deltat;
 disp (['Starting Newmark intergration. Time: ' datestr(datetime('now'))]);
 tic;
 for i=1:10000
