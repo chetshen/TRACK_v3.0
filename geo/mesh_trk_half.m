@@ -81,16 +81,28 @@ LeftRailNodes=geo.ND(geo.ND(:,5)==1,1);
 %%%%%%%%%%%%%boundary condition for sleepers
 SleeperNodes(:,1)=geo.ND(geo.ND(:,5)==3,1);%geo.ND(geo.ND(:,5)==3,1);%geo.ND(geo.ND(:,3)==0 & geo.ND(:,5)==3,1);
 %%%%%%%%%%%%%can be disabled if necessary
+prompt='Please select the boundary conditions for rail (1.Anti-symmetric;2.Symmetric): [1]\n';
 
-geo.fixedNodeU=[LeftRailNodes(1);LeftRailNodes(end);SleeperNodes(:,1);ballastNodes(:,1)];
-%boundary condition for sleepers
-%SleeperNodes(geo.sleeper(:,2)+2:end,1): fix starting from the second sleeper
-%SleeperNodes(geo.sleeper(:,2)+1:end,1): fix starting from the last nodes
-%of the first sleeper
+bc=input(prompt);
 
-%%%%%%%%%%%%%%%
-geo.fixedNodeV=[SleeperNodes(:,1);ballastNodes(:,1)];
-% geo.fixedNodeV=[LeftRailNodes(1);LeftRailNodes(length(LeftRailNodes));ballastNodes(:,1)];
+if isempty(bc)
+    bc=1;
+end
+
+switch bc
+    case 1
+        %anti-symmetric
+        geo.fixedNodeU=[LeftRailNodes(1);LeftRailNodes(end);SleeperNodes(:,1);ballastNodes(:,1)];
+        geo.fixedNodeV=[SleeperNodes(:,1);ballastNodes(:,1)];
+    case 2
+        %symmetric
+        geo.fixedNodeU=[SleeperNodes(:,1);ballastNodes(:,1)];
+        geo.fixedNodeV=[LeftRailNodes(1);LeftRailNodes(end);SleeperNodes(:,1);ballastNodes(:,1)];
+    case 3
+        %free
+        geo.fixedNodeU=[SleeperNodes(:,1);ballastNodes(:,1)];
+        geo.fixedNodeV=[SleeperNodes(:,1);ballastNodes(:,1)];
+end
 %%%%%%%%%%%%%%%%
 end
 %%
