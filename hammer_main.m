@@ -30,7 +30,7 @@ dis_x_load=dis*shape';
 % figure;
 % plot(t,dis_x_load);
 
-[p_dis,f_dis]=periodogram(dis_x_load(2:length(dis_x_load)),hamming(length(dis_x_load)-1),length(dis_x_load)-1,inp.ext_force.sf);
+% [p_dis,f_dis]=periodogram(dis_x_load(2:length(dis_x_load)),hamming(length(dis_x_load)-1),length(dis_x_load)-1,inp.ext_force.sf);
 
 %[p_dis,f_dis]=periodogram(dis_x_load(1:length(dis_x_load)),hamming(length(dis_x_load)),length(dis_x_load),inp.ext_force.sf);
 % force=load(inp.ext_force.timeh);

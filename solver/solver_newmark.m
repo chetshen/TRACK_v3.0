@@ -60,7 +60,7 @@ acc = zeros(length(zdd)-1,dof);
 % t=(0:points-1)*deltat;
 disp (['Starting Newmark intergration. Time: ' datestr(datetime('now'))]);
 tic;
-for i=1:length(zdd)-1
+for i=1:10000
     coor_load=in_data.ext_force.x+[in_data.ext_force.Vx*i,0,0];
     if coor_load(:,3)==0%shape function 1 on rail
         shape=form_shape_fun(geo,sys_mat,coor_load);

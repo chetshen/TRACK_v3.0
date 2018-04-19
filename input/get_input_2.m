@@ -5,7 +5,7 @@ function [in_data] = get_input_2(in_data)
 %%
 %Geometry input
 
-in_data.geo.Ltot_R=1.8;                  %[m]
+in_data.geo.Ltot_R=12;                  %[m]
 in_data.geo.SlpSpc=0.6;           %[m] 
 in_data.geo.dist_S=in_data.geo.SlpSpc; %[m] 
 in_data.geo.LExt_S=0.54;             %[m]
@@ -21,8 +21,8 @@ in_data.geo.irr=0;                     % Irregularities
 %External force
 
 in_data.ext_force.timeh='example.txt';%'FW_h30w40'; %['white_noise.txt']; %[ 'example.txt' ];        %time history of external force
-in_data.ext_force.sf=25600;
-in_data.ext_force.x=[1.2,-0.75,0];
+in_data.ext_force.sf=102400;
+in_data.ext_force.x=[6.3,-0.75,0];
 in_data.ext_force.Vx=0;
 % zdd=load(in_data.ext_force.timeh);
 % dof=299;
@@ -38,7 +38,7 @@ in_data.solver.linsolver_id=2;             %linear solver id, 1 for LDL, 2 for m
 in_data.solver.Vx=30;
 %%
 %MESH PARAMETERS
-in_data.mesh.numElem_R_betwSprings=60;   %Number of elements between 2 springs
+in_data.mesh.numElem_R_betwSprings=24;   %Number of elements between 2 springs
 % in_data.mesh.numElem_R_betwSprings_L=60;   %Number of elements between 2 springs
 in_data.mesh.RefinedMeshLength=0.001;    %Element length at refined mesh around irregularity [m]
 in_data.mesh.m_1S_Ext=4;                %Number of elements in a sleeper external
@@ -74,8 +74,8 @@ in_data.mater(2).Note='sleeper';
 
 %MATERIAL SPRING DATA: RAILPAD
 % in_data.mater(3).ElemType=3;
-in_data.mater(3).Data=[1.3e-7; %1.56e9;%1.3e9; %K_Spring_RS [N/m]
-                      6.75e-7];%6.75e4]; %4.5e4]; %C_Damper_RS[N.s/m]
+in_data.mater(3).Data=[1.3e9; %1.56e9;%1.3e9; %K_Spring_RS [N/m]
+                      6.75e4];%6.75e4]; %4.5e4]; %C_Damper_RS[N.s/m]
 in_data.mater(3).Note='railpad';
 
 
