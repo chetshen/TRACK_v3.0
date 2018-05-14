@@ -26,7 +26,7 @@ Z.r=zeros(inp.solver.n_ts+1,1);
 Z.irr=zeros(inp.solver.n_ts+1,1); %can be read in with files
 F=zeros(inp.solver.n_ts+1,1);
 X_w=zeros(inp.solver.n_ts+1,1);
-X_w(1,1)=15;   %initial x coordinates of wheel
+X_w(1,1)=6;   %initial x coordinates of wheel
 vx=inp.solver.Vx; %vehicle speed
 contactID=5; %5 for non-linear  10 for linear 8 for winkler bedding 
 zdd=load(inp.ext_force.timeh);
@@ -51,7 +51,7 @@ switch i
         %%irregularity definition: squat G302 maria
         irr_depth=0.2e-3;
         irr_length=30e-3;
-        irr_x0=15.3; %30.38=15.38=0.98 in FE 15.5=1.1
+        irr_x0=6.5; %30.38=15.38=0.98 in FE 15.5=1.1
         irr_ts0=round((irr_x0-X_w(1,1))/vx/inp.solver.deltat);
         irr_ts1=round((irr_x0-X_w(1,1)+1*irr_length)/vx/inp.solver.deltat);
         
@@ -72,7 +72,7 @@ switch i
         %%irregularity definition: measured
         load('D:\TRACK\measured_geometry_squat_Molodova_2014.mat', 'irr');
         irr_length=215e-3;
-        irr_x0=15.43; %30.38=0.98 in FE
+        irr_x0=6.4; %30.38=0.98 in FE
         irr(:,3)=irr_x0+irr(:,1);
         irr_ts0=round((irr_x0-X_w(1,1))/vx/inp.solver.deltat);
         irr_ts1=round((irr_x0-X_w(1,1)+irr_length)/vx/inp.solver.deltat);
@@ -140,7 +140,7 @@ end
     case 1
     %
     vx=0;
-    X_w(1,1)=15.3;
+    X_w(1,1)=6.1;
     %
 
     case 2
@@ -197,9 +197,9 @@ for i=1:inp.solver.n_ts
     Z.r(i+1,1)=position.r;
 %     Z.irr(i+1,1)=position.irr;
     F(i+1,1)=F_contact;
-    
-    disp (['Time step: ' num2str(i) 'finished. Time' num2str(toc)]);
-    
+    if ismember(i,1000*linspace(1,10,10))
+        disp (['Time step: ' num2str(i) 'finished. Time' num2str(toc)]);
+    end
 end
 
 %%

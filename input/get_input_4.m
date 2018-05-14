@@ -5,7 +5,7 @@ function [in_data] = get_input_4(in_data)
 %%
 %Geometry input
 
-in_data.geo.Ltot_R=30;                  %[m]
+in_data.geo.Ltot_R=12;                  %[m]
 in_data.geo.SlpSpc=0.6;           %[m] 
 in_data.geo.dist_S=in_data.geo.SlpSpc; %[m] 
 in_data.geo.LExt_S=0.54;             %[m]
@@ -21,8 +21,8 @@ in_data.geo.irr=0;                     % Irregularities
 %External force
 
 in_data.ext_force.timeh='example.txt';%'FW_h30w40'; %['white_noise.txt']; %[ 'example.txt' ];        %time history of external force
-in_data.ext_force.sf=25600;
-in_data.ext_force.x=[15.3,-0.75,0];
+in_data.ext_force.sf=102400;
+in_data.ext_force.x=[6,-0.75,0];
 in_data.ext_force.Vx=0;
 % zdd=load(in_data.ext_force.timeh);
 % dof=299;
@@ -32,13 +32,13 @@ in_data.ext_force.wh_ld = 8000*9.8 ; % 8000*9.8 ;% 12742*9.8;   %[N]
 %%
 %Solver settings
 
-in_data.solver.n_ts=5000; %length(zdd)-1;                     %Number of time steps
+in_data.solver.n_ts=2000; %length(zdd)-1;                     %Number of time steps
 in_data.solver.deltat=0.00004;                   %Time step length
 in_data.solver.linsolver_id=2;             %linear solver id, 1 for LDL, 2 for mldivide
 in_data.solver.Vx=30;
 %%
 %MESH PARAMETERS
-in_data.mesh.numElem_R_betwSprings=12;   %Number of elements between 2 springs
+in_data.mesh.numElem_R_betwSprings=24;   %Number of elements between 2 springs
 % in_data.mesh.numElem_R_betwSprings_L=60;   %Number of elements between 2 springs
 in_data.mesh.RefinedMeshLength=0.001;    %Element length at refined mesh around irregularity [m]
 in_data.mesh.m_1S_Ext=4;                %Number of elements in a sleeper external
@@ -63,11 +63,11 @@ in_data.mater(1).Note='rail';
 
 %MATERIAL SLEEPERS DATA 
 % in_data.mater(2).ElemType=3;
-in_data.mater(2).Data=[74.625e9; % #19.4e12# or #19.4e9# [N/m^2]
+in_data.mater(2).Data=[74.6e9; % #19.4e12# or #19.4e9# [N/m^2]
                     1.375e-4;  %[m^4]
                     0.043; %[m^2]
                     2500;%2140;%3070;   %2480[kg/m^3]
-                    74.6e9/2.34;%74.6e9/2.34; %E/2.34
+                    74.6e9/2.34; %E/2.34
                     0.833]; %0.833
 in_data.mater(2).Note='sleeper';
 
@@ -88,7 +88,7 @@ in_data.mater(4).Note='ballast';
 
 %CONTACT
 % in_data.mater(5).ElemType=5;   %5 for contact
-in_data.mater(5).Data = 8.7e10;%8.4e10;% 8.7e10; %C_Hertz %2/3*in_data.mater.E_R/(1-0.27^2)*sqrt(in_data.geo.Rw) ;% 8.7e10; %[N/m^(3/2)] from (Steffens, 2005)
+in_data.mater(5).Data = 8.4e10;%8.4e10;% 8.7e10; %C_Hertz %2/3*in_data.mater.E_R/(1-0.27^2)*sqrt(in_data.geo.Rw) ;% 8.7e10; %[N/m^(3/2)] from (Steffens, 2005)
 in_data.mater(5).Note='contact';
 %VEHICLE
 % in_data.mater(6).ElemType=6;   %6 for vehicle

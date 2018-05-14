@@ -115,7 +115,7 @@ while 1
     
     %check if the
     if abs(F-F0) <= etol
-        display(['Convergence reached in ', num2str(ite), ' iterations'])
+        %disp(['Convergence reached in ', num2str(ite), ' iterations'])
         break
     end
     

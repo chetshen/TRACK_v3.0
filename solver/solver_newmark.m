@@ -64,7 +64,7 @@ for i=1:10000
     coor_load=in_data.ext_force.x+[in_data.ext_force.Vx*i,0,0];
     if coor_load(:,3)==0%shape function 1 on rail
         shape=form_shape_fun(geo,sys_mat,coor_load);
-        disp('ok');
+%         disp('ok');
     else%shape funciton 2 impact on sleeper
         shape=zeros(1,length(K));
         nodeNumber=107;dofID=1;
@@ -89,7 +89,9 @@ for i=1:10000
     
     acc(i+1,:) = a0*(dis(i+1,:)-dis(i,:)) - a2*vel(i,:) - a3*acc(i,:);
     vel(i+1,:) = vel(i,:) + a6*acc(i,:) + a7*acc(i+1,:);
+    if ismember(i,1000*linspace(1,10,10))
     disp (['Time step: ' num2str(i) 'finished. Time' num2str(toc)]);
+    end
 end
 
 
