@@ -15,7 +15,7 @@ a6=deltat*(1-delta);
 a7=delta*deltat;
 
 K=K+a0*M+a1*C;
-R = R + M*(a0*dis1'+a2*vel1'+a3*acc1')+ C*(a1*dis1'+a4*vel1'+a5*acc1');
+R = R' + M*(a0*dis1'+a2*vel1'+a3*acc1')+ C*(a1*dis1'+a4*vel1'+a5*acc1');
 
 dis2=(K\R)';
 acc2 = a0*(dis2-dis1) - a2*vel1 - a3*acc1;

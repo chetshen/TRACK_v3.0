@@ -18,19 +18,19 @@ disp (['Matrix assembly complete. Time used: ', num2str(toc),' s']);
 acc.r=zeros(inp.solver.n_ts+1,length(mat_trk.K_reduced));
 vel.r=zeros(inp.solver.n_ts+1,length(mat_trk.K_reduced));
 dis.r=zeros(inp.solver.n_ts+1,length(mat_trk.K_reduced));
-acc.w=zeros(inp.solver.n_ts+1,1);
-vel.w=zeros(inp.solver.n_ts+1,1);
-dis.w=zeros(inp.solver.n_ts+1,1);
-Z.w=zeros(inp.solver.n_ts+1,1);
-Z.r=zeros(inp.solver.n_ts+1,1);
-Z.irr=zeros(inp.solver.n_ts+1,1); %can be read in with files
-F=zeros(inp.solver.n_ts+1,1);
+acc.w=zeros(inp.solver.n_ts+1,2);
+vel.w=zeros(inp.solver.n_ts+1,2);
+dis.w=zeros(inp.solver.n_ts+1,2);
+Z.w=zeros(inp.solver.n_ts+1,2);
+Z.r=zeros(inp.solver.n_ts+1,2);
+Z.irr=zeros(inp.solver.n_ts+1,2); %can be read in with files
+F=zeros(inp.solver.n_ts+1,2);
 X_w=zeros(inp.solver.n_ts+1,1);
 X_w(1,1)=6;   %initial x coordinates of wheel
 vx=inp.solver.Vx; %vehicle speed
 contactID=5; %5 for non-linear  10 for linear 8 for winkler bedding 
 zdd=load(inp.ext_force.timeh);
-Fex=zeros(length(zdd),1);
+Fex=zeros(length(zdd),2);
 if isempty(mat_ws)
     mc_ws=zeros(inp.solver.n_ts+1,1);
 else
@@ -113,7 +113,7 @@ switch i
         
 end
 
-
+Z.irr(:,2)=zeros(length(Z.irr(:,1)),1);%irregularity on the other rail 
 
 %%
 %%irregularity definition: measured
@@ -148,15 +148,19 @@ end
     
  
 %%shape function for initial condition
-shape_initial=form_shape_fun(geo,mat_trk,[X_w(1,1),-0.75,0]);
+% shape_initial=form_shape_fun(geo,mat_trk,[X_w(1,1),-0.75,0]);
+shape_initial(1,:)=form_shape_fun(geo,mat_trk,[X_w(1,1),-0.75,0]);
+shape_initial(2,:)=form_shape_fun(geo,mat_trk,[X_w(1,1),0.75,0]);
 
 %static analysis
 [dis_initial,Z_initial,F_initial]=solver_static(mat_trk,inp,shape_initial,contactID);
 dis.r(1,:)=dis_initial.r;
-dis.w(1,1)=dis_initial.w;
-Z.r(1,1)=Z_initial.r;
-Z.w(1,1)=Z_initial.w;
-F(1,1)=F_initial;
+dis.w(1,:)=dis_initial.w;
+Z.r(1,:)=Z_initial.r;
+
+Z.w(1,:)=Z_initial.w;
+
+F(1,:)=F_initial;
 
 
 
@@ -168,23 +172,24 @@ disp (['Starting Newmark intergration. Time: ' datestr(now)]);
 tic;
 for i=1:inp.solver.n_ts
     X_w(i+1,1)=X_w(1,1)+i*inp.solver.deltat*vx;
-    shape=form_shape_fun(geo,mat_trk,[X_w(i+1,1),-0.75,0]);
-    
+    shape(1,:)=form_shape_fun(geo,mat_trk,[X_w(i+1,1),-0.75,0]);
+    shape(2,:)=form_shape_fun(geo,mat_trk,[X_w(i+1,1),0.75,0]);
+     
     acc1.r=acc.r(i,:);
     vel1.r=vel.r(i,:);
     dis1.r=dis.r(i,:);
     acc1.w=acc.w(i,1);
     vel1.w=vel.w(i,1);
     dis1.w=dis.w(i,1);
-    position.w=Z.w(i,1);
-    position.r=shape*dis1.r'; 
-    position.irr=Z.irr(i,1);
+    position.w=Z.w(i,:);
+    position.r=Z.r(i,:); 
+    position.irr=Z.irr(i,:);
     mc_ws1=mc_ws(i,:)';
     
      
     
     [acc2,vel2,dis2,F_contact,position,mc_ws2]=solver_newmark_iter(mat_trk,inp,shape,...
-        position, inp.ext_force.wh_ld, acc1, vel1, dis1,mc_ws1,X_w(i+1,1), geo, Z,contactID,Fex(i,1),mat_ws);
+        position, inp.ext_force.wh_ld, acc1, vel1, dis1,mc_ws1,X_w(i+1,1), geo, Z,contactID,Fex(i,:),mat_ws);
     
     mc_ws(i+1,:)=mc_ws2';
     acc.r(i+1,:)=acc2.r;
@@ -193,10 +198,10 @@ for i=1:inp.solver.n_ts
     acc.w(i+1,1)=acc2.w;
     vel.w(i+1,1)=vel2.w;
     dis.w(i+1,1)=dis2.w;
-    Z.w(i+1,1)=position.w;
-    Z.r(i+1,1)=position.r;
+    Z.w(i+1,:)=position.w;
+    Z.r(i+1,:)=position.r;
 %     Z.irr(i+1,1)=position.irr;
-    F(i+1,1)=F_contact;
+    F(i+1,:)=F_contact;
     if ismember(i,1000*linspace(1,10,10))
         disp (['Time step: ' num2str(i) 'finished. Time' num2str(toc)]);
     end

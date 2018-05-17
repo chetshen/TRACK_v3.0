@@ -31,18 +31,18 @@ end
 %initial condition for iteration
 ite=0;
 penetration = Z.w-Z.r-Z.irr;
-if penetration > 0
-    penetration=0;
-end
+
+penetration(penetration>0)=0;
+
 
 switch contactID
     case 5
         %non-linear
-        F = inp.mater(contactID).Data*(abs(penetration).^1.5);
+        F = inp.mater(contactID).Data.*(abs(penetration).^1.5);
     case 10
         %linear
         
-        F = inp.mater(contactID).Data*abs(penetration);
+        F = inp.mater(contactID).Data.*abs(penetration);
     case 111
         %Kik_Piot
         F = 0;
@@ -54,14 +54,15 @@ while 1
     F0=F;
     
     %for track system: newmark integration
-    R_trk=-(F-Fex)*shape';
+    R_trk =-(F-Fex)*shape;
     [dis2.r, vel2.r,acc2.r]=newmark_sub(K_trk,M_trk,C_trk,R_trk,dis1.r,vel1.r, acc1.r, deltat);
-    Z.r=shape*dis2.r'; %modification needed
+    Z.r=(shape*dis2.r')'; %modification needed
     
     %for vehicle system
-    if isempty(mat_ws)% rigid wheelset model
+    if isempty(mat_ws)% mass wheelset model
+    Fsum=sum(F);
     
-    acc2.w=(-m_w*9.8-wh_ld+F)/m_w;
+    acc2.w=(-m_w*2*9.8-wh_ld*2+Fsum)/(2*m_w);
     vel2.w=vel1.w+deltat/2*(acc1.w+acc2.w);
     dis2.w=dis1.w+deltat/2*(vel1.w+vel2.w);
     Z.w=dis2.w;
@@ -85,19 +86,15 @@ while 1
             
             %nonlinear
             penetration = Z.w-Z.r-Z.irr;
-            if penetration > 0
-                penetration=0;
-            end
+            penetration(penetration>0)=0;
             
             
             F = inp.mater(contactID).Data*(abs(penetration).^1.5);
         case 10
             %linear
             penetration = Z.w-Z.r-Z.irr;
-            if penetration > 0
-                penetration=0;
-            end
-                        F = inp.mater(contactID).Data*abs(penetration);
+            penetration(penetration>0)=0;
+            F = inp.mater(contactID).Data.*abs(penetration);
             %
         case 8
             %------Winkler bedding----
@@ -114,8 +111,8 @@ while 1
     %     scatter(ite,F-F0);
     
     %check if the
-    if abs(F-F0) <= etol
-        %disp(['Convergence reached in ', num2str(ite), ' iterations'])
+    if length(F(abs(F-F0) <= etol))==2
+        disp(['Convergence reached in ', num2str(ite), ' iterations'])
         break
     end
     
