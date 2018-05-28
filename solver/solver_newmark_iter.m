@@ -60,11 +60,12 @@ while 1
     
     %for vehicle system
     if isempty(mat_ws)% mass wheelset model
-    Fsum=sum(F);
-    
-    acc2.w=(-m_w*2*9.8-wh_ld*2+Fsum)/(2*m_w);
-    vel2.w=vel1.w+deltat/2*(acc1.w+acc2.w);
-    dis2.w=dis1.w+deltat/2*(vel1.w+vel2.w);
+%     Fsum=sum(F);
+    for i=1:2
+    acc2.w(i)=(-m_w*9.8-wh_ld+F(i))/(m_w);
+    vel2.w(i)=vel1.w(i)+deltat/2*(acc1.w(i)+acc2.w(i));
+    dis2.w(i)=dis1.w(i)+deltat/2*(vel1.w(i)+vel2.w(i));
+    end
     Z.w=dis2.w;
     mc_ws2=0;
     else % flexible wheelset using state-space model
@@ -112,7 +113,7 @@ while 1
     
     %check if the
     if length(F(abs(F-F0) <= etol))==2
-        disp(['Convergence reached in ', num2str(ite), ' iterations'])
+%         disp(['Convergence reached in ', num2str(ite), ' iterations'])
         break
     end
     
