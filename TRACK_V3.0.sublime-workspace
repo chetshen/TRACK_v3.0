@@ -1,0 +1,500 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "compute_frequencies.m",
+			"settings":
+			{
+				"buffer_size": 186,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"gi",
+				"Set Syntax: Git Log"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 164.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '6f4c264a24d933ce70df5dedcf1dcaee' + 'ebe013ee18cced0ef93d5f746d80ef60'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/E/onedrive/fem/TRACK_v3.0"
+	],
+	"file_history":
+	[
+		"/D/chenshen/Downloads/matlab-schemer-master/README.md",
+		"/E/onedrive/Lib_matlab/tftb-0.1/demos/tfdemo.m",
+		"/E/onedrive/Lib_matlab/tftb-0.1/README",
+		"/E/onedrive/Lib_matlab/abravibe_toolbox/AbraVibe/README.txt",
+		"/D/zilong/New Text Document.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/midspan/hammer/GetNodeNo.ansysc",
+		"/E/FE/full_track_wheelset/Geometries/surface_nodes_g302_start0.5.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/near_support/G302_ref_sym/half_trk_ws_nr_sup_ref_sym1.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/near_support/G302_bc2_Es39_sym/aba.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/near_support/G302_bc2_Es39_sym/11.k",
+		"/E/onedrive/fem/Working_sample_coupling/zilong/Rail_1.txt",
+		"/D/TRACK/ContactSolutions/nodeout/nodout.txt",
+		"/E/onedrive/literature/New Text Document.txt",
+		"/E/onedrive/Backups/shared_rail_database.cdb/flexref_configs.tbl/flexref_Maria_Sqt_railpad_damping0.frp",
+		"/E/onedrive/Backups/shared_rail_database.cdb/tracks.tbl/mdi_track_straight_sqtG302_midspan098_sinus_irr.trk",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/near_support/G302_ref_sym/half_trk_ws_nr_sup_ref_sym.k",
+		"/E/FE/full_track_wheelset/Geometries/surface_nodes_g502_start0.5.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/hammer_onfast_3by3_elem1_hr4_0.01_midspan/rail_on_fastening_part_mid_ex.k",
+		"/E/onedrive/literature/High frequency wheel rail interaction/New Text Document.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/near_support/G502_bc2_Es39_sym/11.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full_2/onsup/hammer_trk_slp_E2_rl_E2_slpmesh3/dis_part7.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full_2/onsup/hammer_trk_slp_E-2_rl_E2_slpmesh3_1x3/full_track_wheelset_onsup_1x3_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/near_support/B4_bc2_Es39/acc.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/near_support/B4_bc2_Es39/contact_force.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/near_support/B4_bc2_Es39/11.k",
+		"/E/FE/full_track_wheelset/Geometries/surface_nodes_b4_near_slp.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/near_support/output_rail_top.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/near_support/surface_node.lis",
+		"/C/Users/chenshen/AppData/Local/Microsoft/Windows/Temporary Internet Files/Content.Outlook/955YHU2F/nodout.m.txt",
+		"/C/Users/chenshen/AppData/Local/Microsoft/Windows/Temporary Internet Files/Content.Outlook/955YHU2F/nodfor.m.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/hammer_trk_slp_E-2_rl_hr4_0.07_slpmesh3/full_track_hammer_midspan_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full_2/onsup/hammer_trk_slp_E-2_rl_hr4_0.07_slpmesh3/full_track_wheelset_midspan_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full_2/onsup/hammer_trk_slp_E2_rl_E2_slpmesh3/full_track_wheelset_midspan_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full_2/midspan/hammer_trk_slp_E-2_rl_hr4_0.1_slpmesh3/dis_part7.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full_2/onsup/hammer_trk_slp_E-2_rl_E2_slpmesh3/dis_part7.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/eig_trk_slp_E-2_rl_E2_slpmesh3_5/full_track_hammer_midspan_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/eig_trk_slp_E-2_rl_E2_slpmesh3_4/full_track_hammer_midspan_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/eig_trk_slp_E-2_rl_E2_slpmesh3_3/full_track_hammer_midspan_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/eig_trk_slp_E-2_rl_E2_slpmesh3_2/full_track_hammer_midspan_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/eig_trk_slp_E-2_rl_E2_slpmesh3_1/full_track_hammer_midspan_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/hammer_trk_slp_E-2_rl_E-2_slpmesh3/dis_part8.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/hammer_onfast_3by3_elem-2_midspan/rail_on_fastening_part_mid_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full_2/midspan/hammer_trk_slp_E-2_rl_hr4_0.1_slpmesh3/full_track_wheelset_midspan_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full_2/midspan/hammer_trk_slp_E2_rl_E2_slpmesh3/full_track_wheelset_midspan_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/hammer_onfast_3by3_elem2_onsup_bc/rail_on_fastening_part_sup_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/eig_slp_ELEM-2_mesh3/eig_full_track_slp_mesh3.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/midspan/hammer/DumpModeFile.ansysc",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full_2/onsup/hammer_trk_slp_E-2_rl_hr4_0.1_slpmesh3/full_track_wheelset_midspan_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/hammer_onfast_3by3_elem2_onsup/rail_on_fastening_part_sup_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full_2/onsup/hammer_trk_slp_E-2_rl_hr4_0.1_slpmesh3/dis_part7.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full_2/onsup/hammer_trk_slp_E-2_rl_E-2_slpmesh3/full_track_wheelset_midspan_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full_2/onsup/hammer_trk_slp_E-2_rl_E2_slpmesh3/full_track_wheelset_midspan_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/hammer_trk_slp_E2_rl_E2_slpmesh3/dis_part8.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/hammer_trk_slp_E-2_rl_E-2_slpmesh3/full_track_hammer_midspan_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/hammer_trk_slp_E2_rl_E2_slpmesh3/full_track_hammer_midspan_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/eig_trk_slp_E-2_rl_E2_slpmesh3/full_track_hammer_midspan_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/eig_trk_slp_E2_rl_E-2_slpmesh3/full_track_hammer_midspan_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/eig_onfast_1by3_ELEM2_bc/rail_on_fastening_1by3_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/eig_trk_slp_E-2_rl_E-2_slpmesh3_2/full_track_hammer_midspan_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/eig_trk_slp_E-2_rl_E-2_slpmesh3_1/full_track_hammer_midspan_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/hammer_trk_slp_E-2_rl_hr4_0.1_slpmesh3/dis_part8.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/hammer_onfast_3by3_elem1_hr4_0.01_midspan/dis_part8.txt",
+		"/E/FE/Maider model/2_Ex/HMono_midspan_ex.k",
+		"/E/FE/full_track_hammer_test/midspan/midspan.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/hammer_trk_slp_E-2_rl_hr4_0.1_slpmesh3/full_track_hammer_midspan_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/eig_free_ELEM1/rail_free_elef1.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/hammer_trk_slp_E-2_rl_E2_slpmesh3/dis_part8.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/hammer_E1_slp_E-2_rl_hr4_0.01_slpmesh3/dis_n4772111.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/hammer_slp_E-2_rl_E2_slpmesh3/full_track_hammer_midspan_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/hammer_E1_slp_E-2_rl_hr4_0.01_slpmesh3/full_track_hammer_midspan_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/hammer_slp_ELEM1_hr4_0.01_mesh3/eig_full_track_slp_mesh3.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/hammer_slp_ELEM1_hr4_0.01_mesh3_damped/eig_full_track_slp_mesh3.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/hammer_slp_ELEM-2_mesh3/eig_full_track_slp_mesh3.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/eig_onfast_3by3_ELEM2/rail_on_fastening_3by3.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/hammer_slp_E-2_rl_E2_slpmesh3_undamped/full_track_hammer_midspan_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/eig_full_track_slp_mesh3.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/track_full/hammer_slp_E-2_rl_E2_slpmesh3/midspan.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/hammer_onfast_1by3_elem2_midspan/dis_part8.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/hammer_onfast_1by3_elem2_onsup/dis_part4.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/hammer_onfast_1by3_elem2_midspan_bc/dis_part8.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/NLIST_bottom.lis",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/hammer_onfast_3by3_elem2_onsup_bc/dis_part4.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/hammer_onfast_3by3_elem2_midspan_bc/dis_part8.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/eig_onfast_3by3_ELEM2_bc/rail_on_fastening_3by3_bc.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/NLIST_top.lis",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/NLIST_middle.lis",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/New folder/rail_on_fastening.emat",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/sleeper/DumpModeFile.ansysc",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/New folder/rail_on_fastening.log",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/New folder/rail_on_fastening.full",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/New folder/rail_on_fastening.dmdp",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/sleeper/benchmark_185_FI_meshsize0.02_bc3.lis",
+		"/O/panzhang/smallparts.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/eig_free_ELEM2_300/rail_free_elef1.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/hammer_onfast_3by3_elem2_onsup/dis_220971.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/hammer_onfast_3by3_elem2_onsup/dis_part4.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/hammer_onfast_3by3_elem2_midspan/dis_part8.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/hammer_onfast_3by3_elem2_midspan/rail_on_fastening_part_mid_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/hammer_onfast_3by3_elem2_onsup/rail_on_fastening_load_onsup.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/midspan/hammer/temp.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/midspan/hammer/chen_bc_slp_sym_cmdsolver_SR/hammer_midspan_chen_bc_slp_sym_SR.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/rail_on_fastening_3by3_bc.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/eig_free_ELEM1_300/rail_free_elef1.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/1.94m_eig_free_ELEM2/rail_ex_185_free.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/midspan/hammer/chen_bc_slp_sym_cmdsolver/command.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/sleeper/LSDYNA/benchmark_meshsize0.02_EFL2/eigout",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/midspan/hammer/chen_bc_slp_sym_cmdsolver_hg6/command.txt",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/eig_onfast_1by3_ELEM-2_nodamping/rail_on_fastening_1by3_ex.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/rail/eig_onfast_1by3_ELEM2/rail_on_fastening_1by3_ex.k",
+		"/C/Users/chenshen/AppData/Local/Temp/Temp1_altmany-export_fig-cafc7c5.zip/altmany-export_fig-cafc7c5/README.md",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/sleeper/LSDYNA_full/eig_BOF_nesh11_sup2_EFORM1_hg4_0.01/BOE_slp_mesh11_sup2.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/sleeper/LSDYNA_full/eig_BOF_mesh4_sup2_EFORM1_hr1.1/BOE_slp_mesh4_sup2.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/sleeper/LSDYNA_full/eig_BOF_mesh3_sup2_EFORM1_hr1.1/BOE_slp_mesh3_sup2.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/sleeper/LSDYNA_full/eig_BOF_mesh32_sup2_EFORM1_hr1.1/BOE_slp_mesh32_sup2.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/sleeper/LSDYNA_full/eig_BOF_mesh32_sup2_EFORM1_hr1.1/BOE_slp_mesh31_sup2.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/sleeper/LSDYNA_full/eig_BOF_mesh31_sup2_EFORM1_hr1.1/BOE_slp_mesh31_sup2.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/sleeper/LSDYNA_full/eig_BOF_mesh2_sup2_EFORM1_hr1.1/BOE_slp_mesh2_sup2.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/sleeper/LSDYNA_full/eig_BOF_mesh21_sup2_EFORM1_hr1.1/BOE_slp_mesh21_sup2.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/sleeper/LSDYNA_full/eig_BOF_nesh10_sup2_EFORM1_hr1.1/BOE_slp_mesh10_sup2.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/sleeper/LSDYNA_full/eig_BOF_mesh31_sup2_EFORM-2/BOE_slp_mesh31_sup2.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/sleeper/LSDYNA_full/eig_BOF_mesh32_sup2_EFORM-2/BOE_slp_mesh32_sup2.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/sleeper/LSDYNA_full/eig_BOF_mesh21_sup2_EFORM-2/BOE_slp_mesh21_sup2.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/sleeper/LSDYNA_full/eig_BOF_nesh10_sup2_EFORM2/BOE_slp_mesh10_sup2.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/sleeper/LSDYNA_full/eig_BOF_nesh11_sup2_EFORM1_hg1.3/BOE_slp_mesh11_sup2.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/sleeper/LSDYNA_full/eig_BOF_nesh11_sup2_EFORM1_hg1.1/BOE_slp_mesh11_sup2.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/sleeper/LSDYNA_full/eig_BOF_nesh11_sup2_EFORM1_hg0.9/BOE_slp_mesh11_sup2.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/sleeper/LSDYNA_full/eig_BOF_nesh11_sup2_EFORM1_hg0.7/BOE_slp_mesh11_sup2.k",
+		"/E/FE/full_track_wheelset/model_half_trk_half_ws/sleeper/LSDYNA_full/eig_BOF_nesh11_sup2_EFORM1_hg0.5/BOE_slp_mesh11_sup2.k"
+	],
+	"find":
+	{
+		"height": 28.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"form",
+			"out",
+			"175922",
+			"175911",
+			"175912",
+			"mat",
+			"hour",
+			"mat",
+			"con",
+			"sec",
+			"load",
+			"sec",
+			"$",
+			"sec",
+			"contr",
+			"sec",
+			"$",
+			"cont",
+			"hour",
+			"his",
+			"damp",
+			"mat",
+			"load",
+			"sec",
+			"damp",
+			"load",
+			"mat",
+			"$",
+			"mat",
+			"control",
+			"hour",
+			"cou",
+			"dam",
+			"damp",
+			"mat",
+			"load",
+			"\t",
+			"mat",
+			"sec",
+			"ho",
+			"hou",
+			"sec",
+			"hou",
+			"sec",
+			"hou",
+			"sec",
+			"hou",
+			"sec",
+			"hour",
+			"hou",
+			"sec",
+			"mat",
+			"bou",
+			"mat",
+			"sec",
+			"element",
+			"sec",
+			"data",
+			"mat",
+			"cont",
+			"$",
+			"out",
+			"*DATABASE",
+			"*HOUR",
+			"*hour",
+			"*SECTION_SOLID",
+			"ELEMENT_SOLID",
+			"mat",
+			"out",
+			"load",
+			"mat",
+			"MyNodeNoArray",
+			"RECORD=       7",
+			"RECORD=     108",
+			"RECORD",
+			"125904",
+			"-0.141",
+			"0.141",
+			"26.7",
+			"hour",
+			"mat",
+			"mat\\",
+			"mat",
+			"conta",
+			"curve",
+			"load",
+			"time",
+			"1.668",
+			"mate",
+			"hour",
+			"mat",
+			"hour",
+			"mat",
+			"hour",
+			"mat",
+			"contr",
+			"stiff",
+			"contr",
+			"cont",
+			"mat",
+			"control",
+			"mat",
+			"hour",
+			"mat",
+			"hour",
+			"mat",
+			"mater",
+			"mass",
+			"mat",
+			"mass",
+			"mat",
+			"\t",
+			"A\t",
+			"mat",
+			"\t",
+			"A\t",
+			"mass",
+			"mat",
+			"curve",
+			"\t",
+			"A\t",
+			"mat",
+			"mate",
+			"mat",
+			"\t",
+			"A\t",
+			"mat",
+			"contr"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"  ",
+			"outtab",
+			" ",
+			"  ",
+			" ",
+			"  "
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "compute_frequencies.m",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 186,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								186,
+								186
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Matlab/Matlab.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 28.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.5,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "TRACK_V3.0.sublime-project",
+	"replace":
+	{
+		"height": 52.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+		"last_automatic_layout":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		]
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 203.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+		"max_columns": 2
+	}
+}

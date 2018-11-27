@@ -2,7 +2,11 @@
 %%%Main program: dynamic analysis
 %%%Author: Chen Shen
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% clear;
+% IMPORTANT NOTICE: if the impact is on the sleeper, please 
+% 1. modify the z coordinate of 'inp.ext_force.x' in the input file; 
+% 2. modify the node number (*nodeNumber*) where the impact is applied  in
+% this main programm as well as in the function 'sover_newmark'.
+% 
 
 %build track model
 disp (['Start assembling system matrix. Time: ' datestr(now)]);
@@ -20,7 +24,7 @@ if X_load(3)==0
 
 else%shape funciton 2 impact on sleeper
 shape=zeros(1,length(mat_trk.K_reduced));
-nodeNumber=107;dofID=1;
+nodeNumber=1177;dofID=1;
 dof=2*(nodeNumber-1)+dofID;
 ind=ismember(mat_trk.activeDof,dof);
 shape(1,ind)=1;

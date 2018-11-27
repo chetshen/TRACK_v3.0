@@ -22,7 +22,7 @@ in_data.geo.irr=0;                     % Irregularities
 
 in_data.ext_force.timeh='example.txt';%'FW_h30w40'; %['white_noise.txt']; %[ 'example.txt' ];        %time history of external force
 in_data.ext_force.sf=102400;
-in_data.ext_force.x=[6,-0.75,0];
+in_data.ext_force.x=[6.3,-0.75,-0.2];
 in_data.ext_force.Vx=0;
 % zdd=load(in_data.ext_force.timeh);
 % dof=299;
@@ -33,7 +33,7 @@ in_data.ext_force.wh_ld = 8000*9.8 ; % 8000*9.8 ;% 12742*9.8;   %[N]
 %Solver settings
 
 in_data.solver.n_ts=2000; %length(zdd)-1;                     %Number of time steps
-in_data.solver.deltat=0.00004;                   %Time step length
+in_data.solver.deltat=1/25000;                   %Time step length
 in_data.solver.linsolver_id=2;             %linear solver id, 1 for LDL, 2 for mldivide
 in_data.solver.Vx=30;
 %%
@@ -95,7 +95,7 @@ in_data.mater(5).Note='contact';
 in_data.mater(6).Data =  [0;   %M_sprg%4653.5[kg]
                       883.6;%883.6; %M_unsprg[kg]
                      1.22e6]; %K_PS[N/m]
-in_data.mater(6).wsfile='';%'E:\FE\Model 1 wheel\half_ws.spm';  %.spm file generated from ANSYS; empty means a rigid wheelset               
+in_data.mater(6).wsfile=[];%'E:\FE\Model 1 wheel\half_ws.spm';  %.spm file generated from ANSYS; empty means a rigid wheelset               
 in_data.mater(6).Note='vehicle';
                  
 %==================Add new materials below=================================

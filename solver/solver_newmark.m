@@ -60,19 +60,33 @@ acc = zeros(length(zdd)-1,dof);
 % t=(0:points-1)*deltat;
 disp (['Starting Newmark intergration. Time: ' datestr(datetime('now'))]);
 tic;
+if in_data.ext_force.Vx==0
+   coor_load=in_data.ext_force.x;
+    if coor_load(:,3)==0%shape function 1 on rail
+        shape=form_shape_fun(geo,sys_mat,coor_load);
+%         disp('ok');
+    else%shape funciton 2 impact on sleeper
+        shape=zeros(1,length(K));
+        nodeNumber=1183;dofID=1; %nodeNumber=107;dofID=1;
+        dofShape=2*(nodeNumber-1)+dofID;
+        ind=ismember(sys_mat.activeDof,dofShape);
+        shape(1,ind)=1;
+    end
+end
 for i=1:10000
+    if in_data.ext_force.Vx~=0
     coor_load=in_data.ext_force.x+[in_data.ext_force.Vx*i,0,0];
     if coor_load(:,3)==0%shape function 1 on rail
         shape=form_shape_fun(geo,sys_mat,coor_load);
 %         disp('ok');
     else%shape funciton 2 impact on sleeper
         shape=zeros(1,length(K));
-        nodeNumber=107;dofID=1;
+        nodeNumber=1177;dofID=1; %nodeNumber=107;dofID=1;
         dofShape=2*(nodeNumber-1)+dofID;
         ind=ismember(sys_mat.activeDof,dofShape);
         shape(1,ind)=1;
     end
-    
+    end
     %     R= zdd(i+1)*shape';
     R=  zdd(i+1)*shape';
     R = R + M*(a0*dis(i,:)'+a2*vel(i,:)'+a3*acc(i,:)')+ C*(a1*dis(i,:)'+a4*vel(i,:)'+a5*acc(i,:)');

@@ -60,24 +60,24 @@ while 1
     
     %for vehicle system
     if isempty(mat_ws)% mass wheelset model
-%     Fsum=sum(F);
-    for i=1:2
-    acc2.w(i)=(-m_w*9.8-wh_ld+F(i))/(m_w);
-    vel2.w(i)=vel1.w(i)+deltat/2*(acc1.w(i)+acc2.w(i));
-    dis2.w(i)=dis1.w(i)+deltat/2*(vel1.w(i)+vel2.w(i));
-    end
-    Z.w=dis2.w;
-    mc_ws2=0;
+        %     Fsum=sum(F);
+        for i=1:2
+            acc2.w(i)=(-m_w*9.8-wh_ld+F(i))/(m_w);
+            vel2.w(i)=vel1.w(i)+deltat/2*(acc1.w(i)+acc2.w(i));
+            dis2.w(i)=dis1.w(i)+deltat/2*(vel1.w(i)+vel2.w(i));
+        end
+        Z.w=dis2.w;
+        mc_ws2=0;
     else % flexible wheelset using state-space model
-    tspan=[0 deltat];%integral time span
-    Fvector=(-m_w*9.8-wh_ld+F)/size(mat_ws.B,2).*ones(size(mat_ws.B,2),1);%input force vector
-    [~,z] = ode45(@(t,z) ansys2modal(t,z,mat_ws.A,mat_ws.B,Fvector,0), tspan, mc_ws1);
-    mc_ws2=z(end,:)';
-    w=mat_ws.C*mc_ws2+mat_ws.D*Fvector;
-    dis2.w=w(1,1)+Z_global.w(1,1);
-    vel2.w=w(2,1);
-    acc2.w=w(3,1);
-    Z.w=dis2.w;    
+        tspan=[0 deltat];%integral time span
+        Fvector=(-m_w*9.8-wh_ld+F(1))/size(mat_ws.B,2).*ones(size(mat_ws.B,2),1);%input force vector
+        [~,z] = ode45(@(t,z) ansys2modal(t,z,mat_ws.A,mat_ws.B,Fvector,0), tspan, mc_ws1);
+        mc_ws2=z(end,:)';
+        w=mat_ws.C*mc_ws2+mat_ws.D*Fvector;
+        dis2.w=w(1,1)+Z_global.w(1,1);
+        vel2.w=w(2,1);
+        acc2.w=w(3,1);
+        Z.w=dis2.w;
     end
     
     %update the contact force
@@ -91,15 +91,17 @@ while 1
             
             
             F = inp.mater(contactID).Data*(abs(penetration).^1.5);
+%         case 10
+%             %linear
+%             penetration = Z.w-Z.r-Z.irr;
+%             penetration(penetration>0)=0;
+%             F = inp.mater(contactID).Data.*abs(penetration);
+%             %
         case 10
-            %linear
-            penetration = Z.w-Z.r-Z.irr;
-            penetration(penetration>0)=0;
-            F = inp.mater(contactID).Data.*abs(penetration);
-            %
-        case 8
             %------Winkler bedding----
-            F=winkler_bedding(15, X_w_t, dis2.r,dis2.w,Z_global.irr, geo, mat_trk,inp,-1);
+            F=winkler_bedding(6, X_w_t, dis2.r,dis2.w,Z_global.irr, geo, mat_trk,inp,-1);
+            % BUG: "6" in the previous line should be replaced with the
+            % initial position of the wheel X_w0
         %-----Kik_Piot----    
         case 111
             %Kik_Piot

@@ -27,7 +27,7 @@ Z_r=Z_r-ver_dis_w; %colonm vector to row vector
 Rw0=inp.geo.Rw/2;
 Z_w=Rw0-sqrt(Rw0^2-(xq-X_w).^2);
 
-delta= Z_r'+Z_irr-Z_w;
+delta= Z_r(:,1)+Z_irr(:,1)-Z_w';
 k=0.5*inp.mater(1).Data(1)/(1-0.27^2);
 index = delta >0;
 delta=index.*delta;
@@ -35,6 +35,7 @@ delta=index.*delta;
 
 f=k*dx*delta;
 Fn= sum(f);
+Fn=[Fn,0];
 
 
 
