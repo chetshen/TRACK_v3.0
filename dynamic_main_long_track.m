@@ -5,7 +5,14 @@
 % clear;
 % %%
 % %%build track model
+disp (['Start assembling system matrix. Time: ' datestr(now)]);
+tic;
+TRACK_main2;
+if flag==1
+    return
+end
 
+disp (['Matrix assembly complete. Time used: ', num2str(toc),' s']);
 %%
 %%initial conditions
 acc.r=zeros(inp.solver.n_ts+1,length(mat_trk.K_reduced));
@@ -19,7 +26,7 @@ Z.r=zeros(inp.solver.n_ts+1,2);
 Z.irr=zeros(inp.solver.n_ts+1,2); %can be read in with files
 F=zeros(inp.solver.n_ts+1,2);
 X_w=zeros(inp.solver.n_ts+1,1);
-X_w(1,1)=6;   %initial x coordinates of wheel
+X_w(1,1)=30;   %initial x coordinates of wheel
 vx=inp.solver.Vx; %vehicle speed
 contactID=5; %5 for non-linear  10 for linear 8 for winkler bedding 
 zdd=load(inp.ext_force.timeh);
@@ -29,14 +36,22 @@ if isempty(mat_ws)
 else
 mc_ws=zeros(inp.solver.n_ts+1,size(mat_ws.A,1)); %modal coordinates for flexible wheelset model
 end
-
 %%
 %%irregularity definition
+prompt='Please select the irregularity definition(1.Sinsoidal;2.Input file: [1]\n';
 
+i=input(prompt);
+flag=0;
+if isempty(i)
+    i=1;
+end
+
+switch i
+    case 1
         %%irregularity definition: squat G302 maria
-        irr_depth=0.2e-3;
+        irr_depth=0.0e-3;
         irr_length=30e-3;
-        irr_x0=6.5; %30.38=15.38=0.98 in FE 15.5=1.1
+        irr_x0=15; %30.38=15.38=0.98 in FE 15.5=1.1
         irr_ts0=round((irr_x0-X_w(1,1))/vx/inp.solver.deltat);
         irr_ts1=round((irr_x0-X_w(1,1)+1*irr_length)/vx/inp.solver.deltat);
         
@@ -46,27 +61,61 @@ end
 %         irr_x0=30.575;
 %         irr_ts0=round((irr_x0-X_w(1,1))/vx/inp.solver.deltat);
 %         irr_ts1=round((irr_x0-X_w(1,1)+irr_length)/vx/inp.solver.deltat);
-%          
+%         
 %         
         
         for i=irr_ts0:1:irr_ts1           
             Z.irr(i,1)=irr_depth./2*(cos(2*pi./irr_length*(vx*inp.solver.deltat*i-(irr_x0-X_w(1,1))))-1);
         end
         
-% % %         %%irregularity definition: dipped joint
-% % %         irr_depth=3.5e-3;
-% % %         irr_length=1;
-% % %         irr_x0=6.1; %30.38=15.38=0.98 in FE 15.5=1.1
-% % %         irr_ts0=round((irr_x0-X_w(1,1))/vx/inp.solver.deltat);
-% % %         irr_ts1=round((irr_x0-X_w(1,1)+irr_length)/vx/inp.solver.deltat);
-% % %         
-% % %         for i=irr_ts0:1:round(irr_ts1/2)
-% % %             Z.irr(i,1)=-irr_depth.*(vx*inp.solver.deltat*i-(irr_x0-X_w(1,1)))/(irr_length/2);
-% % %         
-% % %         end
-% % %         for i=round(irr_ts1/2)+1:irr_ts1
-% % %         Z.irr(i,1)=-irr_depth.*(irr_length-(vx*inp.solver.deltat*i-(irr_x0-X_w(1,1))))/(irr_length/2);
-% % %         end
+    case 2
+        %%irregularity definition: measured
+        load('D:\TRACK\measured_geometry_squat_Molodova_2014.mat', 'irr');
+        irr_length=215e-3;
+        irr_x0=6.4; %30.38=0.98 in FE
+        irr(:,3)=irr_x0+irr(:,1);
+        irr_ts0=round((irr_x0-X_w(1,1))/vx/inp.solver.deltat);
+        irr_ts1=round((irr_x0-X_w(1,1)+irr_length)/vx/inp.solver.deltat);
+        
+        for i=irr_ts0:1:irr_ts1
+            xq=vx*inp.solver.deltat*i+X_w(1,1);
+            
+            Z.irr(i,1)=interp1(irr(:,3),irr(:,2),xq,'linear','extrap');
+        end
+    case 3
+        %%irregularity definition: half sine
+        irr_depth=0.2e-3;
+        irr_length=30e-3;
+        irr_x0=15.285; %30.38=15.38=0.98 in FE 15.5=1.1
+        irr_ts0=round((irr_x0-X_w(1,1))/vx/inp.solver.deltat);
+        irr_ts1=round((irr_x0-X_w(1,1)+irr_length)/vx/inp.solver.deltat);
+        
+       
+        
+        for i=irr_ts0:1:irr_ts1          
+            Z.irr(i,1)=-irr_depth.*(sin(pi./irr_length*(vx*inp.solver.deltat*i-(irr_x0-X_w(1,1)))));
+        end
+    case 4
+        %%irregularity definition: dipped joint
+        irr_depth=3.5e-3;
+        irr_length=1;
+        irr_x0=15.1; %30.38=15.38=0.98 in FE 15.5=1.1
+        irr_ts0=round((irr_x0-X_w(1,1))/vx/inp.solver.deltat);
+        irr_ts1=round((irr_x0-X_w(1,1)+irr_length)/vx/inp.solver.deltat);
+        
+        for i=irr_ts0:1:round(irr_ts1/2)
+            Z.irr(i,1)=-irr_depth.*(vx*inp.solver.deltat*i-(irr_x0-X_w(1,1)))/(irr_length/2);
+        
+        end
+        for i=round(irr_ts1/2)+1:irr_ts1
+        Z.irr(i,1)=-irr_depth.*(irr_length-(vx*inp.solver.deltat*i-(irr_x0-X_w(1,1))))/(irr_length/2);
+        end
+    case 5 % random irregularity
+        irr_depth = 1e-5;
+        
+        Z.irr(2:end,1) = irr_depth*randn(inp.solver.n_ts,1);
+        
+end
 
 Z.irr(:,2)=zeros(length(Z.irr(:,1)),1);%irregularity on the other rail 
 
@@ -85,12 +134,27 @@ Z.irr(:,2)=zeros(length(Z.irr(:,1)),1);%irregularity on the other rail
 % Z.irr(i,1)=interp1(irr(:,3),irr(:,2),xq,'linear','extrap');
 % end
 %%
+prompt='Moving irregularity(1yes;2 no: [2]\n';
+i=input(prompt);
+flag=0;
+if isempty(i)
+    i=2;
+end
+    switch i
+    case 1
+    %
+    vx=0;
+    X_w(1,1)=45;
+    %
+
+    case 2
+    end
     
  
 %%shape function for initial condition
 % shape_initial=form_shape_fun(geo,mat_trk,[X_w(1,1),-0.75,0]);
-shape_initial(1,:)=form_shape_fun(geo,mat_trk,[X_w(1,1),-0.75,0]);
-shape_initial(2,:)=form_shape_fun(geo,mat_trk,[X_w(1,1),0.75,0]);
+shape_initial(1,:)=form_shape_fun2(geo,mat_trk,[X_w(1,1),-0.75,0],inp.mater(1).Data);
+shape_initial(2,:)=form_shape_fun2(geo,mat_trk,[X_w(1,1),0.75,0],inp.mater(1).Data);
 
 %static analysis
 [dis_initial,Z_initial,F_initial]=solver_static(mat_trk,inp,shape_initial,contactID);
@@ -112,8 +176,8 @@ disp (['Starting Newmark intergration. Time: ' datestr(now)]);
 tic;
 for i=1:inp.solver.n_ts
     X_w(i+1,1)=X_w(1,1)+i*inp.solver.deltat*vx;
-    shape(1,:)=form_shape_fun(geo,mat_trk,[X_w(i+1,1),-0.75,0]);
-    shape(2,:)=form_shape_fun(geo,mat_trk,[X_w(i+1,1),0.75,0]);
+    shape(1,:)=form_shape_fun2(geo,mat_trk,[X_w(i+1,1),-0.75,0],inp.mater(1).Data);
+    shape(2,:)=form_shape_fun2(geo,mat_trk,[X_w(i+1,1),0.75,0],inp.mater(1).Data);
      
     acc1.r=acc.r(i,:);
     vel1.r=vel.r(i,:);
@@ -152,4 +216,4 @@ end
 % plot(X_w,F);
 
 %%
-% clear acc1 acc2 dis1 dis2 dis_initial i position shape vel1 vel2;
+clear acc1 acc2 dis1 dis2 dis_initial i position shape vel1 vel2;

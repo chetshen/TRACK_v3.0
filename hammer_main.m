@@ -31,6 +31,9 @@ shape(1,ind)=1;
 end
 
 dis_x_load=dis*shape';
+w = genexpwin(inp.solver.n_ts);
+sf = inp.ext_force.sf;
+[H1,H2,~,pxx,pxy,fxx]=tran_fun([force(1:inp.solver.n_ts)',dis_x_load(1:inp.solver.n_ts)],w,0,25600,sf);
 % figure;
 % plot(t,dis_x_load);
 

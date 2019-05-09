@@ -73,7 +73,7 @@ if in_data.ext_force.Vx==0
         shape(1,ind)=1;
     end
 end
-for i=1:10000
+for i=1:in_data.solver.n_ts
     if in_data.ext_force.Vx~=0
     coor_load=in_data.ext_force.x+[in_data.ext_force.Vx*i,0,0];
     if coor_load(:,3)==0%shape function 1 on rail
