@@ -16,6 +16,7 @@ in_data.geo.dist_RS=0.2;               %[m] Between rails and sleepers
 in_data.geo.dist_SB=0.2;               %[m] Between sleepers and ballast
 in_data.geo.Rw=0.46;                   %[m] Wheel radius
 in_data.geo.irr=0;                     % Irregularities
+in_data.geo.wb = 2.9;                  %[m] Wheelbase length
 
 %%
 %External force

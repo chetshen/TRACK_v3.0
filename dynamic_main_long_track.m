@@ -26,7 +26,7 @@ Z.r=zeros(inp.solver.n_ts+1,2);
 Z.irr=zeros(inp.solver.n_ts+1,2); %can be read in with files
 F=zeros(inp.solver.n_ts+1,2);
 X_w=zeros(inp.solver.n_ts+1,1);
-X_w(1,1)=30;   %initial x coordinates of wheel
+X_w(1,1)=10;   %initial x coordinates of wheel
 vx=inp.solver.Vx; %vehicle speed
 contactID=5; %5 for non-linear  10 for linear 8 for winkler bedding 
 zdd=load(inp.ext_force.timeh);
@@ -114,10 +114,11 @@ switch i
         irr_depth = 1e-5;
         
         Z.irr(2:end,1) = irr_depth*randn(inp.solver.n_ts,1);
-        
+        Ztemp = load('D:\TRACK\plain track\30m_half_24elements_per_sleeper_bay_timo_random_irr.mat', 'Z');
+        Z.irr(:,1) = Ztemp.Z.irr(:,1);
 end
 
-Z.irr(:,2)=zeros(length(Z.irr(:,1)),1);%irregularity on the other rail 
+Z.irr(:,2)=Z.irr(:,1);%irregularity on the other rail 
 
 %%
 %%irregularity definition: measured
@@ -154,7 +155,7 @@ end
 %%shape function for initial condition
 % shape_initial=form_shape_fun(geo,mat_trk,[X_w(1,1),-0.75,0]);
 shape_initial(1,:)=form_shape_fun2(geo,mat_trk,[X_w(1,1),-0.75,0],inp.mater(1).Data);
-shape_initial(2,:)=form_shape_fun2(geo,mat_trk,[X_w(1,1),0.75,0],inp.mater(1).Data);
+shape_initial(2,:)=form_shape_fun2(geo,mat_trk,[X_w(1,1)-inp.geo.wb,-0.75,0],inp.mater(1).Data);
 
 %static analysis
 [dis_initial,Z_initial,F_initial]=solver_static(mat_trk,inp,shape_initial,contactID);
@@ -177,7 +178,7 @@ tic;
 for i=1:inp.solver.n_ts
     X_w(i+1,1)=X_w(1,1)+i*inp.solver.deltat*vx;
     shape(1,:)=form_shape_fun2(geo,mat_trk,[X_w(i+1,1),-0.75,0],inp.mater(1).Data);
-    shape(2,:)=form_shape_fun2(geo,mat_trk,[X_w(i+1,1),0.75,0],inp.mater(1).Data);
+    shape(2,:)=form_shape_fun2(geo,mat_trk,[X_w(i+1,1)-inp.geo.wb,-0.75,0],inp.mater(1).Data);
      
     acc1.r=acc.r(i,:);
     vel1.r=vel.r(i,:);

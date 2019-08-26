@@ -49,8 +49,8 @@ end
 switch i
     case 1
         %%irregularity definition: squat G302 maria
-        irr_depth=0.2e-3;
-        irr_length=30e-3;
+        irr_depth=0.3e-3;
+        irr_length=50e-3;
         irr_x0=6.5; %30.38=15.38=0.98 in FE 15.5=1.1
         irr_ts0=round((irr_x0-X_w(1,1))/vx/inp.solver.deltat);
         irr_ts1=round((irr_x0-X_w(1,1)+1*irr_length)/vx/inp.solver.deltat);
@@ -99,7 +99,7 @@ switch i
         %%irregularity definition: dipped joint
         irr_depth=3.5e-3;
         irr_length=1;
-        irr_x0=15.1; %30.38=15.38=0.98 in FE 15.5=1.1
+        irr_x0=6.1; %30.38=15.38=0.98 in FE 15.5=1.1
         irr_ts0=round((irr_x0-X_w(1,1))/vx/inp.solver.deltat);
         irr_ts1=round((irr_x0-X_w(1,1)+irr_length)/vx/inp.solver.deltat);
         

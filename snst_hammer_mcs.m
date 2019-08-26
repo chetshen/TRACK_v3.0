@@ -6,9 +6,9 @@
 
 clear
 %%
- filename=['snst_hammer_midspan_mcs_uniform_rail_constrain_1ksamples_softpad.mat'];
-[inp,NNslpf] = get_input_4();
-[nodeCoord] = node_coor(inp);
+ filename=['snst_hammer_onsup_mcs_uniform_UIC60_slp_spacing6.5_1ksamples_half_rigid_sleeper.mat'];
+[inp,NNslpf] = get_input_2();
+[nodeCoord] = node_coor(inp,1);
 btypr = inp.mesh.btypr;
 btyps = inp.mesh.btyps;
 [geo] = mesh_trk_full(btypr,btyps,nodeCoord);
@@ -16,11 +16,11 @@ mat_ws=form_mat_ws(inp);
 % refval = [210e9;7.0515e-3;74.6e9;0.043;1.3e9;6.75e4;9e7/NNslpf;6.4e4/NNslpf];
 
 setnum = [1,1;1,3;2,1;2,3;3,1;3,2;4,1;4,2];
-valRange = [4.75e6,5.25e6;  % Rail EI
-            51.3,56.7;         % Rail rhoA
-            5.53e6,1.12e7; % Sleeper EI
+valRange = [6.3e6,6.5e6;  % Rail EI
+            59,61;         % Rail rhoA
+            1.10e9,1.12e9; % Sleeper EI
             1.05e2,1.58e2; % Sleeper rhoA
-            1e8,2e8;     % Railpad Stiffness 1e8,1.5e9;
+            1e8,1.5e9;     % Railpad Stiffness 1e8,1.5e9;
             1e4,7e4;       % Railpad damping
             6e7/NNslpf, 28e7/NNslpf;
             4e4/NNslpf, 28e4/NNslpf];
@@ -31,7 +31,7 @@ setnumC2 = setnum(:,2);
 N = 1000; %number of samples
 nPara = 8;
 S =zeros(12801,N); % Results
-distrTpye = 2;
+distrTpye = 1;
 
 
 %% Generate random inputs

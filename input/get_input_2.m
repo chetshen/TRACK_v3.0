@@ -1,7 +1,7 @@
 %%
 %Parameter according to 'Railway vehicle/track interaction analysis using a modal substructuring approach'
 %%
-function [in_data] = get_input_2(in_data)
+function [in_data,NNslpf] = get_input_2(in_data)
 %%
 %Geometry input
 
@@ -23,7 +23,7 @@ in_data.geo.wb = 2.9;                  %[m] Wheelbase length
 
 in_data.ext_force.timeh='example.txt';%'FW_h30w40'; %['white_noise.txt']; %[ 'example.txt' ];        %time history of external force
 in_data.ext_force.sf=25000;
-in_data.ext_force.x=[6.825,-0.75,0];
+in_data.ext_force.x=[6.5,-0.75,0];
 in_data.ext_force.Vx=0;
 % zdd=load(in_data.ext_force.timeh);
 % dof=299;
@@ -33,7 +33,7 @@ in_data.ext_force.wh_ld = 8000*9.8 ; % 8000*9.8 ;% 12742*9.8;   %[N]
 %%
 %Solver settings
 
-in_data.solver.n_ts=10000; %length(zdd)-1;                     %Number of time steps
+in_data.solver.n_ts=2000; %length(zdd)-1;                     %Number of time steps
 in_data.solver.deltat=1/25000;                   %Time step length
 in_data.solver.linsolver_id=2;             %linear solver id, 1 for LDL, 2 for mldivide
 in_data.solver.Vx=30;
@@ -55,35 +55,35 @@ in_data.mesh.btyps=5;
 %MATERIAL RAIL DATA 
 % in_data.mater(1).ElemType=1;       %1 for rail material; 2 for sleeper; 3 for railpads; 4 for ballas2.951t
 in_data.mater(1).Data=[210e9;    %E_R[N/m^2]
-                    3.05e-5;    %0.23896e-4; %2.417e-5;    %I_R[m^4]
-                    7.69e-3;   %7.0515e-3; %7.246e-3;   %A_R[m^2]
-                    7700;    %rho_R[kg/m^3]
+                    3.055e-5;    %0.23896e-4; %2.417e-5;    %I_R[m^4]
+                    7.63e-3;   %7.0515e-3; %7.246e-3;   %A_R[m^2]
+                    7850;    %rho_R[kg/m^3]
                       8.1e10;    %G_R
-                     0.32];% 0.34] ;     %kappa_R
+                     0.4];% 0.34] ;     %kappa_R
 in_data.mater(1).Note='rail';                  
 
 %MATERIAL SLEEPERS DATA 
 % in_data.mater(2).ElemType=3;
-in_data.mater(2).Data=[64e9; % #19.4e12# or #19.4e9# [N/m^2]
-                    1.75e-4;  %[m^4]
-                    5.138e-2; %[m^2]
+in_data.mater(2).Data=[15e9; % #19.4e12# or #19.4e9# [N/m^2]
+                    1.65e-4;  %[m^4]
+                    4.36e-2; %[m^2]
                     3070;%2140;%3070;   %2480[kg/m^3]
-                    64e9/2.34; %E/2.34
+                    15e9/2.34; %E/2.34
                     0.833]; %0.833
 in_data.mater(2).Note='sleeper';
 
 %MATERIAL SPRING DATA: RAILPAD
 % in_data.mater(3).ElemType=3;
-in_data.mater(3).Data=[1.5e8; %1.56e9;%1.3e9; %K_Spring_RS [N/m]
-                      5e4];%6.75e4]; %4.5e4]; %C_Damper_RS[N.s/m]
+in_data.mater(3).Data=[5.85e8; %1.56e9;%1.3e9; %K_Spring_RS [N/m]
+                      1.744e4];%6.75e4]; %4.5e4]; %C_Damper_RS[N.s/m]
 in_data.mater(3).Note='railpad';
 
 
 %MATERIAL SPRING DATA: BALLAST
 % in_data.mater(4).ElemType=4;
 
-in_data.mater(4).Data = [13.5e7/NNslpf;  %K_Spring_SB[N/m]
-                         5.08e4/NNslpf];%3.444e4/5];  %C_Damper_SB[N.s/m]
+in_data.mater(4).Data = [13e7/NNslpf;  %K_Spring_SB[N/m]
+                         22.9e4/NNslpf];%3.444e4/5];  %C_Damper_SB[N.s/m]
 in_data.mater(4).Note='ballast';
 
 

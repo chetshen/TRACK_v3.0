@@ -6,7 +6,7 @@ function [in_data] = get_input_1(in_data)
 %%
 %Geometry input
 
-in_data.geo.Ltot_R=90;                  %[m]
+in_data.geo.Ltot_R=30;                  %[m]
 in_data.geo.SlpSpc=0.6;          %[m] 
 in_data.geo.dist_S=in_data.geo.SlpSpc; %[m] 
 in_data.geo.LExt_S=0.54;             %[m]
@@ -17,6 +17,7 @@ in_data.geo.dist_RS=0.2;               %[m] Between rails and sleepers
 in_data.geo.dist_SB=0.2;               %[m] Between sleepers and ballast
 in_data.geo.Rw=0.46;                   %[m] Wheel radius
 in_data.geo.irr=0;                     % Irregularities
+in_data.geo.wb = 2;                  %[m] Wheelbase length
 
 %%
 %External force
@@ -33,13 +34,13 @@ in_data.ext_force.wh_ld = 8000*9.8 ; % 8000*9.8 ;% 12742*9.8;   %[N]
 %%
 %Solver settings
 
-in_data.solver.n_ts=25000; %length(zdd)-1;                     %Number of time steps
+in_data.solver.n_ts=10000; %length(zdd)-1;                     %Number of time steps
 in_data.solver.deltat=1/25000;                   %Time step length
 in_data.solver.linsolver_id=2;             %linear solver id, 1 for LDL, 2 for mldivide
 in_data.solver.Vx=30;
 %%
 %MESH PARAMETERS
-in_data.mesh.numElem_R_betwSprings=6;   %Number of elements between 2 springs
+in_data.mesh.numElem_R_betwSprings=24;   %Number of elements between 2 springs
 % in_data.mesh.numElem_R_betwSprings_L=60;   %Number of elements between 2 springs
 in_data.mesh.RefinedMeshLength=0.001;    %Element length at refined mesh around irregularity [m]
 in_data.mesh.m_1S_Ext=1;                %Number of elements in a sleeper external
@@ -75,7 +76,7 @@ in_data.mater(2).Note='sleeper';
 %MATERIAL SPRING DATA: RAILPAD
 % in_data.mater(3).ElemType=3;
 in_data.mater(3).Data=[1.3e9; %1.56e9;%1.3e9; %K_Spring_RS [N/m]
-                      6.75e2];%6.75e4]; %4.5e4]; %C_Damper_RS[N.s/m]
+                      6.75e4];%6.75e4]; %4.5e4]; %C_Damper_RS[N.s/m]
 in_data.mater(3).Note='railpad';
 
 
@@ -83,7 +84,7 @@ in_data.mater(3).Note='railpad';
 % in_data.mater(4).ElemType=4;
 
 in_data.mater(4).Data = [9e7/NNslpf;  %K_Spring_SB[N/m]
-                         6.4e5/NNslpf];%3.444e4/5];  %C_Damper_SB[N.s/m]
+                         6.4e4/NNslpf];%3.444e4/5];  %C_Damper_SB[N.s/m]
 in_data.mater(4).Note='ballast';
 
 

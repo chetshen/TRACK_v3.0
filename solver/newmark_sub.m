@@ -1,4 +1,6 @@
 function [dis2, vel2,acc2]=newmark_sub(K,M,C,R,dis1,vel1, acc1, deltat, delta,alpha)
+	% P781 in Finite Element Procedures by K.J. Bathe 1996
+	%
 if nargin <= 8
     
     delta=0.5;
