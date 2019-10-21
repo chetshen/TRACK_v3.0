@@ -14,17 +14,17 @@ end
 
 
 
-display('Forming track model...\n ');
+disp('Forming track model...\n ');
 prompt='Please select the track parameters(1.Custom;2.Squat;3.Hammer;4.Benchmark): [1]\n';
 
-i=input(prompt);
+inputFile = input(prompt,'s');
 flag=0;
-if isempty(i)
-    i=4;
+if isempty(inputFile)
+    inputFile='4';
 end
 
-switch i
-    case 1
+switch inputFile
+    case '1' %strcmp('1',inputFile) == 1
         prompt='You choose the custom track parameters, please make sure correct values are defined in get_input. Continue? Y/N [Y]: ';
         j=input(prompt,'s');
         if isempty(j)
@@ -36,17 +36,19 @@ switch i
 %             clear flag i j prompt kclear
 %             return
         else
-            display('Stopping the program...');
+            disp('Stopping the program...');
             flag=1;
             return
         end
         
-    case 2
+    case '2' %strcmp('2',inputFile) == 1
         inp=get_input_2();
-    case 3
+    case '3' %strcmp('3',inputFile) == 1
         inp=get_input_3();
-    case 4
+    case '4' %strcmp('4',inputFile) == 1
         inp=get_input_4();
+    otherwise
+        inp = feval(inputFile); 
 end
 
 btypr=inp.mesh.btypr;
@@ -79,7 +81,7 @@ if exist('nodeCoord','var')==0
         end
         switch k
             case 'Y'
-                display('Model not meshed due to user request. Please modify the node coordinates. ')
+                disp('Model not meshed due to user request. Please modify the node coordinates. ')
                 clear flag i j prompt k
                 return
             case 'N'
@@ -87,12 +89,12 @@ if exist('nodeCoord','var')==0
         mat_trk=form_mat_trk_2(inp,geo);
         end
     else
-        display('Nodes not created. Please define nodes manually.\n');
+        disp('Nodes not created. Please define nodes manually.\n');
         clear flag i j prompt k
         return
     end
 else
-    display('Geometry file already exists. Starting mesh...')
+    disp('Geometry file already exists. Starting mesh...')
     [geo] = mesh_trk_full(btypr,btypr,nodeCoord);
     mat_trk=form_mat_trk_2(inp,geo);
 end
