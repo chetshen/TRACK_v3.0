@@ -24,7 +24,7 @@ if X_load(3)==0
 
 else%shape funciton 2 impact on sleeper
 shape=zeros(1,length(mat_trk.K_reduced));
-nodeNumber=1177;dofID=1;
+nodeNumber=357;dofID=1;
 dof=2*(nodeNumber-1)+dofID;
 ind=ismember(mat_trk.activeDof,dof);
 shape(1,ind)=1;
@@ -33,7 +33,10 @@ end
 dis_x_load=dis*shape';
 w = genexpwin(inp.solver.n_ts);
 sf = inp.ext_force.sf;
-[H1,H2,~,pxx,pxy,fxx]=tran_fun([force(1:inp.solver.n_ts)',dis_x_load(1:inp.solver.n_ts)],w,0,25600,sf);
+nodeout = [55:1:67,353:1:363];
+[dis_out,vel_out,acc_out,index,nodeRef] = time_history(nodeout,mat_trk.activeDof,dis,vel,acc);
+[H1,H2,~,pxx,pxy,fxx]=tran_fun([force(1:4428)',dis_out(1:4428,:)],w,0,10000,sf);
+H1_p = tran_fun([force(1:inp.solver.n_ts)',dis_x_load(1:inp.solver.n_ts)],w,0,25600,sf);
 % figure;
 % plot(t,dis_x_load);
 
