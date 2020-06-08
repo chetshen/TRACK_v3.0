@@ -14,7 +14,7 @@
 %newmark integration and newton-raphson
 function [acc2,vel2,dis2,F,Z,mc_ws2]=solver_newmark_iter(mat_trk,inp,shape, Z, wh_ld, acc1, vel1, dis1,mc_ws1,X_w_t, geo,Z_global,contactID,Fex, mat_ws,mat_vhcl, Y)
 %initial condition
-etol=1e-7;
+etol=1e-5; % !! Note this has been changed from 1e-7
 deltat=inp.solver.deltat;
 m_w=inp.mater(6).Data(2);
 M_trk=mat_trk.M_reduced;
@@ -99,9 +99,9 @@ while 1
 %             %
         case 10
             %------Winkler bedding----
-            F=winkler_bedding(6, X_w_t, dis2.r,dis2.w,Z_global.irr, geo, mat_trk,inp,-1);
-            % BUG: "6" in the previous line should be replaced with the
-            % initial position of the wheel X_w0
+            F=winkler_bedding(8, X_w_t, dis2.r,dis2.w,Z_global.irr, geo, mat_trk,inp,-1);
+            % !! BUG: the first input argument should be replaced with the
+            % !!      initial position of the wheel X_w0
         %-----Kik_Piot----    
         case 111
             %Kik_Piot
@@ -115,7 +115,7 @@ while 1
     
     %check if the
     if length(F(abs(F-F0) <= etol))==2
-%         disp(['Convergence reached in ', num2str(ite), ' iterations'])
+        disp(['Convergence reached in ', num2str(ite), ' iterations'])
         break
     end
     

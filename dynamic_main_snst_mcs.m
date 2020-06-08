@@ -8,7 +8,7 @@
 
 %%
 %%initial conditions
-function F = dynamic_main_snst_mcs(inp,mat_trk,geo,mat_ws,irr_depth,irr_length)
+function F = dynamic_main_snst_mcs(inp,mat_trk,geo,mat_ws,irr_depth,irr_length,conID)
 acc.r=zeros(inp.solver.n_ts+1,length(mat_trk.K_reduced));
 vel.r=zeros(inp.solver.n_ts+1,length(mat_trk.K_reduced));
 dis.r=zeros(inp.solver.n_ts+1,length(mat_trk.K_reduced));
@@ -20,9 +20,14 @@ Z.r=zeros(inp.solver.n_ts+1,2);
 Z.irr=zeros(inp.solver.n_ts+1,2); %can be read in with files
 F=zeros(inp.solver.n_ts+1,2);
 X_w=zeros(inp.solver.n_ts+1,1);
-X_w(1,1)=6;   %initial x coordinates of wheel
+X_w(1,1)=8;   %initial x coordinates of wheel
 vx=inp.solver.Vx; %vehicle speed
-contactID=5; %5 for non-linear  10 for linear 8 for winkler bedding 
+if nargin < 7
+contactID=5; %5 for non-linear 10 for winkler bedding 
+else
+    contactID = conID;
+end
+
 zdd=load(inp.ext_force.timeh);
 Fex=zeros(length(zdd),2);
 if isempty(mat_ws)
@@ -37,7 +42,7 @@ end
         %%irregularity definition: squat G302 maria
 %         irr_depth=0.2e-3;
 %         irr_length=30e-3;
-        irr_x0=6.5; %30.38=15.38=0.98 in FE 15.5=1.1
+        irr_x0=8.8-0.15/2; %30.38=15.38=0.98 in FE 15.5=1.1
         irr_ts0=round((irr_x0-X_w(1,1))/vx/inp.solver.deltat);
         irr_ts1=round((irr_x0-X_w(1,1)+1*irr_length)/vx/inp.solver.deltat);
         
@@ -109,8 +114,8 @@ F(1,:)=F_initial;
     
 %%
 %dynamic analysis
-%disp (['Starting Newmark intergration. Time: ' datestr(now)]);
-% tic;
+disp (['Starting Newmark intergration. Time: ' datestr(now)]);
+tic;
 for i=1:inp.solver.n_ts
     X_w(i+1,1)=X_w(1,1)+i*inp.solver.deltat*vx;
     shape(1,:)=form_shape_fun(geo,mat_trk,[X_w(i+1,1),-0.75,0]);
@@ -143,9 +148,9 @@ for i=1:inp.solver.n_ts
     Z.r(i+1,:)=position.r;
 %     Z.irr(i+1,1)=position.irr;
     F(i+1,:)=F_contact;
-    % if ismember(i,1000*linspace(1,10,10))
-    %     disp (['Time step: ' num2str(i) 'finished. Time' num2str(toc)]);
-    % end
+    if ismember(i,100*linspace(1,20,20))
+        disp (['Time step: ' num2str(i) 'finished. Time' num2str(toc)]);
+    end
 end
 
 %%

@@ -13,7 +13,7 @@ if z1==0 && z2==0 % nodes on rail
     k1=dsearchn(nodeCoord_Rl(:,1),x1);
     k2=dsearchn(nodeCoord_Rl(:,1),x2);
     b=(nodeCoord_Rl(k1,1)+elemLength:elemLength:nodeCoord_Rl(k2,1)-elemLength)';
-    b=[b,nodeCoord_Rl(1:length(b),2:4)];
+    b=[b,repmat(nodeCoord_Rl(k1,2:4),length(b),1)];
     nodeCoord_Rl=[nodeCoord_Rl(1:k1,:);b;nodeCoord_Rl(k2:length(nodeCoord_Rl),:)];
     
     elseif y1 > 0 && yw >0 %right rail

@@ -10,9 +10,7 @@ else
     alpha=0.25;
 end
 
-deltat=1/in_data.ext_force.sf;
-tx=[0:1/25600:1];
-t=[0:deltat:1];
+deltat=in_data.solver.deltat;
 
 K=sys_mat.K_reduced;
 M=sys_mat.M_reduced;
@@ -24,6 +22,9 @@ end
 dof=length(sys_mat.K_reduced);
 
 zdd=load(in_data.ext_force.timeh);
+sf_zdd = in_data.ext_force.sf; 
+tx=[0:1/sf_zdd:1/sf_zdd*(length(zdd)-1)];
+t=[0:deltat:1/sf_zdd*(length(zdd)-1)];
 zdd=interp1(tx,zdd,t);
 
 points=length(zdd);
@@ -67,7 +68,7 @@ if in_data.ext_force.Vx==0
 %         disp('ok');
     else%shape funciton 2 impact on sleeper
         shape=zeros(1,length(K));
-        nodeNumber=1183;dofID=1; %nodeNumber=107;dofID=1;
+        nodeNumber=357;dofID=1; %nodeNumber=107;dofID=1;
         dofShape=2*(nodeNumber-1)+dofID;
         ind=ismember(sys_mat.activeDof,dofShape);
         shape(1,ind)=1;
@@ -81,7 +82,7 @@ for i=1:in_data.solver.n_ts
 %         disp('ok');
     else%shape funciton 2 impact on sleeper
         shape=zeros(1,length(K));
-        nodeNumber=1177;dofID=1; %nodeNumber=107;dofID=1;
+        nodeNumber=357;dofID=1; %nodeNumber=107;dofID=1;
         dofShape=2*(nodeNumber-1)+dofID;
         ind=ismember(sys_mat.activeDof,dofShape);
         shape(1,ind)=1;

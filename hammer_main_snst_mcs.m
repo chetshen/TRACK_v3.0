@@ -20,7 +20,7 @@ shape = form_shape_fun(geo,mat_trk,X_load);
 
 else%shape funciton 2 impact on sleeper
 shape=zeros(1,length(mat_trk.K_reduced));
-nodeNumber=1177;dofID=1;
+nodeNumber=1197;dofID=1;
 dof=2*(nodeNumber-1)+dofID;
 ind=ismember(mat_trk.activeDof,dof);
 shape(1,ind)=1;

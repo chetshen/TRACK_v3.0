@@ -6,7 +6,7 @@
 
 %clear
 %%
-filename='snst_two_variables.mat';
+filename='snst_wave_3k_8_variables_norm_stiffpad.mat';
 [inp,NNslpf] = get_input_4();
 [nodeCoord] = node_coor(inp);
 btypr = inp.mesh.btypr;
@@ -22,7 +22,7 @@ valRange = [4.75e6,5.25e6;  % Rail EI
             51.3,56.7;         % Rail rhoA
             5.53e6,1.12e7; % Sleeper EI
             1.05e2,1.58e2; % Sleeper rhoA
-            1e8,1.5e9;     % Railpad Stiffness 1e8,1.5e9;
+            1.3e9,2e9;     % Railpad Stiffness 1e8,1.5e9;
             1e4,7e4;       % Railpad damping
             6e7/NNslpf, 28e7/NNslpf;
             4e4/NNslpf, 28e4/NNslpf];
@@ -30,11 +30,11 @@ refval = sum(valRange,2)./2;
 range = valRange(:,2)-valRange(:,1);
 setnumC1 = setnum(:,1);
 setnumC2 = setnum(:,2);
-N = 50; %number of samples
+N = 3000; %number of samples
 nPara = 8;
 SfrqEigb = zeros(length(mat_trk.K_reduced),N);
 Swavenum = zeros(length(mat_trk.K_reduced),N); % Results
-distrTpye = 3;
+distrTpye = 2;
 if distrTpye == 3
 randInpPre = repmat(pmRef,50,1);
 randInpPre(:,paraNumOpt(1)) = population(:,1); %!! population has to be predifined 
@@ -57,7 +57,7 @@ switch distrTpye
         clear p h
     case 2
         % Normal distribution
-        Std = (valRange(:,2)-valRange(:,1))./6;
+        Std = (valRange(:,2)-valRange(:,1))./4;
         Sigma = diag(Std.^2); % standard deviation;
         randInp = lhsnorm(refval, Sigma, N);
     case 3

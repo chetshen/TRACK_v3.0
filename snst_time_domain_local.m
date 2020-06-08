@@ -6,7 +6,7 @@
 
 clear
 %%
-filename=['snst_dynamic_local.mat'];
+filename=['snst_dynamic_local_3.mat'];
 [inp,NNslpf] = get_input_4();
 [nodeCoord] = node_coor(inp);
 btypr = inp.mesh.btypr;
@@ -55,11 +55,12 @@ for ii = 1:length(railpadstiff)
     end
 end
 
-randInp_rpstiff = randInp;
-randInp_rpstiff(:,5) = randInp_rpstiff(:,5).*0.9;
-randInp_defLength = randInp;
-randInp_defLength(:,9) = randInp_defLength(:,9).*0.9;
-randInp = [randInp;randInp_rpstiff;randInp_defLength]; 
+randInp_ini = randInp;
+for ii = 1:9
+randInp_temp = randInp_ini;
+randInp_temp(:,ii) = randInp_ini(:,ii).*0.9;
+randInp = [randInp;randInp_temp];
+end 
 % % Disable when considering irr geometry as varibles
 %     irr_depth=0.2e-3;
 %     irr_length=30e-3;

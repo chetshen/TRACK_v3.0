@@ -39,11 +39,11 @@ in_data.solver.linsolver_id=2;             %linear solver id, 1 for LDL, 2 for m
 in_data.solver.Vx=30;
 %%
 %MESH PARAMETERS
-in_data.mesh.numElem_R_betwSprings=24;   %Number of elements between 2 springs
+in_data.mesh.numElem_R_betwSprings=6;   %Number of elements between 2 springs
 % in_data.mesh.numElem_R_betwSprings_L=60;   %Number of elements between 2 springs
 in_data.mesh.RefinedMeshLength=0.001;    %Element length at refined mesh around irregularity [m]
-in_data.mesh.m_1S_Ext=1;                %Number of elements in a sleeper external
-in_data.mesh.m_1S_Int=3;                %Number of elements in a sleeper internal
+in_data.mesh.m_1S_Ext=2;                %Number of elements in a sleeper external
+in_data.mesh.m_1S_Int=6;                %Number of elements in a sleeper internal
 NEslph=(2*in_data.mesh.m_1S_Ext+in_data.mesh.m_1S_Int)/2; %number of elements for half sleeper
 NNslpf=NEslph*2+1;
 NNslph=NEslph+1;

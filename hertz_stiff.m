@@ -1,4 +1,6 @@
 function ch=hertz_stiff(rn,rw,rr,E1,v1,E2,v2)
+% Input: rn: longitudinal radius of wheel
+%		rw,rr: transverse radius of wheel and rail
 A=1/(2*rn);
 B=1/2*(1/rw+1/rr);
 

@@ -9,7 +9,7 @@ I = mater(2);
 A = mater(3);
 G = mater(5);
 kappa = mater(6);
-rho = (4);
+rho = mater(4);
 
 EI=E*I;
 
@@ -42,15 +42,15 @@ switch z_coor
                 break
             elseif i==endNode+1
                 
-                display('Erro: Wheel or load position out of range.' ); % X_coor should be between ', num2str(geo.ND(1,2)),' and ', num2str(geo.ND(i,2))]);
+                disp('Erro: Wheel or load position out of range.' ); % X_coor should be between ', num2str(geo.ND(1,2)),' and ', num2str(geo.ND(i,2))]);
                 
             end
             
         end
     case -0.2
-        display('We are sorry but we are not ready ');
+        disp('We are sorry but we are not ready ');
     otherwise
-        display('Input coordinates are not on any elements ');
+        disp('Input coordinates are not on any elements ');
 end
 
 

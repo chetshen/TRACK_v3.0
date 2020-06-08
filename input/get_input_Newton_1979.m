@@ -33,7 +33,7 @@ in_data.ext_force.wh_ld = 82000; % 8000*9.8 ;% 12742*9.8;   %[N]
 %%
 %Solver settings
 
-in_data.solver.n_ts=2000; %length(zdd)-1;                     %Number of time steps
+in_data.solver.n_ts=1000; %length(zdd)-1;                     %Number of time steps
 in_data.solver.deltat=1/25000;                   %Time step length
 in_data.solver.linsolver_id=2;             %linear solver id, 1 for LDL, 2 for mldivide
 in_data.solver.Vx=117/3.6;
@@ -67,7 +67,7 @@ in_data.mater(1).Note='rail';
 in_data.mater(2).Data=[74.6e14; % rigid [N/m^2]
                     1.375e-4;  %[m^4]
                     0.03876; %[m^2] L = 1.29 m 
-                    800; %[kg/m^3] Ms(half) = 50 kg
+                    1000; %[kg/m^3] Ms(half) = 50 kg
                     74.6e14/2.34; %E/2.34
                     0.833]; %0.833
 in_data.mater(2).Note='sleeper';
