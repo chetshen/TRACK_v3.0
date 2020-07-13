@@ -26,7 +26,7 @@ Z.r=zeros(inp.solver.n_ts+1,2);
 Z.irr=zeros(inp.solver.n_ts+1,2); %can be read in with files
 F=zeros(inp.solver.n_ts+1,2);
 X_w=zeros(inp.solver.n_ts+1,1);
-X_w(1,1)=8;   %initial x coordinates of wheel
+X_w(1,1)=6;   %initial x coordinates of wheel
 vx=inp.solver.Vx; %vehicle speed
 contactID=10; % 5 for non-linear  10 for winkler bedding 
 zdd=load(inp.ext_force.timeh);
@@ -49,11 +49,11 @@ end
 switch i
     case 1
         %%irregularity definition: squat G302 maria
-        irr_depth=2.15e-3;
-        irr_length=150e-3;
-        irr_x0=8.8-0.15/2; %30.38=15.38=0.98 in FE 15.5=1.1
-        irr_ts0=round((irr_x0-X_w(1,1))/vx/inp.solver.deltat);
-        irr_ts1=round((irr_x0-X_w(1,1)+1*irr_length)/vx/inp.solver.deltat);
+        irr_depth = 0.2e-3;
+        irr_length = 30e-3;
+        irr_x0 = 6.5; %30.38=15.38=0.98 in FE 15.5=1.1
+        irr_ts0 = round((irr_x0-X_w(1,1))/vx/inp.solver.deltat);
+        irr_ts1 = round((irr_x0-X_w(1,1)+1*irr_length)/vx/inp.solver.deltat);
         
         %%irregularity definition: wheelflat benchmark
 %         irr_depth=0.3e-3;
@@ -149,8 +149,8 @@ end
  
 %%shape function for initial condition
 % shape_initial=form_shape_fun(geo,mat_trk,[X_w(1,1),-0.75,0]);
-shape_initial(1,:)=form_shape_fun2(geo,mat_trk,[X_w(1,1),-0.75,0],inp.mater(1).Data);
-shape_initial(2,:)=form_shape_fun2(geo,mat_trk,[X_w(1,1),0.75,0],inp.mater(1).Data);
+shape_initial(1,:)=form_shape_fun(geo,mat_trk,[X_w(1,1),-0.75,0]);%,inp.mater(1).Data);
+shape_initial(2,:)=form_shape_fun(geo,mat_trk,[X_w(1,1),0.75,0]);%,inp.mater(1).Data);
 
 %static analysis
 [dis_initial,Z_initial,F_initial]=solver_static(mat_trk,inp,shape_initial,contactID);
@@ -172,8 +172,8 @@ disp (['Starting Newmark intergration. Time: ' datestr(now)]);
 tic;
 for i=1:inp.solver.n_ts
     X_w(i+1,1)=X_w(1,1)+i*inp.solver.deltat*vx;
-    shape(1,:)=form_shape_fun2(geo,mat_trk,[X_w(i+1,1),-0.75,0],inp.mater(1).Data);
-    shape(2,:)=form_shape_fun2(geo,mat_trk,[X_w(i+1,1),0.75,0],inp.mater(1).Data);
+    shape(1,:)=form_shape_fun(geo,mat_trk,[X_w(i+1,1),-0.75,0]);%,inp.mater(1).Data);
+    shape(2,:)=form_shape_fun(geo,mat_trk,[X_w(i+1,1),0.75,0]);%,inp.mater(1).Data);
      
     acc1.r=acc.r(i,:);
     vel1.r=vel.r(i,:);
@@ -202,7 +202,7 @@ for i=1:inp.solver.n_ts
     Z.r(i+1,:)=position.r;
 %     Z.irr(i+1,1)=position.irr;
     F(i+1,:)=F_contact;
-    if ismember(i,1000*linspace(1,10,10))
+    if ismember(i,100*linspace(1,100,100))
         disp (['Time step: ' num2str(i) 'finished. Time' num2str(toc)]);
     end
 end
