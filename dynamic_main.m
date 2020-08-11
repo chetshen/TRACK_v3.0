@@ -149,8 +149,8 @@ end
  
 %%shape function for initial condition
 % shape_initial=form_shape_fun(geo,mat_trk,[X_w(1,1),-0.75,0]);
-shape_initial(1,:)=form_shape_fun(geo,mat_trk,[X_w(1,1),-0.75,0]);%,inp.mater(1).Data);
-shape_initial(2,:)=form_shape_fun(geo,mat_trk,[X_w(1,1),0.75,0]);%,inp.mater(1).Data);
+shape_initial(1,:)=form_shape_fun2(geo,mat_trk,[X_w(1,1),-0.75,0],inp.mater(1).Data);
+shape_initial(2,:)=form_shape_fun2(geo,mat_trk,[X_w(1,1),0.75,0],inp.mater(1).Data);
 
 %static analysis
 [dis_initial,Z_initial,F_initial]=solver_static(mat_trk,inp,shape_initial,contactID);
@@ -172,8 +172,8 @@ disp (['Starting Newmark intergration. Time: ' datestr(now)]);
 tic;
 for i=1:inp.solver.n_ts
     X_w(i+1,1)=X_w(1,1)+i*inp.solver.deltat*vx;
-    shape(1,:)=form_shape_fun(geo,mat_trk,[X_w(i+1,1),-0.75,0]);%,inp.mater(1).Data);
-    shape(2,:)=form_shape_fun(geo,mat_trk,[X_w(i+1,1),0.75,0]);%,inp.mater(1).Data);
+    shape(1,:)=form_shape_fun2(geo,mat_trk,[X_w(i+1,1),-0.75,0],inp.mater(1).Data);
+    shape(2,:)=form_shape_fun2(geo,mat_trk,[X_w(i+1,1),0.75,0],inp.mater(1).Data);
      
     acc1.r=acc.r(i,:);
     vel1.r=vel.r(i,:);

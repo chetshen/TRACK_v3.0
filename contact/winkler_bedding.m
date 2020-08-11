@@ -24,7 +24,7 @@ Z_r=Z_r-ver_dis_w; %colonm vector to row vector
 %
 
 
-Rw0=inp.geo.Rw/2;
+Rw0=inp.geo.Rw/1;
 Z_w=Rw0-sqrt(Rw0^2-(xq-X_w).^2);
 
 delta= Z_r(:,1)+Z_irr(:,1)-Z_w';
