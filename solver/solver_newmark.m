@@ -21,7 +21,7 @@ else
 end
 dof=length(sys_mat.K_reduced);
 
-zdd=load(in_data.ext_force.timeh);
+zdd=load(in_data.ext_force.timeh).*2.222222;
 sf_zdd = in_data.ext_force.sf; 
 tx=[0:1/sf_zdd:1/sf_zdd*(length(zdd)-1)];
 t=[0:deltat:1/sf_zdd*(length(zdd)-1)];

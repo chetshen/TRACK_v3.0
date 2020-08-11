@@ -99,7 +99,7 @@ while 1
 %             %
         case 10
             %------Winkler bedding----
-            F=winkler_bedding(8, X_w_t, dis2.r,dis2.w,Z_global.irr, geo, mat_trk,inp,-1);
+            F=winkler_bedding(6, X_w_t, dis2.r,dis2.w,Z_global.irr, geo, mat_trk,inp,-1);
             % !! BUG: the first input argument should be replaced with the
             % !!      initial position of the wheel X_w0
         %-----Kik_Piot----    
@@ -115,7 +115,7 @@ while 1
     
     %check if the
     if length(F(abs(F-F0) <= etol))==2
-        disp(['Convergence reached in ', num2str(ite), ' iterations'])
+%        disp(['Convergence reached in ', num2str(ite), ' iterations'])
         break
     end
     

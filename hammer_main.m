@@ -36,7 +36,7 @@ sf = inp.ext_force.sf;
 % nodeout = [55:1:67,353:1:363];
 % [dis_out,vel_out,acc_out,index,nodeRef] = time_history(nodeout,mat_trk.activeDof,dis,vel,acc);
 % [H1,H2,~,pxx,pxy,fxx]=tran_fun([force(1:4428)',dis_out(1:4428,:)],w,0,10000,sf);
-H1_p = tran_fun([force(1:inp.solver.n_ts)',dis_x_load(1:inp.solver.n_ts)],w,0,25600,sf);
+[H1_p,~,~,~,~,fxx] = tran_fun([force(1:inp.solver.n_ts)',dis_x_load(1:inp.solver.n_ts)],w,0,25600,sf);
 % figure;
 % plot(t,dis_x_load);
 
