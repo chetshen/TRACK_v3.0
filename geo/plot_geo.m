@@ -34,27 +34,27 @@ for i=1:length(geo.EL)
         if railOnly == 1
             
         else
-            plot3(x1,y1,z1+0.2,'Color','k','LineWidth',2);
+            plot3(x1,y1,z1,'Color','k','LineWidth',2);
         end
     else
-        %plot3(x1,y1,z1,'Color','cyan');
+        plot3(x1,y1,z1,'Color','cyan');
     end
     
 end
-% %plot boundary conditions
-% x2=geo.ND(geo.fixedNodeU,2);
-% y2=geo.ND(geo.fixedNodeU,3);
-% z2=geo.ND(geo.fixedNodeU,4);
-% scatter3(x2,y2,z2,36,'m','^');
-%
-%
-% x3=geo.ND(geo.fixedNodeV,2);
-% y3=geo.ND(geo.fixedNodeV,3);
-% z3=geo.ND(geo.fixedNodeV,4);
-% scatter3(x3,y3,z3,36,'g','>');
+%plot boundary conditions
+x2=geo.ND(geo.fixedNodeU,2);
+y2=geo.ND(geo.fixedNodeU,3);
+z2=geo.ND(geo.fixedNodeU,4);
+scatter3(x2,y2,z2,36,'m','^');
+
+
+x3=geo.ND(geo.fixedNodeV,2);
+y3=geo.ND(geo.fixedNodeV,3);
+z3=geo.ND(geo.fixedNodeV,4);
+scatter3(x3,y3,z3,36,'g','>');
 hold off
 
 view(45,45.45)
-xlim([14.3,16.9]);
+% xlim([14.3,16.9]);
 zlim([-0.4,0.3]);
 end

@@ -39,7 +39,7 @@ in_data.solver.linsolver_id=2;             %linear solver id, 1 for LDL, 2 for m
 in_data.solver.Vx=30;
 %%
 %MESH PARAMETERS
-in_data.mesh.numElem_R_betwSprings=6;   %Number of elements between 2 springs
+in_data.mesh.numElem_R_betwSprings=24;   %Number of elements between 2 springs
 % in_data.mesh.numElem_R_betwSprings_L=60;   %Number of elements between 2 springs
 in_data.mesh.RefinedMeshLength=0.001;    %Element length at refined mesh around irregularity [m]
 in_data.mesh.m_1S_Ext=2;                %Number of elements in a sleeper external
@@ -64,17 +64,17 @@ in_data.mater(1).Note='rail';
 
 %MATERIAL SLEEPERS DATA 
 % in_data.mater(2).ElemType=3;
-in_data.mater(2).Data=[74.6e9; % #19.4e12# or #19.4e9# [N/m^2]
+in_data.mater(2).Data=[74.6e14; % #19.4e12# or #19.4e9# [N/m^2]
                     1.375e-4;  %[m^4]
                     0.043; %[m^2]
                     2500;%2140;%3070;   %2480[kg/m^3]
-                    74.6e9/2.34; %E/2.34
+                    74.6e14/2.34; %E/2.34
                     0.833]; %0.833
 in_data.mater(2).Note='sleeper';
 
 %MATERIAL SPRING DATA: RAILPAD
 % in_data.mater(3).ElemType=3;
-in_data.mater(3).Data=[1.3e9; %1.56e9;%1.3e9; %K_Spring_RS [N/m]
+in_data.mater(3).Data=[6.5e8; %1.56e9;%1.3e9; %K_Spring_RS [N/m]
                       6.75e4];%6.75e4]; %4.5e4]; %C_Damper_RS[N.s/m]
 in_data.mater(3).Note='railpad';
 
@@ -82,8 +82,8 @@ in_data.mater(3).Note='railpad';
 %MATERIAL SPRING DATA: BALLAST
 % in_data.mater(4).ElemType=4;
 
-in_data.mater(4).Data = [9e7/NNslpf;  %K_Spring_SB[N/m]
-                         6.4e4/NNslpf];%3.444e4/5];  %C_Damper_SB[N.s/m]
+in_data.mater(4).Data = [11e7/NNslpf;  %K_Spring_SB[N/m]
+                         11e4/NNslpf];%3.444e4/5];  %C_Damper_SB[N.s/m]
 in_data.mater(4).Note='ballast';
 
 
@@ -109,7 +109,7 @@ in_data.mater(7).Data=[210e9;    %E_R[N/m^2]
                       0.34] ;     %kappa_R
 in_data.mater(7).Note='rail degraded';
 %CONTACT
-in_data.mater(8).Data = 2/3*in_data.mater(1).Data(1)/(1-0.27^2)*sqrt(in_data.geo.Rw) ;% 8.7e10; %[N/m^(3/2)] from (Steffens, 2005)
+in_data.mater(8).Data = 2/3*in_data.mater(1).Data(1)/(1-0.27^2)*sqrt(0.3) ;% 8.7e10; %[N/m^(3/2)] from (Steffens, 2005)
 in_data.mater(8).Note='contact parameter used for winkler bedding';
 
 in_data.mater(9).Data=[1.100000000000000e+9;0;0;8.836000000000000e+02];
