@@ -3,18 +3,20 @@
 % % Author: Chen Shen
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-[inp,NNslpf] = get_input_4();
+[inp,NNslpf] = get_input_vtrack();
 % para = linspace(0.1,1.1,10);%logspace(-1,1,10);%linspace(0.1,1.1,10);%para = [0.9,1,1.1];linspace(0.1,2,20);%[0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 1.1 1.2 1.3 1.4 1.5 1.6 1.7 1.8];
 % para = round(para,1);
-para = [6:2:28]*1e7./NNslpf;
+para = [0.5:0.5:4]*1e8;
+% para = [5e7:5e7:30e7]/NNslpf/5;
+% para = [1:1:7]*1e4/25;
 % para = [0.5 0.6 0.7 0.8 0.9 1 1.1 1.2 1.3];
-nmat = 4;
+nmat = 3;
 ndata = 1; 
 refval=inp.mater(nmat).Data(ndata);
 btypr=inp.mesh.btypr;
 btyps=inp.mesh.btyps;
-[nodeCoord] = node_coor(inp);
-S=struct('H1',zeros(10,1));
+[nodeCoord] = node_coor(inp,1);
+S=struct('H1',zeros(length(para),1));
 % S1=struct('frq',zeros(10,1));
 % SfrqEigb = zeros(length(mat_trk.K_reduced),N);
 % Swavenum = zeros(length(mat_trk.K_reduced),N); 

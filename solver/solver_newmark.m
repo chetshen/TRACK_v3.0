@@ -68,7 +68,7 @@ if in_data.ext_force.Vx==0
 %         disp('ok');
     else%shape funciton 2 impact on sleeper
         shape=zeros(1,length(K));
-        nodeNumber=357;dofID=1; %nodeNumber=107;dofID=1;
+        nodeNumber=259;dofID=1; %nodeNumber=107;dofID=1;
         dofShape=2*(nodeNumber-1)+dofID;
         ind=ismember(sys_mat.activeDof,dofShape);
         shape(1,ind)=1;
@@ -82,7 +82,7 @@ for i=1:in_data.solver.n_ts
 %         disp('ok');
     else%shape funciton 2 impact on sleeper
         shape=zeros(1,length(K));
-        nodeNumber=357;dofID=1; %nodeNumber=107;dofID=1;
+        nodeNumber=259;dofID=1; %nodeNumber=107;dofID=1;
         dofShape=2*(nodeNumber-1)+dofID;
         ind=ismember(sys_mat.activeDof,dofShape);
         shape(1,ind)=1;

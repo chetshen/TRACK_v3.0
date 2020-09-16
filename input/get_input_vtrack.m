@@ -1,7 +1,7 @@
 %%
 %Parameter to match measurement in Maider's thesis 20180312
 %%
-function [in_data,NNslpf] = get_input_4(in_data)
+function [in_data,NNslpf] = get_input_vtrack(in_data)
 %%
 %Geometry input
 
@@ -23,7 +23,7 @@ in_data.geo.wb = 2.9;                  %[m] Wheelbase length
 
 in_data.ext_force.timeh='example.txt';%'FW_h30w40'; %['white_noise.txt']; %[ 'example.txt' ];        %time history of external force
 in_data.ext_force.sf=25000;
-in_data.ext_force.x=[1.2+0.06,-0.12,0];
+in_data.ext_force.x=[1.2,-0.12,0];
 in_data.ext_force.Vx=0;
 % zdd=load(in_data.ext_force.timeh);
 % dof=299;
@@ -74,7 +74,7 @@ in_data.mater(2).Note='sleeper';
 
 %MATERIAL SPRING DATA: RAILPAD
 % in_data.mater(3).ElemType=3;
-in_data.mater(3).Data=[2e8; %1.56e9;%1.3e9; %K_Spring_RS [N/m]
+in_data.mater(3).Data=[4e8; %1.56e9;%1.3e9; %K_Spring_RS [N/m]
                       6.75e4/25];%6.75e4]; %4.5e4]; %C_Damper_RS[N.s/m]
 in_data.mater(3).Note='railpad';
 
