@@ -5,8 +5,8 @@ function [in_data,NNslpf] = get_input_vtrack(in_data)
 %%
 %Geometry input
 
-in_data.geo.Ltot_R=2.4;                  %[m]
-in_data.geo.SlpSpc=0.12;           %[m] 
+in_data.geo.Ltot_R=12.5;                  %[m]
+in_data.geo.SlpSpc=0.125;           %[m] 
 in_data.geo.dist_S=in_data.geo.SlpSpc; %[m] 
 in_data.geo.LExt_S=0.12;             %[m]
 in_data.geo.LInt_S=0.12;              %[m]
@@ -16,7 +16,7 @@ in_data.geo.dist_RS=0.02;               %[m] Between rails and sleepers
 in_data.geo.dist_SB=0.02;               %[m] Between sleepers and ballast
 in_data.geo.Rw=0.46;                   %[m] Wheel radius
 in_data.geo.irr=0;                     % Irregularities
-in_data.geo.wb = 2.9;                  %[m] Wheelbase length
+in_data.geo.wb = 0;                  %[m] Wheelbase length
 
 %%
 %External force
@@ -28,7 +28,7 @@ in_data.ext_force.Vx=0;
 % zdd=load(in_data.ext_force.timeh);
 % dof=299;
 % in_data.ext_force.dof=ones(length(zdd),1)*dof;       %time history of applied DOF 
-in_data.ext_force.wh_ld = 8000*9.8 ; % 8000*9.8 ;% 12742*9.8;   %[N]
+in_data.ext_force.wh_ld = 4500; % 8000*9.8 ;% 12742*9.8;   %[N]
 
 %%
 %Solver settings
@@ -36,10 +36,10 @@ in_data.ext_force.wh_ld = 8000*9.8 ; % 8000*9.8 ;% 12742*9.8;   %[N]
 in_data.solver.n_ts=2000; %length(zdd)-1;                     %Number of time steps
 in_data.solver.deltat=1/25000;                   %Time step length
 in_data.solver.linsolver_id=2;             %linear solver id, 1 for LDL, 2 for mldivide
-in_data.solver.Vx=30;
+in_data.solver.Vx=13./3.6;
 %%
 %MESH PARAMETERS
-in_data.mesh.numElem_R_betwSprings=6;   %Number of elements between 2 springs
+in_data.mesh.numElem_R_betwSprings=10;   %Number of elements between 2 springs
 % in_data.mesh.numElem_R_betwSprings_L=60;   %Number of elements between 2 springs
 in_data.mesh.RefinedMeshLength=0.001;    %Element length at refined mesh around irregularity [m]
 in_data.mesh.m_1S_Ext=6;                %Number of elements in a sleeper external
@@ -74,7 +74,7 @@ in_data.mater(2).Note='sleeper';
 
 %MATERIAL SPRING DATA: RAILPAD
 % in_data.mater(3).ElemType=3;
-in_data.mater(3).Data=[4e8; %1.56e9;%1.3e9; %K_Spring_RS [N/m]
+in_data.mater(3).Data=[50e8; %1.56e9;%1.3e9; %K_Spring_RS [N/m]
                       6.75e4/25];%6.75e4]; %4.5e4]; %C_Damper_RS[N.s/m]
 in_data.mater(3).Note='railpad';
 
@@ -82,7 +82,7 @@ in_data.mater(3).Note='railpad';
 %MATERIAL SPRING DATA: BALLAST
 % in_data.mater(4).ElemType=4;
 
-in_data.mater(4).Data = [9e7/NNslpf/5;  %K_Spring_SB[N/m]
+in_data.mater(4).Data = [10e7/NNslpf/5;  %K_Spring_SB[N/m]
                          6.4e4/NNslpf/25];%3.444e4/5];  %C_Damper_SB[N.s/m]
 in_data.mater(4).Note='ballast';
 
@@ -94,7 +94,7 @@ in_data.mater(5).Note='contact';
 %VEHICLE
 % in_data.mater(6).ElemType=6;   %6 for vehicle
 in_data.mater(6).Data =  [0;   %M_sprg%4653.5[kg]
-                      883.6;%883.6; %M_unsprg[kg]
+                      44;%883.6; %M_unsprg[kg]
                      1.22e6]; %K_PS[N/m]
 in_data.mater(6).wsfile=[];%'E:\FE\Model 1 wheel\half_ws.spm';  %.spm file generated from ANSYS; empty means a rigid wheelset               
 in_data.mater(6).Note='vehicle';
@@ -108,6 +108,10 @@ in_data.mater(7).Data=[210e9;    %E_R[N/m^2]
                       8.1e10;    %G_R
                       0.34] ;     %kappa_R
 in_data.mater(7).Note='rail degraded';
+% Enhanced railpad
+in_data.mater(11).Data=[12e8; %1.56e9;%1.3e9; %K_Spring_RS [N/m]
+                      6.75e4/25];%6.75e4]; %4.5e4]; %C_Damper_RS[N.s/m]
+in_data.mater(11).Note='railpad';
 %CONTACT
 in_data.mater(8).Data = 2/3*in_data.mater(1).Data(1)/(1-0.27^2)*sqrt(0.3) ;% 8.7e10; %[N/m^(3/2)] from (Steffens, 2005)
 in_data.mater(8).Note='contact parameter used for winkler bedding';
