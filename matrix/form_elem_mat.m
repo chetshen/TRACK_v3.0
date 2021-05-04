@@ -20,6 +20,9 @@ switch elemType
         nu=(mater(1)/mater(5)-2)/2;
         [Ke,Me]=KMmatrixTiPoly(elemLength,mater(1),mater(3),mater(6),mater(2),nu,mater(4),4);
         De=alpha*Me+beta*Ke;
+    case 6 %
+        [Me,Ke]=tim4(mater(1), mater(2),mater(3), mater(5),mater(6),mater(4), elemLength);
+        De=alpha*Me+beta*Ke;
 end
 
 

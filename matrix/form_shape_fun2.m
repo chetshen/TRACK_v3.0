@@ -1,4 +1,5 @@
 %form the shape function for timoshenko beam element
+% see 1993_Friedman_An improved two-node timoshenko beam finite element
 function [shape,Ref_Dof,Ref_Node]=form_shape_fun2(geo,mat_trk,coor,mater)
 shape=zeros(1,length(mat_trk.K_reduced));
 x_coor=coor(1);

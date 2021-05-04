@@ -14,7 +14,7 @@
 %newmark integration and newton-raphson
 function [acc2,vel2,dis2,F,Z,mc_ws2]=solver_newmark_iter(mat_trk,inp,shape, Z, wh_ld, acc1, vel1, dis1,mc_ws1,X_w_t, geo,Z_global,contactID,Fex, mat_ws,mat_vhcl, Y)
 %initial condition
-etol=1e-5; % !! Note this has been changed from 1e-7
+etol=1;%1e-5; % !! Note this has been changed from 1e-7
 deltat=inp.solver.deltat;
 m_w=inp.mater(6).Data(2);
 M_trk=mat_trk.M_reduced;

@@ -85,9 +85,10 @@ SleeperNodes(:,1)=geo.ND(geo.ND(:,3)==0 & geo.ND(:,5)==3,1);%geo.ND(geo.ND(:,5)=
 %geo.fixedNodeU=[LeftRailNodes(1);LeftRailNodes(length(LeftRailNodes));SleeperNodes(:,1);ballastNodes(:,1)];
 
 geo.fixedNodeU=[LeftRailNodes(1);LeftRailNodes(length(LeftRailNodes));ballastNodes(:,1)];
+% geo.fixedNodeU=[ballastNodes(:,1)];
 %%%%%%%%%%%%%%%
+% geo.fixedNodeV=[ballastNodes(:,1)];
 geo.fixedNodeV=[LeftRailNodes(1);LeftRailNodes(length(LeftRailNodes));ballastNodes(:,1)];
-% geo.fixedNodeV=[LeftRailNodes(1);LeftRailNodes(length(LeftRailNodes));ballastNodes(:,1)];
 %%%%%%%%%%%%%%%%
 end
 %%

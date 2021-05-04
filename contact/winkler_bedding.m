@@ -16,7 +16,8 @@ Z_irr = interp1(X_irr,ver_irr,xq,'pchip');
 
 %rail long. profile in the contact patch
 for i=1:length(xq)
-    shape = form_shape_fun2(geo,mat_trk,[xq(i),railID*0.75,0],inp.mater(1).Data);
+    %shape = form_shape_fun2(geo,mat_trk,[xq(i),railID*0.75,0],inp.mater(1).Data);
+    shape = form_shape_fun(geo,mat_trk,[xq(i),railID*0.75,0]); 
     Z_r(i,1) = shape*ver_dis_r';
 end
 
@@ -24,11 +25,12 @@ Z_r=Z_r-ver_dis_w; %colonm vector to row vector
 %
 
 
-Rw0=inp.geo.Rw/1;
+Rw0=inp.geo.Rw/2;
 Z_w=Rw0-sqrt(Rw0^2-(xq-X_w).^2);
 
 delta= Z_r(:,1)+Z_irr(:,1)-Z_w';
-k=(1/(2*sqrt(2)))*inp.mater(1).Data(1)/(1-0.27^2); 
+% k=(1/(2*sqrt(2)))*inp.mater(1).Data(1)/(1-0.27^2);
+k=(1/2)*inp.mater(1).Data(1)/(1-0.27^2);
 index = delta >0;
 delta=index.*delta;
 

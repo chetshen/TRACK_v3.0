@@ -19,7 +19,7 @@ Z.r=zeros(inp.solver.n_ts+1,2);
 Z.irr=zeros(inp.solver.n_ts+1,2); %can be read in with files
 F=zeros(inp.solver.n_ts+1,2);
 X_w=zeros(inp.solver.n_ts+1,1);
-X_w(1,1)=6;   %initial x coordinates of wheel
+X_w(1,1)=1.5;   %initial x coordinates of wheel
 vx=inp.solver.Vx; %vehicle speed
 contactID=5; %5 for non-linear  10 for linear 8 for winkler bedding 
 zdd=load(inp.ext_force.timeh);
@@ -34,9 +34,9 @@ end
 %%irregularity definition
 
         %%irregularity definition: squat G302 maria
-        irr_depth=0.2e-3;
+        irr_depth=0e-3;
         irr_length=30e-3;
-        irr_x0=6.5; %30.38=15.38=0.98 in FE 15.5=1.1
+        irr_x0=3; %30.38=15.38=0.98 in FE 15.5=1.1
         irr_ts0=round((irr_x0-X_w(1,1))/vx/inp.solver.deltat);
         irr_ts1=round((irr_x0-X_w(1,1)+1*irr_length)/vx/inp.solver.deltat);
         

@@ -12,7 +12,8 @@ function [N0, N1]=Nshape(xi, type, phi, L)
 % L: element length
 % Ref: [1] Eq. 5.63 in 1996 K. J. Bathe Finite Element Procedures
 %      [2] Eq. 3.138 - 3.149 in B.S. Gan An Isogemetric Approach to beam structures (Polynimial shape functions)
-%      [3] 
+%      [3] Eq. 9 (a-c) in 1993_Friedman_An improved two-node timoshenko
+%      beam finite element [Polynomial]
 ndof = 4;
 N0 = zeros (2, ndof); 
 if type == 1 % linear shape function

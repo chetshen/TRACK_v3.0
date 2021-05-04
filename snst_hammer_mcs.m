@@ -4,11 +4,11 @@
 % % Author: Chen Shen
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%clear
+clear
 %%
-filename='snst_hammer_onsup_3k_8_variables_norm_stiffpad.mat';
-[inp,NNslpf] = get_input_4();
-[nodeCoord] = node_coor(inp);
+filename='snst_hammer_onsup_10k_samples.mat';
+[inp,NNslpf] = get_input_vtrack();
+[nodeCoord] = node_coor(inp,1);
 btypr = inp.mesh.btypr;
 btyps = inp.mesh.btyps;
 [geo] = mesh_trk_full(btypr,btyps,nodeCoord);
@@ -16,21 +16,17 @@ mat_ws=form_mat_ws(inp);
 mat_trk = form_mat_trk_2(inp,geo);
 % refval = [210e9;7.0515e-3;74.6e9;0.043;1.3e9;6.75e4;9e7/NNslpf;6.4e4/NNslpf];
 
-setnum = [1,1;1,3;2,1;2,3;3,1;3,2;4,1;4,2];
-valRange = [6.3e6,6.5e6;  % Rail EI
-            59,61;         % Rail rhoA
-            1.10e9,1.12e9; % Sleeper EI
-            1.05e2,1.58e2; % Sleeper rhoA
-            1.3e9,2e9;     % Railpad Stiffness 1e8,1.5e9;
-            1e4,7e4;       % Railpad damping
-            6e7/NNslpf, 28e7/NNslpf;
-            4e4/NNslpf, 28e4/NNslpf];
+setnum = [3,1;3,2;4,1;4,2];
+valRange = [1e7,3e8;     % Railpad Stiffness 1e8,1.5e9;
+            1e3,30e3;       % Railpad damping
+            6e6/NNslpf, 2e7/NNslpf;
+            0.5e3/NNslpf, 2.6e3/NNslpf];
 refval = sum(valRange,2)./2;
 range = valRange(:,2)-valRange(:,1);
 setnumC1 = setnum(:,1);
 setnumC2 = setnum(:,2);
-N = 3000; %number of samples
-nPara = 8;
+N = 10000; %number of samples
+nPara = 4;
 S =zeros(12801,N); % Results
 distrTpye = 1;
 
@@ -60,7 +56,7 @@ end
 %% Start MCS
 parfor nsim = 1:N
     inpOne = inp;
-    for npara = 1:8
+    for npara = 1:nPara
         nmat = setnumC1(npara);
         ndata = setnumC2(npara);
         if nmat < 3
