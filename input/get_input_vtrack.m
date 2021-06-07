@@ -74,7 +74,7 @@ in_data.mater(2).Note='sleeper';
 
 %MATERIAL SPRING DATA: RAILPAD
 % in_data.mater(3).ElemType=3;
-in_data.mater(3).Data=[0.5e8; %1.56e9;%1.3e9; %K_Spring_RS [N/m]
+in_data.mater(3).Data=[5e8; %1.56e9;%1.3e9; %K_Spring_RS [N/m]
                       3e4/25];%6.75e4]; %4.5e4]; %C_Damper_RS[N.s/m]
 in_data.mater(3).Note='railpad';
 
