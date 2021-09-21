@@ -21,7 +21,7 @@ else
 end
 dof=length(sys_mat.K_reduced);
 
-zdd=load(in_data.ext_force.timeh).*2.222222;
+zdd=load(in_data.ext_force.timeh);
 sf_zdd = in_data.ext_force.sf; 
 tx=[0:1/sf_zdd:1/sf_zdd*(length(zdd)-1)];
 t=[0:deltat:1/sf_zdd*(length(zdd)-1)];
@@ -59,8 +59,8 @@ acc = zeros(length(zdd)-1,dof);
 % acc(1,:)=initial.acc;
 
 % t=(0:points-1)*deltat;
-disp (['Starting Newmark intergration. Time: ' datestr(datetime('now'))]);
-tic;
+% % disp (['Starting Newmark intergration. Time: ' datestr(datetime('now'))]);
+% % tic;
 if in_data.ext_force.Vx==0
    coor_load=in_data.ext_force.x;
     if coor_load(:,3)==0%shape function 1 on rail
@@ -68,7 +68,8 @@ if in_data.ext_force.Vx==0
 %         disp('ok');
     else%shape funciton 2 impact on sleeper
         shape=zeros(1,length(K));
-        nodeNumber=661;dofID=1; %nodeNumber=107;dofID=1;
+        nodeNumber = find(ismember(round(geo.ND(:,2),5), coor_load(1)) & ismember(round(geo.ND(:,3),5), coor_load(2)) & geo.ND(:,5) == 3);
+        dofID=1; %nodeNumber=107;dofID=1;
         dofShape=2*(nodeNumber-1)+dofID;
         ind=ismember(sys_mat.activeDof,dofShape);
         shape(1,ind)=1;
@@ -104,9 +105,9 @@ for i=1:in_data.solver.n_ts
     
     acc(i+1,:) = a0*(dis(i+1,:)-dis(i,:)) - a2*vel(i,:) - a3*acc(i,:);
     vel(i+1,:) = vel(i,:) + a6*acc(i,:) + a7*acc(i+1,:);
-    if ismember(i,1000*linspace(1,10,10))
-    disp (['Time step: ' num2str(i) 'finished. Time' num2str(toc)]);
-    end
+% %     if ismember(i,1000*linspace(1,10,10))
+% %     disp (['Time step: ' num2str(i) 'finished. Time' num2str(toc)]);
+% %     end
 end
 
 
