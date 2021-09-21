@@ -125,12 +125,17 @@ switch i
 %         Z.irr(:,1) = Ztemp.Z.irr(:,1);
         %%%%%%%%%%%%%%%%%%%%%%% measured v-track roughness
 %         load('D:\OneDrive - Delft University of Technology\in2t2_v_track\rail_profile_measured_s91s96.mat','x_irr','irr_meas')
-        load('D:\OneDrive - Delft University of Technology\in2t2_v_track\rail_profile_measured_s91s96.mat','x_irr_res_sim','z_irr_res_de')
-        irr_meas = movavg(z_irr_res_de,'linear',100);
-        x_irr = x_irr_res_sim;
-        irr_x0 = X_w(1,1);
-        irr_x = vx*inp.solver.deltat:vx*inp.solver.deltat:vx*inp.solver.deltat*inp.solver.n_ts;
-        Z.irr(2:end,1) = interp1(x_irr,(irr_meas-irr_meas(1,1))./100000,irr_x);
+        % load('D:\OneDrive - Delft University of Technology\in2t2_v_track\rail_profile_measured_s91s96.mat','x_irr_res_sim','z_irr_res_de')
+        % irr_meas = movavg(z_irr_res_de,'linear',100);
+        % x_irr = x_irr_res_sim;
+        % irr_x0 = X_w(1,1);
+        % irr_x = vx*inp.solver.deltat:vx*inp.solver.deltat:vx*inp.solver.deltat*inp.solver.n_ts;
+        % Z.irr(2:end,1) = interp1(x_irr,(irr_meas-irr_meas(1,1))./10000,irr_x);
+        %%%%%%%%%%%%%%%%%%%%%%%% generated roughness based on US 6 degreee
+        %%%%%%%%%%%%%%%%%%%%%%   roughness spectrum
+        Xnz = roughness_spectrum(vx, inp.solver.deltat, inp.solver.n_ts);
+        Z.irr(2:end,1) = Xnz - Xnz(1,1);
+        Z.irr(2:end,1) = (Z.irr(2:end,1)-movavg(Z.irr(2:end,1),'linear',50)).*4;
 end
 
 Z.irr(:,2)=zeros(length(Z.irr(:,1)),1);%irregularity on the other rail 
