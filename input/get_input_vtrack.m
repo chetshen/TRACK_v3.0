@@ -23,7 +23,7 @@ in_data.geo.wb = 0;                  %[m] Wheelbase length
 
 in_data.ext_force.timeh='example.txt';%'FW_h30w40'; %['white_noise.txt']; %[ 'example.txt' ];        %time history of external force
 in_data.ext_force.sf=25000;
-in_data.ext_force.x=[1.5,-0.12,0];
+in_data.ext_force.x=[1.5,-0.12,0];%[1.5,-0.06,-0.02];
 in_data.ext_force.Vx=0;
 % zdd=load(in_data.ext_force.timeh);
 % dof=299;
@@ -37,6 +37,7 @@ in_data.solver.n_ts=2000; %length(zdd)-1;                     %Number of time st
 in_data.solver.deltat=1/25000;                   %Time step length
 in_data.solver.linsolver_id=2;             %linear solver id, 1 for LDL, 2 for mldivide
 in_data.solver.Vx=13./3.6;
+in_data.solver.xw0 = 3.125;
 %%
 %MESH PARAMETERS
 in_data.mesh.numElem_R_betwSprings=10;   %Number of elements between 2 springs
@@ -48,15 +49,15 @@ NEslph=(2*in_data.mesh.m_1S_Ext+in_data.mesh.m_1S_Int)/2; %number of elements fo
 NNslpf=NEslph*2+1;
 NNslph=NEslph+1;
 
-in_data.mesh.btypr=5;                   %mesh beam type: 1 for Euler, 2 for Timoshenko
-in_data.mesh.btyps=5;
+in_data.mesh.btypr=2;                   %mesh beam type: 1 for Euler, 2 for Timoshenko
+in_data.mesh.btyps=2;
 %%
 
 %MATERIAL RAIL DATA 
 % in_data.mater(1).ElemType=1;       %1 for rail material; 2 for sleeper; 3 for railpads; 4 for ballas2.951t
 in_data.mater(1).Data=[210e9;    %E_R[N/m^2]
                     5.1483e-7;    %0.23896e-4; %2.417e-5;    %I_R[m^4]
-                    8.315e-4;   %7.0515e-3; %7.246e-3;   %A_R[m^2]
+                    8.6538e-04;   %7.0515e-3; %7.246e-3;   %A_R[m^2]
                     7800;    %rho_R[kg/m^3]
                     210e9/2.6;    %G_R
                      0.4];% 0.34] ;     %kappa_R
@@ -74,8 +75,8 @@ in_data.mater(2).Note='sleeper';
 
 %MATERIAL SPRING DATA: RAILPAD
 % in_data.mater(3).ElemType=3;
-in_data.mater(3).Data=[5e8; %1.56e9;%1.3e9; %K_Spring_RS [N/m]
-                      1e5/25];%6.75e4]; %4.5e4]; %C_Damper_RS[N.s/m]
+in_data.mater(3).Data=[1e8; %1.56e9;%1.3e9; %K_Spring_RS [N/m]
+                      10e5/25];%6.75e4]; %4.5e4]; %C_Damper_RS[N.s/m]
 in_data.mater(3).Note='railpad';
 
 
@@ -83,7 +84,7 @@ in_data.mater(3).Note='railpad';
 % in_data.mater(4).ElemType=4;
 
 in_data.mater(4).Data = [10e7/NNslpf/5;  %K_Spring_SB[N/m]
-                         1e4/NNslpf/25];%3.444e4/5];  %C_Damper_SB[N.s/m]
+                         3e4/NNslpf/25];%3.444e4/5];  %C_Damper_SB[N.s/m]
 in_data.mater(4).Note='ballast';
 
 

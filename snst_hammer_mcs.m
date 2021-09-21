@@ -6,8 +6,9 @@
 
 clear
 %%
-filename='snst_hammer_onsup_10k_samples.mat';
+filename='snst_hammer_midspan_5k_samples_R_EI_nominal_randInp_match_onsup.mat';
 [inp,NNslpf] = get_input_vtrack();
+inp.ext_force.x = [1.5+0.125/2,-0.12,0];
 [nodeCoord] = node_coor(inp,1);
 btypr = inp.mesh.btypr;
 btyps = inp.mesh.btyps;
@@ -15,17 +16,26 @@ btyps = inp.mesh.btyps;
 mat_ws=form_mat_ws(inp);
 mat_trk = form_mat_trk_2(inp,geo);
 % refval = [210e9;7.0515e-3;74.6e9;0.043;1.3e9;6.75e4;9e7/NNslpf;6.4e4/NNslpf];
+slp_EI = inp.mater(2).Data(1)*inp.mater(2).Data(2);
+slp_rhoA = inp.mater(2).Data(3)*inp.mater(2).Data(4);
 
 setnum = [3,1;3,2;4,1;4,2];
+% setnum = [2,1;3,1;3,2;4,1;4,2];
 valRange = [1e7,3e8;     % Railpad Stiffness 1e8,1.5e9;
-            1e3,30e3;       % Railpad damping
-            6e6/NNslpf, 2e7/NNslpf;
-            0.5e3/NNslpf, 2.6e3/NNslpf];
+            1e3,5e4;       % Railpad damping
+            30e6/NNslpf/5, 100e6/NNslpf/5;
+            1e4/NNslpf/25, 65e3/NNslpf/25];
+%         valRange = [slp_EI*0.5,slp_EI*5; % Sleeper EI
+% %              slp_rhoA*0.5,slp_rhoA*5; % Sleeper rhoA
+%             1e7,3e8;     % Railpad Stiffness 1e8,1.5e9;
+%             1e3,5e4;       % Railpad damping
+%             6e6/NNslpf, 2e7/NNslpf;
+%             1e4/NNslpf/25, 28e4/NNslpf/25];
 refval = sum(valRange,2)./2;
 range = valRange(:,2)-valRange(:,1);
 setnumC1 = setnum(:,1);
 setnumC2 = setnum(:,2);
-N = 10000; %number of samples
+N = 5000; %number of samples
 nPara = 4;
 S =zeros(12801,N); % Results
 distrTpye = 1;

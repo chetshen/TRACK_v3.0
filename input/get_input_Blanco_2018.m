@@ -24,7 +24,7 @@ in_data.geo.wb = 2.9;                  %[m] Wheelbase length
 
 in_data.ext_force.timeh='example.txt';%'FW_h30w40'; %['white_noise.txt']; %[ 'example.txt' ];        %time history of external force
 in_data.ext_force.sf=10000;
-in_data.ext_force.x=[6.825,-0.75,0];
+in_data.ext_force.x=[30,-0.75,0];
 in_data.ext_force.Vx=0;
 % zdd=load(in_data.ext_force.timeh);
 % dof=299;
@@ -37,7 +37,7 @@ in_data.ext_force.wh_ld = 100e3 ; % 8000*9.8 ;% 12742*9.8;   %[N]
 in_data.solver.n_ts=2000; %length(zdd)-1;                     %Number of time steps
 in_data.solver.deltat=1/10000;                   %Time step length
 in_data.solver.linsolver_id=2;             %linear solver id, 1 for LDL, 2 for mldivide
-in_data.solver.Vx=24;%148/3.6;
+in_data.solver.Vx=24;%148/3.6;%24;%148/3.6;
 in_data.solver.xw0 = 30;
 %%
 %MESH PARAMETERS

@@ -54,6 +54,7 @@ rabvs=geo.ND(index,1:3);
 
 sleeperNodes=geo.ND(geo.ND(:,5)==3,:);
 index1=ismember(round(sleeperNodes(:,3),8),-0.12);
+% index1=ismember(round(sleeperNodes(:,3),8),-0.75);
 % index2=ismember(round(sleeperNodes(:,3),8),0.75);
 rabvs(:,4)=sleeperNodes(index1,1);
 
@@ -84,11 +85,11 @@ SleeperNodes(:,1)=geo.ND(geo.ND(:,3)==0 & geo.ND(:,5)==3,1);%geo.ND(geo.ND(:,5)=
 
 %geo.fixedNodeU=[LeftRailNodes(1);LeftRailNodes(length(LeftRailNodes));SleeperNodes(:,1);ballastNodes(:,1)];
 
-geo.fixedNodeU=[LeftRailNodes(1);LeftRailNodes(length(LeftRailNodes));ballastNodes(:,1)];
-% geo.fixedNodeU=[ballastNodes(:,1)];
+% geo.fixedNodeU=[LeftRailNodes(1);LeftRailNodes(length(LeftRailNodes));ballastNodes(:,1)];
+geo.fixedNodeU=[ballastNodes(:,1)];
 %%%%%%%%%%%%%%%
-% geo.fixedNodeV=[ballastNodes(:,1)];
-geo.fixedNodeV=[LeftRailNodes(1);LeftRailNodes(length(LeftRailNodes));ballastNodes(:,1)];
+geo.fixedNodeV=[ballastNodes(:,1)];
+% geo.fixedNodeV=[LeftRailNodes(1);LeftRailNodes(length(LeftRailNodes));ballastNodes(:,1)];
 %%%%%%%%%%%%%%%%
 end
 %%

@@ -37,9 +37,10 @@ in_data.solver.n_ts=2000; %length(zdd)-1;                     %Number of time st
 in_data.solver.deltat=1/25000;                   %Time step length
 in_data.solver.linsolver_id=2;             %linear solver id, 1 for LDL, 2 for mldivide
 in_data.solver.Vx=30;
+in_data.solver.xw0 = 6;
 %%
 %MESH PARAMETERS
-in_data.mesh.numElem_R_betwSprings=24;   %Number of elements between 2 springs
+in_data.mesh.numElem_R_betwSprings=6;   %Number of elements between 2 springs
 % in_data.mesh.numElem_R_betwSprings_L=60;   %Number of elements between 2 springs
 in_data.mesh.RefinedMeshLength=0.001;    %Element length at refined mesh around irregularity [m]
 in_data.mesh.m_1S_Ext=2;                %Number of elements in a sleeper external
@@ -64,11 +65,11 @@ in_data.mater(1).Note='rail';
 
 %MATERIAL SLEEPERS DATA 
 % in_data.mater(2).ElemType=3;
-in_data.mater(2).Data=[74.6e14; % #19.4e12# or #19.4e9# [N/m^2]
+in_data.mater(2).Data=[74.6e9; % #19.4e12# or #19.4e9# [N/m^2]
                     1.375e-4;  %[m^4]
                     0.043; %[m^2]
                     2500;%2140;%3070;   %2480[kg/m^3]
-                    74.6e14/2.34; %E/2.34
+                    74.6e9/2.34; %E/2.34
                     0.833]; %0.833
 in_data.mater(2).Note='sleeper';
 

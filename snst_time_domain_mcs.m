@@ -20,24 +20,24 @@ mat_ws=form_mat_ws(inp);
 % S = struct('F',zeros(1001,2)); % Results
 
 setnum = [1,1;1,3;2,1;2,3;3,1;3,2;4,1;4,2];
-valRange = [4.75e6,5.25e6;  % Rail EI
-            51.3,56.7;         % Rail rhoA
-            5.53e6,1.12e7; % Sleeper EI
-            1.05e2,1.58e2; % Sleeper rhoA
-            2e8,1.3e9;     % Railpad Stiffness 1e8,1.5e9;
-            1e4,7e4;       % Railpad damping
-            6e7/NNslpf, 28e7/NNslpf;
-            4e4/NNslpf, 28e4/NNslpf;
-            1e-4 5e-4;
-            10e-3  150e-3 ];
 % valRange = [4.75e6,5.25e6;  % Rail EI
 %             51.3,56.7;         % Rail rhoA
 %             5.53e6,1.12e7; % Sleeper EI
 %             1.05e2,1.58e2; % Sleeper rhoA
-%             1e8,1.3e9;     % Railpad Stiffness 1e8,1.5e9;
+%             2e8,1.3e9;     % Railpad Stiffness 1e8,1.5e9;
 %             1e4,7e4;       % Railpad damping
 %             6e7/NNslpf, 28e7/NNslpf;
-%             4e4/NNslpf, 28e4/NNslpf];
+%             4e4/NNslpf, 28e4/NNslpf;
+%             1e-4 5e-4;
+%             10e-3  150e-3 ];
+valRange = [4.75e6,5.25e6;  % Rail EI
+            51.3,56.7;         % Rail rhoA
+            5.53e6,1.12e7; % Sleeper EI
+            1.05e2,1.58e2; % Sleeper rhoA
+            1e8,1.3e9;     % Railpad Stiffness 1e8,1.5e9;
+            1e4,7e4;       % Railpad damping
+            6e7/NNslpf, 28e7/NNslpf;
+            4e4/NNslpf, 28e4/NNslpf];
 refval = sum(valRange,2)./2;
 range = valRange(:,2)-valRange(:,1);
 setnumC1 = setnum(:,1);
