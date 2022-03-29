@@ -11,6 +11,7 @@ else
 end
 
 deltat=in_data.solver.deltat;
+n_ts = in_data.solver.n_ts;
 
 K=sys_mat.K_reduced;
 M=sys_mat.M_reduced;
@@ -24,7 +25,7 @@ dof=length(sys_mat.K_reduced);
 zdd=load(in_data.ext_force.timeh);
 sf_zdd = in_data.ext_force.sf; 
 tx=[0:1/sf_zdd:1/sf_zdd*(length(zdd)-1)];
-t=[0:deltat:1/sf_zdd*(length(zdd)-1)];
+t=[0:deltat:1/sf_zdd*(n_ts-1)];%(length(zdd)-1)];
 zdd=interp1(tx,zdd,t);
 
 points=length(zdd);
@@ -47,9 +48,9 @@ K=K+a0*M+a1*C;
 
 [L,D,P]=ldl(K);
 
-dis = zeros(length(zdd)-1,dof);
-vel = zeros(length(zdd)-1,dof);
-acc = zeros(length(zdd)-1,dof);
+dis = zeros(n_ts,dof);
+vel = zeros(n_ts,dof);
+acc = zeros(n_ts,dof);
 
 
 
@@ -68,14 +69,14 @@ if in_data.ext_force.Vx==0
 %         disp('ok');
     else%shape funciton 2 impact on sleeper
         shape=zeros(1,length(K));
-        nodeNumber = find(ismember(round(geo.ND(:,2),5), coor_load(1)) & ismember(round(geo.ND(:,3),5), coor_load(2)) & geo.ND(:,5) == 3);
+        nodeNumber = find(ismember(round(geo.ND(:,2),5), coor_load(1)) & ismember(round(geo.ND(:,3),5), coor_load(2)) & ismember(round(geo.ND(:,4),5), coor_load(3)));
         dofID=1; %nodeNumber=107;dofID=1;
         dofShape=2*(nodeNumber-1)+dofID;
         ind=ismember(sys_mat.activeDof,dofShape);
         shape(1,ind)=1;
     end
 end
-for i=1:in_data.solver.n_ts
+for i=1:in_data.solver.n_ts-1
     if in_data.ext_force.Vx~=0
     coor_load=in_data.ext_force.x+[in_data.ext_force.Vx*i,0,0];
     if coor_load(:,3)==0%shape function 1 on rail
@@ -89,8 +90,14 @@ for i=1:in_data.solver.n_ts
         shape(1,ind)=1;
     end
     end
-    %     R= zdd(i+1)*shape';
-    R=  zdd(i+1)*shape';
+         R= zdd(i+1)*shape';
+    % shape_wheel=zeros(1,length(K));
+    %     nodeNumber=geo.ND(geo.ND(:,5) == 5,1);dofID=1; %nodeNumber=107;dofID=1;
+    %     dofShape=2*(nodeNumber-1)+dofID;
+    %     ind=ismember(sys_mat.activeDof,dofShape);
+    %     shape_wheel(1,ind)=1;
+    % R=  (zdd(i+1))*shape' + in_data.ext_force.wh_ld.*shape_wheel';
+    
     R = R + M*(a0*dis(i,:)'+a2*vel(i,:)'+a3*acc(i,:)')+ C*(a1*dis(i,:)'+a4*vel(i,:)'+a5*acc(i,:)');
     
     switch in_data.solver.linsolver_id

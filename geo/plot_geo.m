@@ -18,26 +18,34 @@ for i=1:length(geo.EL)
     if geo.EL(i,4) < 3
         if railOnly == 1
             if geo.EL(i,4) == 1
-            plot3(x1,y1,z1,'Color','blue','LineWidth',2);
+                plot3(x1,y1,z1,'Color','blue','LineWidth',2);
             elseif geo.EL(i,4) == 2
-            plot3(x1,y1,z1,'Color','red','LineWidth',2);
+                plot3(x1,y1,z1,'Color','red','LineWidth',2);
             end
         else
             if geo.EL(i,4) == 1
-            plot3(x1,y1,z1,'Color','blue','Marker','o');
+                plot3(x1,y1,z1,'Color','blue','Marker','o');
             elseif geo.EL(i,4) == 2
-            plot3(x1,y1,z1,'Color','red','Marker','o');
+                plot3(x1,y1,z1,'Color','red','Marker','o');
             end
             
         end
     elseif geo.EL(i,4)==3
         if railOnly == 1
             
-        else
-            plot3(x1,y1,z1,'Color','k','LineWidth',2);
+        elseif railOnly == 0
+            plot3(x1,y1,z1+0.2,'Color','k','LineWidth',2);
+        elseif railOnly == 2
+            if y1(1) == -0.75
+                            plot3(x1(1),y1(1),z1(1)+0.2,'Color','c','LineWidth',2,'LineStyle','none','Marker','^');
+            end
+
         end
-    else
-        plot3(x1,y1,z1,'Color','cyan');
+    elseif geo.EL(i,4)==6
+        plot3(x1(2,:),y1(2,:),z1(2,:)-0.46,'Color','red','Marker','o','MarkerSize',10);
+    elseif geo.EL(i,4)==7
+        plot3(x1(2,:),y1(2,:),z1(2,:)-0.46-0.46,'Color','blue','Marker','o','MarkerSize',50);
+        %         plot3(x1,y1,z1,'Color','cyan');
     end
     
 end
@@ -53,7 +61,7 @@ end
 % z3=geo.ND(geo.fixedNodeV,4);
 % scatter3(x3,y3,z3,36,'g','>');
 % hold off
-% 
+%
 % view(45,45.45)
 % % xlim([14.3,16.9]);
 % zlim([-0.4,0.3]);

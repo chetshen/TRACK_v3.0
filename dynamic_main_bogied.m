@@ -26,7 +26,11 @@ Z.r=zeros(inp.solver.n_ts+1,2);
 Z.irr=zeros(inp.solver.n_ts+1,2); %can be read in with files
 F=zeros(inp.solver.n_ts+1,2);
 X_w=zeros(inp.solver.n_ts+1,1);
+if isfield(inp.solver,'xw0')
+    X_w(1,1) = inp.solver.xw0;
+else
 X_w(1,1)=6;   %initial x coordinates of wheel
+end
 vx=inp.solver.Vx; %vehicle speed
 contactID=5; %5 for non-linear  10 for linear 8 for winkler bedding 
 zdd=load(inp.ext_force.timeh);
@@ -36,6 +40,7 @@ if isempty(mat_ws)
 else
 mc_ws=zeros(inp.solver.n_ts+1,size(mat_ws.A,1)); %modal coordinates for flexible wheelset model
 end
+shapeFunction_type = 1;
 %%
 %%irregularity definition
 prompt='Please select the irregularity definition(1.Sinsoidal;2.Input file: [1]\n';
@@ -110,10 +115,32 @@ switch i
         for i=round(irr_ts1/2)+1:irr_ts1
         Z.irr(i,1)=-irr_depth.*(irr_length-(vx*inp.solver.deltat*i-(irr_x0-X_w(1,1))))/(irr_length/2);
         end
-        
+    case 5 % roughness
+        %%%%%%%%%%%%%%%%%%%%%%% random irregularity
+%         irr_depth = 1e-7;
+%         
+%         Z.irr(2:end,1) = irr_depth*randn(inp.solver.n_ts,1);
+        %%%%%%%%%%%%%%%%%%%%%%%
+%         Ztemp = load('D:\TRACK\plain track\30m_half_24elements_per_sleeper_bay_timo_random_irr.mat', 'Z');
+%         Z.irr(:,1) = Ztemp.Z.irr(:,1);
+        %%%%%%%%%%%%%%%%%%%%%%% measured v-track roughness
+%         load('D:\OneDrive - Delft University of Technology\in2t2_v_track\rail_profile_measured_s91s96.mat','x_irr','irr_meas')
+        % load('D:\OneDrive - Delft University of Technology\in2t2_v_track\rail_profile_measured_s91s96.mat','x_irr_res_sim','z_irr_res_de')
+        % irr_meas = movavg(z_irr_res_de,'linear',100);
+        % x_irr = x_irr_res_sim;
+        % irr_x0 = X_w(1,1);
+        % irr_x = vx*inp.solver.deltat:vx*inp.solver.deltat:vx*inp.solver.deltat*inp.solver.n_ts;
+        % Z.irr(2:end,1) = interp1(x_irr,(irr_meas-irr_meas(1,1))./10000,irr_x);
+        %%%%%%%%%%%%%%%%%%%%%%%% generated roughness based on US 6 degreee
+        %%%%%%%%%%%%%%%%%%%%%%   roughness spectrum
+        Xnz = roughness_spectrum(vx, inp.solver.deltat, inp.solver.n_ts);
+        Z.irr(2:end,1) = Xnz - Xnz(1,1);
+%         Z.irr(2:end,1) = (Z.irr(2:end,1)-movavg(Z.irr(2:end,1),'linear',50)).*4;
+Xnz = roughness_spectrum(vx, inp.solver.deltat, inp.solver.n_ts);
+        Z.irr(2:end,2) = Xnz - Xnz(1,1);
 end
-
-Z.irr(:,2)=Z.irr(:,1);%irregularity on the other rail 
+% shift_n = round(inp.geo.wb./inp.solver.Vx./inp.solver.deltat);
+% Z.irr(:,2) = [Z.irr(shift_n:end,1);Z.irr(1:shift_n-1,1)];%irregularity on the other rail 
 
 %%
 %%irregularity definition: measured
@@ -140,7 +167,7 @@ end
     case 1
     %
     vx=0;
-    X_w(1,1)=6.1;
+    X_w(1,1)=inp.solver.xw0;
     %
 
     case 2
@@ -148,10 +175,15 @@ end
     
  
 %%shape function for initial condition
+switch shapeFunction_type
+    case 2
 % shape_initial=form_shape_fun(geo,mat_trk,[X_w(1,1),-0.75,0]);
+        shape_initial(1,:)=form_shape_fun2(geo,mat_trk,[X_w(1,1),-0.75,0],inp.mater(1).Data);
+        shape_initial(2,:)=form_shape_fun2(geo,mat_trk,[X_w(1,1)-inp.geo.wb,-0.75,0],inp.mater(1).Data);
+    case 1
 shape_initial(1,:)=form_shape_fun(geo,mat_trk,[X_w(1,1),-0.75,0]); 
 shape_initial(2,:)=form_shape_fun(geo,mat_trk,[X_w(1,1)-inp.geo.wb,-0.75,0]); % wheelbase
-
+    end
 %static analysis
 [dis_initial,Z_initial,F_initial]=solver_static(mat_trk,inp,shape_initial,contactID);
 dis.r(1,:)=dis_initial.r;
@@ -172,9 +204,14 @@ disp (['Starting Newmark intergration. Time: ' datestr(now)]);
 tic;
 for i=1:inp.solver.n_ts
     X_w(i+1,1)=X_w(1,1)+i*inp.solver.deltat*vx;
+    switch shapeFunction_type
+        case 2
+            shape(1,:)=form_shape_fun2(geo,mat_trk,[X_w(i+1,1),-0.75,0],inp.mater(1).Data);
+            shape(2,:)=form_shape_fun2(geo,mat_trk,[X_w(i+1,1)-inp.geo.wb,0.75,0],inp.mater(1).Data);
+        case 1
     shape(1,:)=form_shape_fun(geo,mat_trk,[X_w(i+1,1),-0.75,0]);
     shape(2,:)=form_shape_fun(geo,mat_trk,[X_w(i+1,1)-inp.geo.wb,-0.75,0]);
-     
+    end
     acc1.r=acc.r(i,:);
     vel1.r=vel.r(i,:);
     dis1.r=dis.r(i,:);
@@ -202,7 +239,7 @@ for i=1:inp.solver.n_ts
     Z.r(i+1,:)=position.r;
 %     Z.irr(i+1,1)=position.irr;
     F(i+1,:)=F_contact;
-    if ismember(i,1000*linspace(1,10,10))
+    if ismember(i,100*linspace(1,100,100))
         disp (['Time step: ' num2str(i) 'finished. Time' num2str(toc)]);
     end
 end

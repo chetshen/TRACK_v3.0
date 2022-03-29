@@ -56,8 +56,8 @@ in_data.mesh.btyps=5;
 %MATERIAL RAIL DATA 
 % in_data.mater(1).ElemType=1;       %1 for rail material; 2 for sleeper; 3 for railpads; 4 for ballas2.951t
 in_data.mater(1).Data=[210e9;    %E_R[N/m^2]
-                    0.23896e-4;    %0.23896e-4; %2.417e-5;    %I_R[m^4]
-                    7.0515e-3;   %7.0515e-3; %7.246e-3;   %A_R[m^2]
+                    3.0476e-5;    %0.23896e-4; %2.417e-5;    %I_R[m^4]
+                    7.6923e-3;   %7.0515e-3; %7.246e-3;   %A_R[m^2]
                     7800;    %rho_R[kg/m^3]
                       8.1e10;    %G_R
                      0.4];% 0.34] ;     %kappa_R

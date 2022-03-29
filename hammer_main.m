@@ -24,7 +24,7 @@ if X_load(3)==0
 
 else%shape funciton 2 impact on sleeper
 shape=zeros(1,length(mat_trk.K_reduced));
-nodeNumber = find(ismember(round(geo.ND(:,2),5), X_load(1)) & ismember(round(geo.ND(:,3),5), X_load(2)) & geo.ND(:,5) == 3);
+nodeNumber = find(ismember(round(geo.ND(:,2),5), X_load(1)) & ismember(round(geo.ND(:,3),5), X_load(2)) & ismember(round(geo.ND(:,4),5), X_load(3)));
 dofID=1;
 dof=2*(nodeNumber-1)+dofID;
 ind=ismember(mat_trk.activeDof,dof);
@@ -33,7 +33,7 @@ end
 
 dis_x_load=dis*shape';
 w = genexpwin(inp.solver.n_ts);
-sf = inp.ext_force.sf;
+sf = 1./inp.solver.deltat;
 % nodeout = [55:1:67,353:1:363];
 % [dis_out,vel_out,acc_out,index,nodeRef] = time_history(nodeout,mat_trk.activeDof,dis,vel,acc);
 % [H1,H2,~,pxx,pxy,fxx]=tran_fun([force(1:4428)',dis_out(1:4428,:)],w,0,10000,sf);
