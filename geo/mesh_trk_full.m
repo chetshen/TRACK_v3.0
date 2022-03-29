@@ -43,7 +43,7 @@ for i=1:m_Rl %left Rail
     
 end
 for i=1:m_Rr %right Rail
-    elemNodes(m_Rl+i,:)=[m_Rl+i+1,m_Rl+i+2,2,7,beam_type_r];
+    elemNodes(m_Rl+i,:)=[m_Rl+i+1,m_Rl+i+2,2,1,beam_type_r];
 end
 
 for i=1:length(geo.sleeper) %Sleepers
