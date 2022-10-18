@@ -68,7 +68,7 @@ while 1
         end
         Z.w=dis2.w;
         mc_ws2=0;
-    else % flexible wheelset using state-space model
+    else %~isempty(mat_ws) % flexible wheelset using state-space model
         tspan=[0 deltat];%integral time span
         Fvector=(-m_w*9.8-wh_ld+F(1))/size(mat_ws.B,2).*ones(size(mat_ws.B,2),1);%input force vector
         [~,z] = ode45(@(t,z) ansys2modal(t,z,mat_ws.A,mat_ws.B,Fvector,0), tspan, mc_ws1);
@@ -78,6 +78,12 @@ while 1
         vel2.w=w(2,1);
         acc2.w=w(3,1);
         Z.w=dis2.w;
+    % elseif % vehicle system 
+        % by xinxin
+        % M, K, C
+        % Mx'' + Kx + Cx' = R_ws
+        % 
+    
     end
     
     %update the contact force
