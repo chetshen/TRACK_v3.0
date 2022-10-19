@@ -8,7 +8,7 @@
 
 %%
 %%initial conditions
-function [F,Z] = dynamic_main_snst_mcs(inp,mat_trk,geo,mat_ws,irr_depth,irr_length,irr_coeff,conID)
+function [F,Z] = dynamic_main_snst_mcs(inp,mat_trk,geo,mat_ws,irr_depth,irr_length,irr_coeff,irr_predefined,conID)
 acc.r=zeros(inp.solver.n_ts+1,length(mat_trk.K_reduced));
 vel.r=zeros(inp.solver.n_ts+1,length(mat_trk.K_reduced));
 dis.r=zeros(inp.solver.n_ts+1,length(mat_trk.K_reduced));
@@ -22,7 +22,7 @@ F=zeros(inp.solver.n_ts+1,2);
 X_w=zeros(inp.solver.n_ts+1,1);
 X_w(1,1)=inp.solver.xw0;  %initial x coordinates of wheel
 vx=inp.solver.Vx; %vehicle speed
-if nargin < 8
+if nargin < 9
 contactID=5; %5 for non-linear 10 for winkler bedding
 else
     contactID = conID;
@@ -81,13 +81,15 @@ end
 %         irr_x = vx*inp.solver.deltat:vx*inp.solver.deltat:vx*inp.solver.deltat*inp.solver.n_ts;
 %         Z.irr(2:end,1) = interp1(x_irr,(irr_meas-irr_meas(1,1))./10000,irr_x);
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Xnz = roughness_spectrum(vx, inp.solver.deltat, inp.solver.n_ts);
-        Z.irr(2:end,1) = Xnz - Xnz(1,1);
-        Z.irr(2:end,1) = (Z.irr(2:end,1)-movavg(Z.irr(2:end,1),'linear',50)).*irr_coeff;
-Z.irr(:,2)=zeros(length(Z.irr(:,1)),1);%irregularity on the other rail 
-%
+% Xnz = roughness_spectrum(vx, inp.solver.deltat, inp.solver.n_ts);
+%         Z.irr(2:end,1) = Xnz - Xnz(1,1);
+%         Z.irr(2:end,1) = (Z.irr(2:end,1)-movavg(Z.irr(2:end,1),'linear',50)).*irr_coeff;
+% Z.irr(:,2)=zeros(length(Z.irr(:,1)),1);%irregularity on the other rail 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % z_irr = load('D:\OneDrive - Delft University of Technology\in2t2_v_track\sim_3.125m_20_elements_per_bay_12_slp_sle_timo2_shape_function1_gen_profile_ma50_kp_5e8_compare_mesh.mat','Z');
 % Z.irr = z_irr.Z.irr;
+Z.irr(:,1) = irr_predefined;%pre-defined irr  
+Z.irr(:,2) = zeros(length(Z.irr(:,1)),1);%irregularity on the other rail 
 %%
 %%irregularity definition: measured
 % load('measured_geometry_squat_Molodova_2014.mat', 'irr'); 
