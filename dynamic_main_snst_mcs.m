@@ -9,6 +9,7 @@
 %%
 %%initial conditions
 function [F,Z] = dynamic_main_snst_mcs(inp,mat_trk,geo,mat_ws,irr_depth,irr_length,irr_coeff,irr_predefined,conID)
+shapeFunction_type = 1;
 acc.r=zeros(inp.solver.n_ts+1,length(mat_trk.K_reduced));
 vel.r=zeros(inp.solver.n_ts+1,length(mat_trk.K_reduced));
 dis.r=zeros(inp.solver.n_ts+1,length(mat_trk.K_reduced));
@@ -109,8 +110,18 @@ Z.irr(:,2) = zeros(length(Z.irr(:,1)),1);%irregularity on the other rail
  
 %%shape function for initial condition
 % shape_initial=form_shape_fun(geo,mat_trk,[X_w(1,1),-0.75,0]);
-shape_initial(1,:)=form_shape_fun2(geo,mat_trk,[X_w(1,1),-0.75,0],inp.mater(1).Data);
-shape_initial(2,:)=form_shape_fun2(geo,mat_trk,[X_w(1,1),0.75,0],inp.mater(1).Data);
+        % shape_initial(1,:)=form_shape_fun2(geo,mat_trk,[X_w(1,1),-0.75,0],inp.mater(1).Data);
+        % shape_initial(2,:)=form_shape_fun2(geo,mat_trk,[X_w(1,1),0.75,0],inp.mater(1).Data);
+        
+        switch shapeFunction_type
+            case 2
+                % shape_initial=form_shape_fun(geo,mat_trk,[X_w(1,1),-0.75,0]);
+                shape_initial(1,:)=form_shape_fun2(geo,mat_trk,[X_w(1,1),-0.75,0],inp.mater(1).Data);
+                shape_initial(2,:)=form_shape_fun2(geo,mat_trk,[X_w(1,1),0.75,0],inp.mater(1).Data);
+            case 1
+                shape_initial(1,:)=form_shape_fun(geo,mat_trk,[X_w(1,1),-0.75,0]);
+                shape_initial(2,:)=form_shape_fun(geo,mat_trk,[X_w(1,1),0.75,0]);
+        end
 
 %static analysis
 [dis_initial,Z_initial,F_initial]=solver_static(mat_trk,inp,shape_initial,contactID);
@@ -132,9 +143,14 @@ F(1,:)=F_initial;
 tic;
 for i=1:inp.solver.n_ts
     X_w(i+1,1)=X_w(1,1)+i*inp.solver.deltat*vx;
-    shape(1,:)=form_shape_fun2(geo,mat_trk,[X_w(i+1,1),-0.75,0],inp.mater(1).Data);
-    shape(2,:)=form_shape_fun2(geo,mat_trk,[X_w(i+1,1),0.75,0],inp.mater(1).Data);
-     
+    switch shapeFunction_type
+        case 2
+            shape(1,:)=form_shape_fun2(geo,mat_trk,[X_w(i+1,1),-0.75,0],inp.mater(1).Data);
+            shape(2,:)=form_shape_fun2(geo,mat_trk,[X_w(i+1,1),0.75,0],inp.mater(1).Data);
+        case 1
+            shape(1,:)=form_shape_fun(geo,mat_trk,[X_w(i+1,1),-0.75,0]);
+            shape(2,:)=form_shape_fun(geo,mat_trk,[X_w(i+1,1),0.75,0]);
+    end
     acc1.r=acc.r(i,:);
     vel1.r=vel.r(i,:);
     dis1.r=dis.r(i,:);
