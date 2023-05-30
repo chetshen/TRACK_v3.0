@@ -53,8 +53,8 @@ index=ismember(round(geo.ND(1:numNode_r,2),8),round(geo.sleeper(:,1),8)); %find 
 rabvs=geo.ND(index,1:3);
 
 sleeperNodes=geo.ND(geo.ND(:,5)==3,:);
-index1=ismember(round(sleeperNodes(:,3),8),-0.12);
-% index1=ismember(round(sleeperNodes(:,3),8),-0.75);
+% index1=ismember(round(sleeperNodes(:,3),8),-0.12);
+index1=ismember(round(sleeperNodes(:,3),8),-0.75);
 % index2=ismember(round(sleeperNodes(:,3),8),0.75);
 rabvs(:,4)=sleeperNodes(index1,1);
 

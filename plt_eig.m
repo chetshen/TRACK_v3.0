@@ -14,5 +14,5 @@ shape=zeros(length(geo.ND),1);
 shape(nodei)=Vshape(:,modenum);
 plot_modeShape(geoShape,Vshape(:,modenum),scale,railOnly); 
 xlim('Auto');
- title([num2str(round(eigfrq(modenum),1)),' Hz'])
+ title([num2str(round(eigfrq(modenum),1)),' rad/s'])
 end

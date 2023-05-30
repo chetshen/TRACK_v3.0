@@ -5,7 +5,7 @@ function [in_data,NNslpf] = get_input_4(in_data)
 %%
 %Geometry input
 
-in_data.geo.Ltot_R=12;                  %[m]
+in_data.geo.Ltot_R=60;                  %[m]
 in_data.geo.SlpSpc=0.6;           %[m] 
 in_data.geo.dist_S=in_data.geo.SlpSpc; %[m] 
 in_data.geo.LExt_S=0.54;             %[m]
@@ -33,11 +33,11 @@ in_data.ext_force.wh_ld = 8000*9.8 ; % 8000*9.8 ;% 12742*9.8;   %[N]
 %%
 %Solver settings
 
-in_data.solver.n_ts=2000; %length(zdd)-1;                     %Number of time steps
+in_data.solver.n_ts=25000; %length(zdd)-1;                     %Number of time steps
 in_data.solver.deltat=1/25000;                   %Time step length
 in_data.solver.linsolver_id=2;             %linear solver id, 1 for LDL, 2 for mldivide
 in_data.solver.Vx=30;
-in_data.solver.xw0 = 6;
+in_data.solver.xw0 = 15;
 %%
 %MESH PARAMETERS
 in_data.mesh.numElem_R_betwSprings=6;   %Number of elements between 2 springs
@@ -49,8 +49,8 @@ NEslph=(2*in_data.mesh.m_1S_Ext+in_data.mesh.m_1S_Int)/2; %number of elements fo
 NNslpf=NEslph*2+1;
 NNslph=NEslph+1;
 
-in_data.mesh.btypr=5;                   %mesh beam type: 1 for Euler, 2 for Timoshenko
-in_data.mesh.btyps=5;
+in_data.mesh.btypr=1;                   %mesh beam type: 1 for Euler, 2 for Timoshenko
+in_data.mesh.btyps=1;
 %%
 
 %MATERIAL RAIL DATA 
@@ -65,18 +65,18 @@ in_data.mater(1).Note='rail';
 
 %MATERIAL SLEEPERS DATA 
 % in_data.mater(2).ElemType=3;
-in_data.mater(2).Data=[74.6e9; % #19.4e12# or #19.4e9# [N/m^2]
+in_data.mater(2).Data=[74.6e12/1.5; % #19.4e12# or #19.4e9# [N/m^2]
                     1.375e-4;  %[m^4]
                     0.043; %[m^2]
                     2500;%2140;%3070;   %2480[kg/m^3]
-                    74.6e9/2.34; %E/2.34
+                    74.6e12/2.34; %E/2.34
                     0.833]; %0.833
 in_data.mater(2).Note='sleeper';
 
 %MATERIAL SPRING DATA: RAILPAD
 % in_data.mater(3).ElemType=3;
 in_data.mater(3).Data=[6.5e8; %1.56e9;%1.3e9; %K_Spring_RS [N/m]
-                      6.75e4];%6.75e4]; %4.5e4]; %C_Damper_RS[N.s/m]
+                      6.75e1];%6.75e4]; %4.5e4]; %C_Damper_RS[N.s/m]
 in_data.mater(3).Note='railpad';
 
 
@@ -84,7 +84,7 @@ in_data.mater(3).Note='railpad';
 % in_data.mater(4).ElemType=4;
 
 in_data.mater(4).Data = [11e7/NNslpf;  %K_Spring_SB[N/m]
-                         11e4/NNslpf];%3.444e4/5];  %C_Damper_SB[N.s/m]
+                         4.5e4/NNslpf];%3.444e4/5];  %C_Damper_SB[N.s/m]
 in_data.mater(4).Note='ballast';
 
 

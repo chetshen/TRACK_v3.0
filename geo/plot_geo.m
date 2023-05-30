@@ -37,7 +37,7 @@ for i=1:length(geo.EL)
             plot3(x1,y1,z1,'Color','k','LineWidth',2);
         end
     else
-        plot3(x1,y1,z1,'Color','cyan');
+%         plot3(x1,y1,z1,'Color','cyan');
     end
     
 end

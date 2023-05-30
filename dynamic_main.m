@@ -41,16 +41,17 @@ else
 mc_ws=zeros(inp.solver.n_ts+1,size(mat_ws.A,1)); %modal coordinates for flexible wheelset model
 end
 shapeFunction_type = 1;
+
 %%
 %%irregularity definition
-prompt='Please select the irregularity definition(1.Sinsoidal;2.Input file: [1]\n';
-
-i=input(prompt);
-flag=0;
-if isempty(i)
-    i=1;
-end
-
+% prompt='Please select the irregularity definition(1.Sinsoidal;2.Input file: [1]\n';
+% 
+% i=input(prompt);
+% flag=0;
+% if isempty(i)
+%     i=1;
+% end
+i = 1;
 switch i
     case 1
         %%irregularity definition: squat G302 maria
@@ -135,7 +136,7 @@ switch i
         %%%%%%%%%%%%%%%%%%%%%%   roughness spectrum
         Xnz = roughness_spectrum(vx, inp.solver.deltat, inp.solver.n_ts);
         Z.irr(2:end,1) = Xnz - Xnz(1,1);
-        Z.irr(2:end,1) = (Z.irr(2:end,1)-movavg(Z.irr(2:end,1),'linear',50)).*4;
+        Z.irr(2:end,1) = (Z.irr(2:end,1)-movavg(Z.irr(2:end,1),'linear',50)).*irr_coeff;
 end
 
 Z.irr(:,2)=zeros(length(Z.irr(:,1)),1);%irregularity on the other rail 
@@ -155,12 +156,13 @@ Z.irr(:,2)=zeros(length(Z.irr(:,1)),1);%irregularity on the other rail
 % Z.irr(i,1)=interp1(irr(:,3),irr(:,2),xq,'linear','extrap');
 % end
 %%
-prompt='Moving irregularity(1yes;2 no: [2]\n';
-i=input(prompt);
-flag=0;
-if isempty(i)
-    i=2;
-end
+% prompt='Moving irregularity(1yes;2 no: [2]\n';
+% i=input(prompt);
+% flag=0;
+% if isempty(i)
+%     i=2;
+% end
+i = 2;
     switch i
     case 1
     %
