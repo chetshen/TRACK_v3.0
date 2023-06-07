@@ -1,18 +1,15 @@
 %%
 % Mesh one beam
-function [geo] = mesh_one_beam(beam_type_r,beam_type_s,nodeCoord)
+function [geo] = mesh_one_beam(beam_type_r,nodeCoord)
 
-[nodeCoord_Rl,~,~,~]=retrieve_coord(nodeCoord);
+[nodeCoord_beam,~,~,~]=retrieve_coord(nodeCoord);
 %[nodeCoord_Rl,nodeCoord_Rr,nodeCoord_S,nodeCoord_B,nodeCoord]=node_coor(in_data);
 geo.ND = [1:length(nodeCoord);nodeCoord']';
 
 %%
 %number of elements for each part
-m_Rl=length(nodeCoord_Rl)-1;
-
-m_R=m_Rl;
-
-m=m_R;
+m_beam=length(nodeCoord_beam)-1;
+m_total = m_beam;
 
 %%
 % elements and corresponding
@@ -24,17 +21,16 @@ m=m_R;
 %          4     Contact
 %          5     Vehicle
 
-elemNodes = zeros(m,5);
+elemNodes = zeros(m_total,5);
 
-for i=1:m_Rl %left Rail
+for i=1:m_beam %left Rail
     elemNodes(i,:)=[i,i+1,1,1,beam_type_r];
-    
 end
 
 %Write to output
 %
 geo.EL = [1:length(elemNodes);elemNodes']';
-geo.NumEL = [m_R,m];
+geo.NumEL = m_total;
 
 %%
 %BOUNDARY CONDITION

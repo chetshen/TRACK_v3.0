@@ -15,7 +15,7 @@ switch z_coor
             endNode=length(find(~(geo.ND(:,5)-1)))+length(find(~(geo.ND(:,5)-2)));
         end
         
-        for i=startNode:endNode
+        for i=startNode:endNode-1
             if x_coor <= geo.ND(i,2)
                 %i
                 LElem=node_distance(geo.ND(i-1,1),geo.ND(i,1),geo.ND);
@@ -31,7 +31,7 @@ switch z_coor
                 shape=sparse(shape);
                 Ref_Node=[i-1,i];
                 break
-            elseif i==endNode+1
+            elseif i==endNode
                 
                 display('Erro: Wheel or load position out of range.' ); % X_coor should be between ', num2str(geo.ND(1,2)),' and ', num2str(geo.ND(i,2))]);
                 

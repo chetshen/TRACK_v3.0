@@ -10,6 +10,8 @@ penetration=(F0/inp.mater(contactID).Data)^(2/3);
 %-----linear-----
 penetration=F0/inp.mater(contactID).Data;
 % penetration=(F/inp.mater(contactID).Data)^(2/3);
+    case 1000
+        penetration = 0.015;
 end
 
 

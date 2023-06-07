@@ -97,17 +97,17 @@ while 1
             
             
             F = inp.mater(contactID).Data*(abs(penetration).^1.5);
-%         case 10
-%             %linear
-%             penetration = Z.w-Z.r-Z.irr;
-%             penetration(penetration>0)=0;
-%             F = inp.mater(contactID).Data.*abs(penetration);
-%             %
         case 10
-            %------Winkler bedding----
-            F=winkler_bedding(6, X_w_t, dis2.r,dis2.w,Z_global.irr, geo, mat_trk,inp,-1);
-            % !! BUG: the first input argument should be replaced with the
-            % !!      initial position of the wheel X_w0
+            %linear
+            penetration = Z.w-Z.r-Z.irr;
+            penetration(penetration>0)=0;
+            F = inp.mater(contactID).Data.*abs(penetration);
+            %
+%         case 10
+%             %------Winkler bedding----
+%             F=winkler_bedding(6, X_w_t, dis2.r,dis2.w,Z_global.irr, geo, mat_trk,inp,-1);
+%             % !! BUG: the first input argument should be replaced with the
+%             % !!      initial position of the wheel X_w0
         %-----Kik_Piot----    
         case 111
             %Kik_Piot
