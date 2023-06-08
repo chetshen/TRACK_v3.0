@@ -208,7 +208,7 @@ for i=1:inp.solver.n_ts
     Z.r(i+1,:)=position.r;
 %     Z.irr(i+1,1)=position.irr;
     F(i+1,:)=F_contact;
-    if ismember(i,linspace(1,100,100))
+    if ismember(i,100.*linspace(1,100,100))
         disp (['Time step: ' num2str(i) 'finished. Time' num2str(toc)]);
     end
 end
