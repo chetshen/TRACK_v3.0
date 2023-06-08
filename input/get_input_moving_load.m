@@ -11,9 +11,9 @@ in_data.mesh.numElem_R_betwSprings = 500;   % Number of elements
 
 % Solver settings
 in_data.solver.n_ts = 1800;                       % Number of time steps
-in_data.solver.deltat = 1/1000;                   % Time step length
-in_data.solver.Vx = (100/3.6);                     % Vehicle speed
-in_data.solver.xw0 = 0.1;                         % Initial position
+in_data.solver.deltat = 1/1000;                   % Time step length [s]
+in_data.solver.Vx = (100/3.6);                     % Vehicle speed [m/s]
+in_data.solver.xw0 = 0.1;                         % Initial position [m]
 
 % Material data
 in_data.mater(1).Data=[2.87e9;                 %E [N/m^2]
@@ -24,7 +24,7 @@ in_data.mater(1).Data=[2.87e9;                 %E [N/m^2]
                      0.4];                     % kappa
 in_data.mater(1).Note='bridge beam'; 
 
-in_data.mater(7).Data=[2.87e9*0.2;                 %E [N/m^2]
+in_data.mater(7).Data=[2.87e9*0.6;                 %E [N/m^2]
                     2.9;                       %I [m^4]
                     1;                         % A [m^2]
                     2303;                      % rho [kg/m^3]
@@ -32,14 +32,14 @@ in_data.mater(7).Data=[2.87e9*0.2;                 %E [N/m^2]
                      0.4];                     % kappa
 in_data.mater(7).Note='damaged beam';
 
-in_data.mater(6).Data =  [0;   %M_sprg%4653.5[kg]
-                      5750; %883.6; %M_unsprg[kg]
-                     1.22e6]; %K_PS[N/m]
+in_data.mater(6).Data =  [0;   % not relevant
+                      5750;  % Sprung mass [kg]
+                     0]; % not relevant
 in_data.mater(6).Note='vehicle';
 
-in_data.mater(10).Data = 1595e3;% Linear spring
+in_data.mater(10).Data = 1595e3;% Linear spring K
 in_data.mater(10).Note='linear contact';
-%% Parameters that 
+%% Parameters that are not relevant to the problem
 %Geometry input
 
 
@@ -74,7 +74,6 @@ in_data.solver.linsolver_id=2;             %linear solver id, 1 for LDL, 2 for m
 
 %%
 %MESH PARAMETERS
-in_data.mesh.numElem_R_betwSprings=500;   %Number of elements between 2 springs
 % in_data.mesh.numElem_R_betwSprings_L=60;   %Number of elements between 2 springs
 in_data.mesh.RefinedMeshLength=0.001;    %Element length at refined mesh around irregularity [m]
 in_data.mesh.m_1S_Ext=2;                %Number of elements in a sleeper external
