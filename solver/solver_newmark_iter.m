@@ -21,6 +21,10 @@ M_trk=mat_trk.M_reduced;
 K_trk=mat_trk.K_reduced;
 % current_ts=X_w_t;
 
+delta_ss = 0.015;
+C = 0.05;
+I_ss = sqrt(m_w*9.8*delta_ss/C);
+R = 0.61;
 
 if isfield(mat_trk,'C_reduced')==1
     C_trk=mat_trk.C_reduced;
@@ -46,6 +50,11 @@ switch contactID
     case 111
         %Kik_Piot
         F = 0;
+    case 1000 %hyperloop
+
+F = 2.*C.*(I_ss.^2)./(delta_ss.^3).*(delta_ss./I_ss.*I_1 + penetration);
+
+
 end
 
 

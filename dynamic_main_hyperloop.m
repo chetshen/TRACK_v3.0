@@ -26,6 +26,8 @@ Z.r=zeros(inp.solver.n_ts+1,2);
 Z.irr=zeros(inp.solver.n_ts+1,2); %can be read in with files
 F=zeros(inp.solver.n_ts+1,2);
 X_w=zeros(inp.solver.n_ts+1,1);
+I = zeros(inp.solver.n_ts+1,1);
+
 if isfield(inp.solver,'xw0')
     X_w(1,1) = inp.solver.xw0;
 else
@@ -185,7 +187,7 @@ switch shapeFunction_type
         shape_initial(2,:)=form_shape_fun(geo,mat_trk,[X_w(1,1),-0.75,0]);
 end
 %static analysis
-[dis_initial,Z_initial,F_initial]=solver_static(mat_trk,inp,shape_initial,contactID);
+[dis_initial,Z_initial,F_initial,I_ss]=solver_static(mat_trk,inp,shape_initial,contactID);
 dis.r(1,:)=dis_initial.r;
 dis.w(1,:)=dis_initial.w;
 Z.r(1,:)=Z_initial.r;
@@ -194,7 +196,7 @@ Z.w(1,:)=Z_initial.w;
 
 F(1,:)=F_initial;
 
-
+I(1,:) = I_ss;
 
     
     
@@ -210,7 +212,7 @@ for i=1:inp.solver.n_ts
             shape(2,:)=form_shape_fun2(geo,mat_trk,[X_w(i+1,1),0.75,0],inp.mater(1).Data);
         case 1
             shape(1,:)=form_shape_fun(geo,mat_trk,[X_w(i+1,1),-0.75,0]);
-            shape(2,:)=form_shape_fun(geo,mat_trk,[X_w(i+1,1),0.75,0]);
+            shape(2,:)=form_shape_fun(geo,mat_trk,[X_w(i+1,1),-0.75,0]);
     end
     acc1.r=acc.r(i,:);
     vel1.r=vel.r(i,:);
@@ -222,11 +224,12 @@ for i=1:inp.solver.n_ts
     position.r=Z.r(i,:); 
     position.irr=Z.irr(i,:);
     mc_ws1=mc_ws(i,:)';
+    I_1 = I(i,:);
     
      
     
-    [acc2,vel2,dis2,F_contact,position,mc_ws2]=solver_newmark_iter(mat_trk,inp,shape,...
-        position, inp.ext_force.wh_ld, acc1, vel1, dis1,mc_ws1,X_w(i+1,1), geo, Z,contactID,Fex(i,:),mat_ws);
+    [acc2,vel2,dis2,F_contact,position,mc_ws2,I_2]=solver_newmark_iter_hyperloop(mat_trk,inp,shape,...
+        position, inp.ext_force.wh_ld, acc1, vel1, dis1,mc_ws1,X_w(i+1,1), geo, Z,contactID,Fex(i,:),mat_ws,I_1);
     
     mc_ws(i+1,:)=mc_ws2';
     acc.r(i+1,:)=acc2.r;
@@ -239,6 +242,7 @@ for i=1:inp.solver.n_ts
     Z.r(i+1,:)=position.r;
 %     Z.irr(i+1,1)=position.irr;
     F(i+1,:)=F_contact;
+    I(i+1,:) = I_2(1,1);
     if ismember(i,100*linspace(1,100,100))
         disp (['Time step: ' num2str(i) 'finished. Time' num2str(toc)]);
     end

@@ -2,12 +2,12 @@
 %Parameter to match P176 of VehicleBridge Interaction Dynamics with
 %applications to high-speed railways by Yang Y.B.
 %%
-function [in_data,NNslpf] = get_input_moving_load(in_data)
+function [in_data,NNslpf] = get_input_hyper_loop(in_data)
 %%
 %Geometry input
 
-in_data.geo.Ltot_R=25;                  %[m]
-in_data.geo.SlpSpc=0.5;           %[m] 
+in_data.geo.Ltot_R=160;                  %[m]
+in_data.geo.SlpSpc=16;           %[m] 
 in_data.geo.dist_S=in_data.geo.SlpSpc; %[m] 
 in_data.geo.LExt_S=0.54;             %[m]
 in_data.geo.LInt_S=0.750;              %[m]
@@ -29,19 +29,19 @@ in_data.ext_force.Vx=0;
 % zdd=load(in_data.ext_force.timeh);
 % dof=299;
 % in_data.ext_force.dof=ones(length(zdd),1)*dof;       %time history of applied DOF 
-in_data.ext_force.wh_ld = 8000*9.8 ; % 8000*9.8 ;% 12742*9.8;   %[N]
+in_data.ext_force.wh_ld = 0; % 8000*9.8 ;% 12742*9.8;   %[N]
 
 %%
 %Solver settings
 
-in_data.solver.n_ts=2000; %length(zdd)-1;                     %Number of time steps
-in_data.solver.deltat=1/25000;                   %Time step length
+in_data.solver.n_ts=2500; %length(zdd)-1;                     %Number of time steps
+in_data.solver.deltat=1/2500;                   %Time step length
 in_data.solver.linsolver_id=2;             %linear solver id, 1 for LDL, 2 for mldivide
-in_data.solver.Vx=30;
-in_data.solver.xw0 = 6;
+in_data.solver.Vx=90;
+in_data.solver.xw0 = 3;
 %%
 %MESH PARAMETERS
-in_data.mesh.numElem_R_betwSprings=1;   %Number of elements between 2 springs
+in_data.mesh.numElem_R_betwSprings=16;   %Number of elements between 2 springs
 % in_data.mesh.numElem_R_betwSprings_L=60;   %Number of elements between 2 springs
 in_data.mesh.RefinedMeshLength=0.001;    %Element length at refined mesh around irregularity [m]
 in_data.mesh.m_1S_Ext=2;                %Number of elements in a sleeper external
@@ -66,17 +66,17 @@ in_data.mater(1).Note='tube';
 
 %MATERIAL SLEEPERS DATA 
 % in_data.mater(2).ElemType=3;
-in_data.mater(2).Data=[74.6e9/1.5; % #19.4e12# or #19.4e9# [N/m^2]
+in_data.mater(2).Data=[74.6e12/1.5; % #19.4e12# or #19.4e9# [N/m^2]
                     1.375e-4;  %[m^4]
-                    0.043; %[m^2]
-                    2500;%2140;%3070;   %2480[kg/m^3]
-                    74.6e9/2.34; %E/2.34
+                    0.43; %[m^2]
+                    4204;%2140;%3070;   %2480[kg/m^3]
+                    74.6e12/2.34; %E/2.34
                     0.833]; %0.833
 in_data.mater(2).Note='sleeper';
 
 %MATERIAL SPRING DATA: RAILPAD
 % in_data.mater(3).ElemType=3;
-in_data.mater(3).Data=[44e7; %1.56e9;%1.3e9; %K_Spring_RS [N/m]
+in_data.mater(3).Data=[44e15; %1.56e9;%1.3e9; %K_Spring_RS [N/m]
                       10e3];%6.75e4]; %4.5e4]; %C_Damper_RS[N.s/m]
 in_data.mater(3).Note='support';
 
@@ -85,8 +85,10 @@ in_data.mater(3).Note='support';
 % in_data.mater(4).ElemType=4;
 
 
-in_data.mater(4).Data=[44e7;10e3;2332;0];
-in_data.mater(4).Note='mass spring support model';
+in_data.mater(4).Data = [44e7;  % Stiffness [N/m]
+                         10e3];% Damping[N.s/m]
+in_data.mater(4).Note='support';
+in_data.mater(4).Data = in_data.mater(4).Data.*2./11;
 %CONTACT
 % in_data.mater(5).ElemType=5;   %5 for contact
 in_data.mater(5).Data = 8.4e10;%8.4e10;% 8.7e10; %C_Hertz %2/3*in_data.mater.E_R/(1-0.27^2)*sqrt(in_data.geo.Rw) ;% 8.7e10; %[N/m^(3/2)] from (Steffens, 2005)
@@ -94,7 +96,7 @@ in_data.mater(5).Note='contact';
 %VEHICLE
 % in_data.mater(6).ElemType=6;   %6 for vehicle
 in_data.mater(6).Data =  [0;   %M_sprg%4653.5[kg]
-                      883.6;%883.6; %M_unsprg[kg]
+                      7650;%883.6; %M_unsprg[kg]
                      1.22e6]; %K_PS[N/m]
 in_data.mater(6).wsfile=[];%'E:\FE\Model 1 wheel\half_ws.spm';  %.spm file generated from ANSYS; empty means a rigid wheelset               
 in_data.mater(6).Note='vehicle';
