@@ -7,13 +7,13 @@ function [in_data,NNslpf] = get_input_moving_load(in_data)
 
 % Geometry data
 in_data.geo.Ltot_R = 25;                    % Bridge length[m]
-in_data.mesh.numElem_R_betwSprings = 500;   % Number of elements
+in_data.mesh.numElem_R_betwSprings = 50;   % Number of elements
 
 % Solver settings
-in_data.solver.n_ts = 1800;                       % Number of time steps
+in_data.solver.n_ts = 1000;                       % Number of time steps
 in_data.solver.deltat = 1/1000;                   % Time step length [s]
 in_data.solver.Vx = (100/3.6);                     % Vehicle speed [m/s]
-in_data.solver.xw0 = 0.1;                         % Initial position [m]
+in_data.solver.xw0 = 0.6;                         % Initial position [m]
 
 % Material data
 in_data.mater(1).Data=[2.87e9;                 %E [N/m^2]

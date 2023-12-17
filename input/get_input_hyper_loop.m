@@ -37,8 +37,8 @@ in_data.ext_force.wh_ld = 0; % 8000*9.8 ;% 12742*9.8;   %[N]
 in_data.solver.n_ts=2500; %length(zdd)-1;                     %Number of time steps
 in_data.solver.deltat=1/2500;                   %Time step length
 in_data.solver.linsolver_id=2;             %linear solver id, 1 for LDL, 2 for mldivide
-in_data.solver.Vx=90;
-in_data.solver.xw0 = 3;
+in_data.solver.Vx=0.01;
+in_data.solver.xw0 = 8;
 %%
 %MESH PARAMETERS
 in_data.mesh.numElem_R_betwSprings=16;   %Number of elements between 2 springs

@@ -131,13 +131,23 @@ penetration = Z.w-Z.r-Z.irr+delta_ss;%u_tr-w0_tr
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% calculate I_tr
 a_hp = -1*R*delta_ss./(2*C);
 vel_r = (shape*vel2.r')';
-b_hp = delta_ss./(2*C)*(kp*(-1)*penetration + (kd+2*C*I_ss/(delta_ss.^2)*(vel_r-vel2.w)));
+b_hp = delta_ss./(2*C)*(kp*(-1)*penetration + (kd+2*C*I_ss/(delta_ss.^2)*(vel_r(:,1)-vel2.w(:,1))));
 
-I_tr = -(b_hp - exp(a_hp*deltat)*(b_hp + I0*a_hp))/a_hp;
+I_tr = -(b_hp - exp(a_hp*deltat).*(b_hp + I0*a_hp))./a_hp;
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Calculate I_tr
+% a_hp = -1*R*delta_ss./(2*C);
+% vel_r = (shape*vel2.r')';
+% b_hp = delta_ss./(2*C)*(kp*(-1)*penetration(:,1) + (kd+2*C*I_ss/(delta_ss.^2)*(vel_r(:,1)-vel2.w(:,1))));
+% 
+% tspan=[0 deltat];%integral time span
+% 
+% [~,I_tr_temp] = ode45(@(t,y) ode_I_tr(t,y,a_hp,b_hp),tspan, I0);
+% I_tr = I_tr_temp(end,1);
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 if I_tr < -I_ss
     I_tr = -I_ss;
 end
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Calculate I_tr
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 F_tr = 2.*C.*(I_ss.^2)./(delta_ss.^3).*(delta_ss./I_ss.*I_tr + penetration);
@@ -303,4 +313,9 @@ gamo=(gamo_r+gamo_w)/2;
             ai=0;
         end
 end
+end
+
+function dydt = ode_I_tr(t,y,f,g)
+% g = interp1(gt,g,t); % Interpolate the data set (gt,g) at time t
+dydt = f.*y + g; % Evaluate ODE at time t
 end
