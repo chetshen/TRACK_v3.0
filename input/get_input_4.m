@@ -107,18 +107,7 @@ in_data.mater(10).Note='linear contact';
 
 
 
-
 %----------------------------------------------------------------------
-%%
-% BRIDGE-SLAB MODEL INPUTS (used by mesh_bridge_slab)
-in_data.bridge.deck_lengths = [10,10,10];   % [m], multiple decks/spans
-in_data.bridge.fastening_spacing = 0.6;      % [m]
-in_data.bridge.bearing_mater_id = 11;        % scalar or one ID per deck
-
-% MATERIAL SPRING DATA: BRIDGE BEARING (for mesh_bridge_slab)
-in_data.mater(11).Data = [8.0e8; 1.0e5];     % [K_bearing; C_bearing]
-in_data.mater(11).Note='bridge bearing';
-
 %%
 %MESH PARAMETERS
 in_data.mesh.numElem_R_betwSprings=60;   %Number of elements between 2 springs
