@@ -106,15 +106,56 @@ x_layer_spr = unique(round(x_layer_spr,10));
 x_support = [0, cumsum(deck_lengths)];
 x_support = unique(round(x_support,10));
 
-% Ensure support locations always exist in beam mesh
+% Ensure support locations always exist in rail/slab mesh
 x_beam = unique(sort([x_beam, x_support]));
 
 nBeam = numel(x_beam);
+nDeck = numel(deck_lengths);
 
 %% Nodes: rail/slab/bridge layers + support-ground nodes for bearings
 nodeCoord_R = [x_beam(:), zeros(nBeam,1), zeros(nBeam,1), ones(nBeam,1)];
 nodeCoord_S = [x_beam(:), zeros(nBeam,1), -dist_RS*ones(nBeam,1), 2*ones(nBeam,1)];
-nodeCoord_B = [x_beam(:), zeros(nBeam,1), -(dist_RS+dist_SB)*ones(nBeam,1), 3*ones(nBeam,1)];
+
+% Bridge nodes are built deck-by-deck so adjacent decks do NOT share nodes
+% at common support positions.
+deckStartX = [0, cumsum(deck_lengths(1:end-1))];
+deckEndX = cumsum(deck_lengths);
+
+nodeCoord_B = zeros(0,4);
+bridgeElem = zeros(0,5);
+bridgeNodeDeckStart = zeros(1,nDeck);
+bridgeNodeDeckEnd = zeros(1,nDeck);
+
+baseBridgeNode = 2*nBeam;
+for iDeck = 1:nDeck
+    xA = round(deckStartX(iDeck),10);
+    xB = round(deckEndX(iDeck),10);
+
+    idxA = find(abs(x_beam - xA) < 1e-12,1,'first');
+    idxB = find(abs(x_beam - xB) < 1e-12,1,'first');
+    if isempty(idxA) || isempty(idxB)
+        error('Unable to map deck boundaries to beam coordinates.');
+    end
+
+    xDeck = x_beam(idxA:idxB);
+    nDeckNode = numel(xDeck);
+
+    thisStart = baseBridgeNode + size(nodeCoord_B,1) + 1;
+    thisNodeIds = thisStart:(thisStart+nDeckNode-1);
+
+    nodeCoord_B = [nodeCoord_B; ...
+        xDeck(:), zeros(nDeckNode,1), -(dist_RS+dist_SB)*ones(nDeckNode,1), 3*ones(nDeckNode,1)]; %#ok<AGROW>
+
+    if nDeckNode >= 2
+        bridgeElem = [bridgeElem; ...
+            thisNodeIds(1:end-1)', thisNodeIds(2:end)', 3*ones(nDeckNode-1,1), 3*ones(nDeckNode-1,1), beam_type_bridge*ones(nDeckNode-1,1)]; %#ok<AGROW>
+    end
+
+    bridgeNodeDeckStart(iDeck) = thisNodeIds(1);
+    bridgeNodeDeckEnd(iDeck) = thisNodeIds(end);
+end
+
+nBridge = size(nodeCoord_B,1);
 
 % Ground/support nodes for bearing springs
 nSupport = numel(x_support);
@@ -127,14 +168,12 @@ geo.ND = [(1:size(nodeCoord,1))', nodeCoord];
 % [node1 node2 partID materialID elemType]
 elemNodes = zeros(0,5);
 
-% Beam layers
+% Rail/slab beam layers
 railBeam = [(1:nBeam-1)', (2:nBeam)', ones(nBeam-1,1), ones(nBeam-1,1), beam_type_rail*ones(nBeam-1,1)];
 slabStart = nBeam;
 slabBeam = [slabStart+(1:nBeam-1)', slabStart+(2:nBeam)', 2*ones(nBeam-1,1), 2*ones(nBeam-1,1), beam_type_slab*ones(nBeam-1,1)];
-bridgeStart = 2*nBeam;
-bridgeBeam = [bridgeStart+(1:nBeam-1)', bridgeStart+(2:nBeam)', 3*ones(nBeam-1,1), 3*ones(nBeam-1,1), beam_type_bridge*ones(nBeam-1,1)];
 
-elemNodes = [elemNodes; railBeam; slabBeam; bridgeBeam]; %#ok<AGROW>
+elemNodes = [elemNodes; railBeam; slabBeam; bridgeElem]; %#ok<AGROW>
 
 % Rail fastenings (rail-slab)
 [xFoundSpr, railNodeIdx] = ismember(round(x_layer_spr,10), round(x_beam,10));
@@ -145,36 +184,50 @@ slabNodeIdx = nBeam + railNodeIdx;
 fasteningElem = [railNodeIdx(:), slabNodeIdx(:), 4*ones(numel(railNodeIdx),1), 4*ones(numel(railNodeIdx),1), 3*ones(numel(railNodeIdx),1)];
 elemNodes = [elemNodes; fasteningElem]; %#ok<AGROW>
 
-% Slab-bridge interlayer
-bridgeNodeIdx = 2*nBeam + railNodeIdx;
-interlayerElem = [slabNodeIdx(:), bridgeNodeIdx(:), 5*ones(numel(railNodeIdx),1), 5*ones(numel(railNodeIdx),1), 3*ones(numel(railNodeIdx),1)];
+% Slab-bridge interlayer springs: assign each x to exactly one deck bridge node.
+interlayerElem = zeros(0,5);
+for iDeck = 1:nDeck
+    xA = round(deckStartX(iDeck),10);
+    xB = round(deckEndX(iDeck),10);
+
+    inDeck = (x_layer_spr >= xA-1e-12) & (x_layer_spr <= xB+1e-12);
+    if iDeck > 1
+        inDeck = inDeck & (x_layer_spr > xA+1e-12); % avoid duplicating shared deck boundary
+    end
+
+    xDeckSpr = round(x_layer_spr(inDeck),10);
+    [okSlab, slabIdxDeck] = ismember(xDeckSpr, round(x_beam,10));
+    if ~all(okSlab)
+        error('Unable to map interlayer spring positions to slab nodes.');
+    end
+
+    bridgeNodeRange = bridgeNodeDeckStart(iDeck):bridgeNodeDeckEnd(iDeck);
+    xBridgeDeck = round(nodeCoord_B(bridgeNodeRange-baseBridgeNode,1)',10);
+    [okBridge, locBridge] = ismember(xDeckSpr, xBridgeDeck);
+    if ~all(okBridge)
+        error('Unable to map interlayer spring positions to bridge nodes.');
+    end
+
+    bridgeIdxDeck = bridgeNodeRange(locBridge);
+    slabIdxDeck = nBeam + slabIdxDeck;
+
+    interlayerElem = [interlayerElem; ...
+        slabIdxDeck(:), bridgeIdxDeck(:), 5*ones(numel(xDeckSpr),1), 5*ones(numel(xDeckSpr),1), 3*ones(numel(xDeckSpr),1)]; %#ok<AGROW>
+end
 elemNodes = [elemNodes; interlayerElem]; %#ok<AGROW>
 
 % Bearings at deck ends (two bearings per deck)
-deckEndA = [0, cumsum(deck_lengths(1:end-1))];
-deckEndB = cumsum(deck_lengths);
-
-[xFoundA, idxA] = ismember(round(deckEndA,10), round(x_beam,10));
-[xFoundB, idxB] = ismember(round(deckEndB,10), round(x_beam,10));
+groundStart = 2*nBeam + nBridge;
 idxG = 1:nSupport;
-if ~all(xFoundA) || ~all(xFoundB)
-    error('Unable to map bearing locations to node coordinates.');
-end
-
-% Ground/support node ids in global indexing
-groundStart = 3*nBeam;
 groundNodeIdx = groundStart + idxG;
 
-bearingElem = zeros(2*numel(deck_lengths),5);
-for iDeck = 1:numel(deck_lengths)
-    deckNodeA = 2*nBeam + idxA(iDeck);
-    deckNodeB = 2*nBeam + idxB(iDeck);
+bearingElem = zeros(2*nDeck,5);
+for iDeck = 1:nDeck
+    gNodeA = groundNodeIdx(find(abs(x_support - deckStartX(iDeck)) < 1e-12,1,'first'));
+    gNodeB = groundNodeIdx(find(abs(x_support - deckEndX(iDeck)) < 1e-12,1,'first'));
 
-    gNodeA = groundNodeIdx(find(abs(x_support - deckEndA(iDeck)) < 1e-12,1,'first'));
-    gNodeB = groundNodeIdx(find(abs(x_support - deckEndB(iDeck)) < 1e-12,1,'first'));
-
-    bearingElem(2*iDeck-1,:) = [deckNodeA, gNodeA, 6, bearing_mater_id(iDeck), 3];
-    bearingElem(2*iDeck,:)   = [deckNodeB, gNodeB, 6, bearing_mater_id(iDeck), 3];
+    bearingElem(2*iDeck-1,:) = [bridgeNodeDeckStart(iDeck), gNodeA, 6, bearing_mater_id(iDeck), 3];
+    bearingElem(2*iDeck,:)   = [bridgeNodeDeckEnd(iDeck),   gNodeB, 6, bearing_mater_id(iDeck), 3];
 end
 
 elemNodes = [elemNodes; bearingElem]; %#ok<AGROW>
@@ -184,7 +237,7 @@ geo.EL = [(1:size(elemNodes,1))', elemNodes];
 %% Element counters
 m_RailBeam = size(railBeam,1);
 m_SlabBeam = size(slabBeam,1);
-m_BridgeBeam = size(bridgeBeam,1);
+m_BridgeBeam = size(bridgeElem,1);
 m_Fastening = size(fasteningElem,1);
 m_Interlayer = size(interlayerElem,1);
 m_Bearing = size(bearingElem,1);
@@ -194,7 +247,7 @@ geo.NumEL = [m_RailBeam,m_SlabBeam,m_BridgeBeam,m_Fastening,m_Interlayer,m_Beari
 % - Support-ground nodes are fixed in U and V (anchor for bearing springs)
 % - Rail end nodes are fixed in U and V to prevent rigid-body drift
 railNodes = 1:nBeam;
-supportNodes = (3*nBeam+1):(3*nBeam+nSupport);
+supportNodes = (groundStart+1):(groundStart+nSupport);
 
 geo.fixedNodeU = [railNodes(1); railNodes(end); supportNodes(:)];
 geo.fixedNodeV = [railNodes(1); railNodes(end); supportNodes(:)];
@@ -202,10 +255,12 @@ geo.fixedNodeV = [railNodes(1); railNodes(end); supportNodes(:)];
 %% Useful indexing
 geo.layerNodes.rail = (1:nBeam)';
 geo.layerNodes.slab = (nBeam+1:2*nBeam)';
-geo.layerNodes.bridge = (2*nBeam+1:3*nBeam)';
-geo.layerNodes.support = (3*nBeam+1:3*nBeam+nSupport)';
+geo.layerNodes.bridge = (2*nBeam+1:2*nBeam+nBridge)';
+geo.layerNodes.support = (groundStart+1:groundStart+nSupport)';
 geo.deck.supportX = x_support(:);
 geo.deck.lengths = deck_lengths(:);
+geo.deck.bridgeNodeStart = bridgeNodeDeckStart(:);
+geo.deck.bridgeNodeEnd = bridgeNodeDeckEnd(:);
 geo.fasteningSpacing = fastening_spacing;
 
 end
