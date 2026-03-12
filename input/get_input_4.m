@@ -106,6 +106,7 @@ in_data.mater(10).Data = 0.8e9;%1.1e9; %C_Hertz %2/3*in_data.mater.E_R/(1-0.27^2
 in_data.mater(10).Note='linear contact';
 
 
+
 %----------------------------------------------------------------------
 %%
 %MESH PARAMETERS
