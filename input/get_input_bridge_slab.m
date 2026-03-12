@@ -28,6 +28,9 @@ in_data.bridge.bearing_mater_id = 11;
 % Slab-ground support material in normal track sections.
 in_data.bridge.normal_support_mater_id = 12;
 
+% Vertical offset of bearing ground nodes below bridge nodes [m].
+in_data.bridge.bearing_ground_drop = 0.5;
+
 %%
 % MATERIAL SPRING DATA: BRIDGE BEARING (for mesh_bridge_slab)
 % [K_bearing; C_bearing]

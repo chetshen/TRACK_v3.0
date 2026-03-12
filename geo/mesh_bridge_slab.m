@@ -18,6 +18,7 @@ function [geo,nodeCoord] = mesh_bridge_slab(in_data,beam_type_rail,beam_type_sla
 %   in_data.bridge.fastening_spacing           (default 0.6 m)
 %   in_data.mesh.numElem_R_betwSprings         (default 1)
 %   in_data.bridge.normal_support_mater_id     (default 5)
+%   in_data.bridge.bearing_ground_drop         (default max(dist_SB,1e-3))
 %
 % Material IDs used in geo.EL(:,5):
 %   1 rail beam
@@ -182,9 +183,19 @@ for iDeck = 1:nDeck
 end
 nBridge = size(nodeCoord_B,1);
 
-% Ground nodes for bearing springs
+% Ground nodes for bearing springs (placed lower than bridge nodes)
+if isfield(in_data,'bridge') && isfield(in_data.bridge,'bearing_ground_drop')
+    bearing_ground_drop = in_data.bridge.bearing_ground_drop;
+else
+    bearing_ground_drop = max(dist_SB,1e-3);
+end
+if bearing_ground_drop <= 0
+    error('in_data.bridge.bearing_ground_drop must be positive.');
+end
+bearing_ground_z = -(dist_RS+dist_SB) - bearing_ground_drop;
+
 nSupport = numel(x_support);
-nodeCoord_Gb = [x_support(:), zeros(nSupport,1), -(dist_RS+dist_SB)*ones(nSupport,1), 4*ones(nSupport,1)];
+nodeCoord_Gb = [x_support(:), zeros(nSupport,1), bearing_ground_z*ones(nSupport,1), 4*ones(nSupport,1)];
 
 % Ground nodes for normal-section slab supports
 isNormalSpr = (x_layer_spr < xBridgeStart-1e-12) | (x_layer_spr > xBridgeEnd+1e-12);
